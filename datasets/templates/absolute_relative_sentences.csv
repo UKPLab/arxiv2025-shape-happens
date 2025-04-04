@@ -1,0 +1,119 @@
+sentence,specificity,type,anchoring,notable
+Her book was released on the 6th of February and became a bestseller,absolute,,no,no
+"on January 1st, he finally talked to me",absolute,,no,no
+"Enrollment for the new semester starts on 23.10.2018, so students should register early",absolute,,no,no
+She went to the doctor in early 2019,absolute,,no,no
+The product launched two months ago and was a great success,relative,,no,no
+Her book was released in February and became a bestseller,absolute,,no,no
+"We moved into our new house two years ago, after months of planning",relative,,no,no
+She went to the doctor on the 12th of September,absolute,,no,no
+The product launched on 12.12.2019 and was a great success,absolute,,no,no
+The product launched a month ago and was a great success,relative,,no,no
+"The new restaurant opened its doors on the 6th of February, quickly becoming popular",absolute,,no,no
+"Our lease expires in six months, so we need to decide whether to renew or move out",relative,,no,no
+The product launched two years ago and was a great success,relative,,no,no
+That matter was concluded on the 6th of February,absolute,,no,no
+Our meeting is set in a couple of days,relative,,no,no
+Our meeting is set on 12.12.2019,absolute,,no,no
+The deadline is next Tuesday,relative,,no,no
+"The film came out on 23.01, receving a mixed reception",absolute,,no,no
+We watched the movie together on the 6th of February,absolute,,no,no
+Our contract was signed on the 6th of February,absolute,,no,no
+"His first day at work will be on 06.07.2019, and he's really looking forward to it",absolute,,no,no
+"The holiday sale will begin on the 9th of June, with huge discounts on all items",absolute,,no,no
+"The new restaurant opened its doors in 2019, quickly becoming popular",absolute,,no,no
+"His first day at work will be on 23.01, and he's really looking forward to it",absolute,,no,no
+The festival will take place in mid-2017,absolute,,no,no
+We will launch the campaign on 06.07.2019,absolute,,no,no
+The festival will take place in May,absolute,,no,no
+"in February, he finally talked to me",absolute,,no,no
+"The city will implement new traffic rules in two years, aiming to reduce congestion",relative,,no,no
+"The new restaurant opened its doors last week, quickly becoming popular",relative,,no,no
+"We moved into our new house in early 2019, after months of planning",absolute,,no,no
+We will launch the campaign next weekend,relative,,no,no
+"His first day at work will be on the 12th of September, and he's really looking forward to it",absolute,,no,no
+Our meeting is set in early 2019,absolute,,no,no
+"Enrollment for the new semester starts in early 2019, so students should register early",absolute,,no,no
+"The holiday sale will begin next month, with huge discounts on all items",relative,,no,no
+"His surgery is scheduled for on 06.07.2019, and we’re hoping for a smooth recovery",absolute,,no,no
+"The holiday sale will begin on 11.04, with huge discounts on all items",absolute,,no,no
+"today, he finally talked to me",relative,,no,no
+We watched the movie together on April 3rd,absolute,,no,no
+We will launch the campaign in early 2019,absolute,,no,no
+"We moved into our new house last month, after lots of planning",relative,,no,no
+Enrollment for the new semester starts tomorrow,relative,,no,no
+She went to the doctor in May,absolute,,no,no
+Our contract was signed in 2018,absolute,,no,no
+The deadline is on 12.12.2019,absolute,,no,no
+Our meeting is set on 11.04.2018,absolute,,no,no
+The deadline is on 06.03,absolute,,no,no
+We last spoke in November,absolute,,no,no
+The deadline is on 12.10,absolute,,no,no
+The deadline is in 2017,absolute,,no,no
+"His surgery is scheduled in a year, and we’re hoping for a smooth recovery",relative,,no,no
+"The space mission is set to launch on the 9th of June, marking a major milestone in exploration",absolute,,no,no
+She went to the doctor on 09.08,absolute,,no,no
+"The space mission is set to launch in 2017, marking a major milestone in exploration",absolute,,no,no
+The product launched on 09.09.2019 and was a great success,absolute,,no,no
+Her book was released six months ago and became a bestseller,relative,,no,no
+"The city will implement new traffic rules on the 6th of February, aiming to reduce congestion",absolute,,no,no
+"I know they are leaving on 06.07.2019, but I don't know when they will return",absolute,,no,no
+She went to the doctor on 11.04,absolute,,no,no
+"Our lease expires in 2018, so we need to decide whether to renew or move out",absolute,,no,no
+"The holiday sale will begin on January 1st, with huge discounts on all items",absolute,,no,no
+"His first day at work will be on the 6th of February, and he's really looking forward to it",absolute,,no,no
+"The city will implement new traffic rules on April 3rd, aiming to reduce congestion",absolute,,no,no
+"Our lease expires in 2017, so we need to decide whether to renew or move out",absolute,,no,no
+"We moved into our new house on 12.12.2019, after months of planning",absolute,,no,no
+"The city will implement new traffic rules on 06.03, aiming to reduce congestion",absolute,,no,no
+The festival will take place on the 12th of September,absolute,,no,no
+We will launch the campaign in August,absolute,,no,no
+"Our lease expires in August, so we need to decide whether to renew or move out",absolute,,no,no
+Our meeting is set on 11.04,absolute,,no,no
+"Our lease expires in a couple of days, so we need to decide whether to renew or move out",relative,,no,no
+"His surgery is scheduled for the 9th of June, and we’re hoping for a smooth recovery",absolute,,no,no
+The report was published in early 2019,absolute,,no,no
+"I know they are leaving on January 1st, but I don't know when they will return",absolute,,no,no
+That matter was concluded two months ago,relative,,no,no
+Our contract was signed in August,absolute,,no,no
+We visited that museum today,relative,,no,no
+"The film came out on 09.09.2019, receving a mixed reception",absolute,,no,no
+That matter was concluded on 09.09.2019,absolute,,no,no
+That matter was concluded on 06.03,absolute,,no,no
+"The space mission is set to launch in mid-2017, marking a major milestone in exploration",absolute,,no,no
+We last spoke this weekend,relative,,no,no
+The report was published on 12.12.2019,absolute,,no,no
+"on the 6th of February, he finally talked to me",absolute,,no,no
+The festival will take place in two years,relative,,no,no
+We visited that museum last week,relative,,no,no
+We last spoke on 12.12.2019,absolute,,no,no
+"The new restaurant opened its doors on 09.09.2019, quickly becoming popular",absolute,,no,no
+The report was published five days ago,relative,,no,no
+"His surgery is scheduled for next Friday, and we’re hoping for a smooth recovery",relative,,no,no
+"I know they are leaving in 2019, but I don't know when they will return",absolute,,no,no
+The report was published in November,absolute,,no,no
+"The film came out on 06.07.2019, receving a mixed reception",absolute,,no,no
+"last weekend, he finally talked to me",relative,,no,no
+"Enrollment for the new semester starts on January 1st, so students should register early",absolute,,no,no
+"His surgery is scheduled for on January 1st, and we’re hoping for a smooth recovery",absolute,,no,no
+Our contract was signed two weeks ago,relative,,no,no
+We visited that museum two days ago,relative,,no,no
+"We moved into our new house on 11.04, after months of planning",absolute,,no,no
+The report was published two days ago,relative,,no,no
+The festival will take place in early 2019,absolute,,no,no
+"The city will implement new traffic rules in May, aiming to reduce congestion",absolute,,no,no
+"I know they are leaving tomorrow, but I don't know when they will return",relative,,no,no
+"The film came out in February, receving a mixed reception",absolute,,no,no
+"The space mission is set to launch tomorrow, marking a major milestone in exploration",relative,,no,no
+"His first day at work will be on the 9th of June, and he's really looking forward to it",absolute,,no,no
+Her book was released in 2019 and became a bestseller,absolute,,no,no
+We visited that museum last year,relative,,no,no
+We watched the movie together on 09.09.2019,absolute,,no,no
+That matter was concluded last weekend,relative,,no,no
+We will launch the campaign next Friday,relative,,no,no
+We watched the movie together last weekend,relative,,no,no
+Her book was released in mid-2017 and became a bestseller,absolute,,no,no
+We visited that museum yesterday,relative,,no,no
+We last spoke a month ago,relative,,no,no
+"Enrollment for the new semester starts in 2018, so students should register early",absolute,,no,no
+"I know they are leaving in late 2018, but I don't know when they will return",absolute,,no,no

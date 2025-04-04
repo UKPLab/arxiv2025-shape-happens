@@ -1,0 +1,937 @@
+sentence,datetime,date_idx_start,date_idx_end,event,verb,event_idx_start,event_idx_end,verb_idx_start,verb_idx_end
+"I know they are leaving on the 20th of March, but I don't know when they will return",2019-03-20,24,44,leaving,leaving,16,23,16,23
+"on the 1st of May, he finally talked to me",2019-05-01,0,17,talked to me,talked,30,42,30,36
+"I'll call you back on the 1st of January, once I have more information",2019-01-01,19,40,call you back,call,5,18,5,9
+I'll go buy groceries on the 10th of October,2019-10-10,22,44,buy groceries,go,8,21,5,7
+"I last saw them on the 10th of January, and we had a great time catching up",2019-01-10,16,38,saw them,last saw,7,15,2,10
+"The new law goes into effect on the 10th of July, changing several regulations",2019-07-10,29,48,new law goes into effect,goes,4,28,12,16
+He had to wait until on the 20th of June to get a table,2019-06-20,21,40,wait until on the 20th of June to get a table,had to wait,10,55,3,14
+"Their anniversary celebration took place on the 1st of April, and it was beautiful",2019-04-01,41,60,anniversary celebration,took place,6,29,30,40
+"We’re planning to visit them on the 10th of May, if everything goes as expected",2019-05-10,29,47,visit them,planning,18,28,6,14
+"I last saw them on the 1st of August, and we had a great time catching up",2019-08-01,16,36,catching up,had,62,73,45,48
+We watched the movie together on the 30th of December,2019-12-30,30,53,watched the movie together,watched,3,29,3,10
+"I last saw them on the 10th of April, and we had a great time catching up",2019-04-10,16,36,last saw them,saw,2,15,7,10
+We watched the movie together on the 1st of October,2019-10-01,30,51,watched the movie together,watched,3,29,3,10
+"The concert was postponed to on the 20th of August, due to unexpected weather conditions",2019-08-20,29,50,concert was postponed,was postponed,4,25,12,25
+"The new law goes into effect on the 30th of March, changing several regulations",2019-03-30,29,49,new law goes into effect,goes,4,28,12,16
+We watched the movie together on the 10th of December,2019-12-10,30,53,watched the movie together,watched,3,29,3,10
+"on the 30th of December, he finally talked to me",2019-12-30,0,23,talked to me,talked,36,48,36,42
+"I'll call you back on the 10th of July, once I have more information",2019-07-10,19,38,call you back,call,5,18,5,9
+Our meeting is set on the 10th of March,2019-03-10,19,39,meeting is set,is set,4,18,12,18
+"His resignation was officially announced on the 30th of December, shocking many employees",2019-12-30,41,64,resignation was officially announced,was officially announced,4,40,16,40
+"The film came out on the 10th of April, receving a mixed reception",2019-04-10,18,38,film came out,came out,4,17,9,17
+That matter was concluded on the 20th of September,2019-09-20,26,50,matter was concluded,was concluded,5,25,12,25
+She went to the doctor on the 30th of May,2019-05-30,23,41,went to the doctor,went,4,22,4,8
+"on the 20th of May, he finally talked to me",2019-05-20,0,18,talked to me,talked,31,43,31,37
+We watched the movie together on the 10th of August,2019-08-10,30,51,watched the movie together,watched,3,29,3,10
+"The store is expected to restock the item on the 20th of September, according to their website",2019-09-20,42,66,restock the item,is expected,25,41,10,21
+"The store is expected to restock the item on the 20th of January, according to their website",2019-01-20,42,64,restock the item,expected,25,41,13,21
+"I last saw them on the 30th of August, and we had a great time catching up",2019-08-30,16,37,last saw them,saw,2,15,7,10
+"The concert was postponed to on the 20th of March, due to unexpected weather conditions",2019-03-20,29,49,concert was postponed to,postponed,4,28,16,25
+Our meeting is set on the 20th of January,2019-01-20,19,41,meeting is set,is set,4,18,12,18
+Our meeting is set on the 30th of March,2019-03-30,19,39,meeting is set,set,4,18,15,18
+I was watching a video on the 1st of December which explained the subject really well,2019-12-01,23,45,watching a video,was watching,6,22,2,14
+"The new law goes into effect on the 10th of October, changing several regulations",2019-10-10,29,51,law goes into effect,goes into effect,8,28,12,28
+"I know they are leaving on the 10th of October, but I don't know when they will return",2019-10-10,24,46,leaving on the 10th of October,leaving,16,46,16,23
+"The film came out on the 30th of January, receving a mixed reception",2019-01-30,18,40,film came out,came out,4,17,9,17
+"The store is expected to restock the item on the 30th of December, according to their website",2019-12-30,42,65,store is expected to restock the item,expected to restock,4,41,13,32
+I was watching a video on the 10th of March which explained the subject really well,2019-03-10,23,43,watching a video,watching,6,22,6,14
+"The store is expected to restock the item on the 10th of April, according to their website",2019-04-10,42,62,restock the item,expected to restock,25,41,13,32
+"The film came out on the 1st of August, receving a mixed reception",2019-08-01,18,38,film came out,came out,4,17,9,17
+"We’re planning to visit them on the 10th of August, if everything goes as expected",2019-08-10,29,50,visit them,planning,18,28,6,14
+I'll go buy groceries on the 20th of November,2019-11-20,22,45,buy groceries,go,8,21,5,7
+"I met him for the first time on the 1st of December, and we immediately hit it off",2019-12-01,29,51,met him for the first time,met,2,28,2,5
+"I last saw them on the 10th of February, and we had a great time catching up",2019-02-10,16,39,saw them,saw,7,15,7,10
+We watched the movie together on the 1st of December,2019-12-01,30,52,watched the movie together,watched,3,29,3,10
+"I know they are leaving on the 20th of August, but I don't know when they will return",2019-08-20,24,45,leaving,are leaving,16,23,12,23
+I'll go buy groceries on the 30th of October,2019-10-30,22,44,buy groceries,go,8,21,5,7
+Our meeting is set on the 20th of July,2019-07-20,19,38,meeting is set,is set,4,18,12,18
+"I know they are leaving on the 30th of November, but I don't know when they will return",2019-11-30,24,47,leaving on the 30th of November,are leaving,16,47,12,23
+"We’re planning to visit them on the 1st of April, if everything goes as expected",2019-04-01,29,48,visit them,planning,18,28,6,14
+That matter was concluded on the 1st of April,2019-04-01,26,45,matter was concluded,was concluded,5,25,12,25
+That matter was concluded on the 1st of February,2019-02-01,26,48,matter was concluded,was concluded,5,25,12,25
+"We’re planning to visit them on the 30th of May, if everything goes as expected",2019-05-30,29,47,visit them,planning,18,28,6,14
+Our meeting is set on the 30th of June,2019-06-30,19,38,meeting is set,is set,4,18,12,18
+We watched the movie together on the 1st of June,2019-06-01,30,48,watched the movie together,watched,3,29,3,10
+"The new law goes into effect on the 20th of June, changing several regulations",2019-06-20,29,48,new law goes into effect,goes,4,28,12,16
+"His resignation was officially announced on the 20th of July, shocking many employees",2019-07-20,41,60,resignation was officially announced,was officially announced,4,40,16,40
+"I know they are leaving on the 1st of July, but I don't know when they will return",2019-07-01,24,42,leaving,leaving,16,23,16,23
+"The store is expected to restock the item on the 20th of March, according to their website",2019-03-20,42,62,restock the item,is expected to restock,25,41,10,32
+"Their anniversary celebration took place on the 20th of May, and it was beautiful",2019-05-20,41,59,anniversary celebration took place,took place,6,40,30,40
+I was watching a video on the 1st of September which explained the subject really well,2019-09-01,23,46,watching a video,was watching,6,22,2,14
+Our meeting is set on the 30th of January,2019-01-30,19,41,meeting is set,is set,4,18,12,18
+She went to the doctor on the 10th of January,2019-01-10,23,45,went to the doctor,went,4,22,4,8
+We watched the movie together on the 30th of August,2019-08-30,30,51,watched the movie together,watched,3,29,3,10
+He had to wait until on the 20th of January to get a table,2019-01-20,21,43,wait until on the 20th of January to get a table,wait,10,58,10,14
+The product launched on the 10th of August and was a great success,2019-08-10,21,42,product launched,launched,4,20,12,20
+"I'll call you back on the 30th of August, once I have more information",2019-08-30,19,40,call you back,call,5,18,5,9
+We watched the movie together on the 1st of February,2019-02-01,30,52,watched the movie together,watched,3,29,3,10
+"The new law goes into effect on the 20th of October, changing several regulations",2019-10-20,29,51,new law goes into effect,goes into effect,4,28,12,28
+That matter was concluded on the 1st of March,2019-03-01,26,45,matter was concluded,was concluded,5,25,12,25
+I'll go buy groceries on the 1st of October,2019-10-01,22,43,buy groceries,go,8,21,5,7
+Our meeting is set on the 30th of May,2019-05-30,19,37,meeting is set,is set,4,18,12,18
+I'll go buy groceries on the 20th of June,2019-06-20,22,41,buy groceries,go,8,21,5,7
+The product launched on the 1st of October and was a great success,2019-10-01,21,42,product launched,launched,4,20,12,20
+We watched the movie together on the 1st of September,2019-09-01,30,53,watched the movie together,watched,3,29,3,10
+"I know they are leaving on the 20th of February, but I don't know when they will return",2019-02-20,24,47,leaving,leaving,16,23,16,23
+Our meeting is set on the 30th of October,2019-10-30,19,41,meeting is set,is set,4,18,12,18
+"The store is expected to restock the item on the 30th of April, according to their website",2019-04-30,42,62,restock the item,expected,25,41,13,21
+"The concert was postponed to on the 10th of September, due to unexpected weather conditions",2019-09-10,29,53,concert was postponed,was postponed,4,25,12,25
+"The film came out on the 20th of December, receving a mixed reception",2019-12-20,18,41,film came out,came out,4,17,9,17
+"The film came out on the 20th of January, receving a mixed reception",2019-01-20,18,40,film came out,came out,4,17,9,17
+"Their anniversary celebration took place on the 30th of October, and it was beautiful",2019-10-30,41,63,anniversary celebration took place,took place,6,40,30,40
+"on the 10th of November, he finally talked to me",2019-11-10,0,23,talked to me,talked,36,48,36,42
+"We’re planning to visit them on the 20th of July, if everything goes as expected",2019-07-20,29,48,visit them,planning,18,28,6,14
+I'll go buy groceries on the 10th of September,2019-09-10,22,46,buy groceries,go,8,21,5,7
+"on the 30th of June, he finally talked to me",2019-06-30,0,19,talked to me,talked,32,44,32,38
+I was watching a video on the 1st of October which explained the subject really well,2019-10-01,23,44,watching a video,was watching,6,22,2,14
+"The concert was postponed to on the 20th of September, due to unexpected weather conditions",2019-09-20,29,53,concert was postponed,was postponed,4,25,12,25
+She went to the doctor on the 10th of November,2019-11-10,23,46,went to the doctor,went,4,22,4,8
+"The film came out on the 1st of March, receving a mixed reception",2019-03-01,18,37,film came out,came out,4,17,9,17
+"The concert was postponed to on the 1st of January, due to unexpected weather conditions",2019-01-01,29,50,concert was postponed,postponed,4,25,16,25
+She went to the doctor on the 1st of July,2019-07-01,23,41,went to the doctor,went,4,22,4,8
+He had to wait until on the 10th of December to get a table,2019-12-10,21,44,wait until on the 10th of December to get a table,wait,10,59,10,14
+He had to wait until on the 10th of January to get a table,2019-01-10,21,43,wait until on the 10th of January to get a table,had to wait,10,58,3,14
+"I last saw them on the 30th of December, and we had a great time catching up",2019-12-30,16,39,last saw them,saw,2,15,7,10
+Our meeting is set on the 10th of November,2019-11-10,19,42,meeting is set,is set,4,18,12,18
+He had to wait until on the 20th of May to get a table,2019-05-20,21,39,wait until on the 20th of May to get a table,had to wait,10,54,3,14
+"on the 20th of September, he finally talked to me",2019-09-20,0,24,talked to me,talked,37,49,37,43
+"His resignation was officially announced on the 30th of April, shocking many employees",2019-04-30,41,61,resignation was officially announced,was officially announced,4,40,16,40
+"I met him for the first time on the 1st of October, and we immediately hit it off",2019-10-01,29,50,met him for the first time,met,2,28,2,5
+"Their anniversary celebration took place on the 10th of March, and it was beautiful",2019-03-10,41,61,anniversary celebration took place,took place,6,40,30,40
+"The store is expected to restock the item on the 30th of September, according to their website",2019-09-30,42,66,restock the item,expected to restock,25,41,13,32
+"We’re planning to visit them on the 1st of November, if everything goes as expected",2019-11-01,29,51,visit them,planning,18,28,6,14
+"I'll call you back on the 1st of June, once I have more information",2019-06-01,19,37,"call you back on the 1st of June, once I have more information",call,5,67,5,9
+"I last saw them on the 20th of November, and we had a great time catching up",2019-11-20,16,39,last saw them,saw,2,15,7,10
+The product launched on the 10th of November and was a great success,2019-11-10,21,44,product launched,launched,4,20,12,20
+"I know they are leaving on the 10th of March, but I don't know when they will return",2019-03-10,24,44,leaving,are leaving,16,23,12,23
+We watched the movie together on the 1st of July,2019-07-01,30,48,watched the movie together,watched,3,29,3,10
+She went to the doctor on the 20th of March,2019-03-20,23,43,went to the doctor,went,4,22,4,8
+"I last saw them on the 30th of March, and we had a great time catching up",2019-03-30,16,36,last saw them,saw,2,15,7,10
+I'll go buy groceries on the 1st of July,2019-07-01,22,40,buy groceries,go,8,21,5,7
+"We’re planning to visit them on the 30th of November, if everything goes as expected",2019-11-30,29,52,visit them,planning,18,28,6,14
+I'll go buy groceries on the 10th of January,2019-01-10,22,44,buy groceries,go,8,21,5,7
+I'll go buy groceries on the 1st of January,2019-01-01,22,43,buy groceries,go,8,21,5,7
+"I met him for the first time on the 10th of July, and we immediately hit it off",2019-07-10,29,48,met him for the first time,met,2,28,2,5
+I was watching a video on the 20th of October which explained the subject really well,2019-10-20,23,45,watching a video,was watching,6,22,2,14
+"I'll call you back on the 1st of August, once I have more information",2019-08-01,19,39,call you back,call,5,18,5,9
+"The new law goes into effect on the 1st of February, changing several regulations",2019-02-01,29,51,new law goes into effect,goes into effect,4,28,12,28
+"The concert was postponed to on the 30th of August, due to unexpected weather conditions",2019-08-30,29,50,concert was postponed to,was postponed,4,28,12,25
+"I met him for the first time on the 1st of June, and we immediately hit it off",2019-06-01,29,47,met him for the first time,met,2,28,2,5
+That matter was concluded on the 10th of August,2019-08-10,26,47,matter was concluded,was concluded,5,25,12,25
+That matter was concluded on the 10th of October,2019-10-10,26,48,matter was concluded,was concluded,5,25,12,25
+I'll go buy groceries on the 30th of March,2019-03-30,22,42,buy groceries,go,8,21,5,7
+I was watching a video on the 10th of January which explained the subject really well,2019-01-10,23,45,watching a video,was watching,6,22,2,14
+"I'll call you back on the 20th of January, once I have more information",2019-01-20,19,41,call you back,call,5,18,5,9
+That matter was concluded on the 1st of August,2019-08-01,26,46,matter was concluded,was concluded,5,25,12,25
+I'll go buy groceries on the 20th of May,2019-05-20,22,40,buy groceries,go,8,21,5,7
+I'll go buy groceries on the 30th of April,2019-04-30,22,42,buy groceries,go,8,21,5,7
+He had to wait until on the 30th of August to get a table,2019-08-30,21,42,wait until on the 30th of August to get a table,had to wait,10,57,3,14
+"Their anniversary celebration took place on the 1st of February, and it was beautiful",2019-02-01,41,63,anniversary celebration took place,took place,6,40,30,40
+We watched the movie together on the 20th of October,2019-10-20,30,52,watched the movie together,watched,3,29,3,10
+"The store is expected to restock the item on the 1st of April, according to their website",2019-04-01,42,61,restock the item,expected,25,41,13,21
+Our meeting is set on the 10th of April,2019-04-10,19,39,meeting is set,is set,4,18,12,18
+"on the 20th of August, he finally talked to me",2019-08-20,0,21,talked to me,talked,34,46,34,40
+I was watching a video on the 1st of July which explained the subject really well,2019-07-01,23,41,watching a video,was watching,6,22,2,14
+We watched the movie together on the 20th of September,2019-09-20,30,54,watched the movie together,watched,3,29,3,10
+"Their anniversary celebration took place on the 10th of January, and it was beautiful",2019-01-10,41,63,anniversary celebration took place,took place,6,40,30,40
+"The new law goes into effect on the 30th of September, changing several regulations",2019-09-30,29,53,law goes into effect,goes,8,28,12,16
+She went to the doctor on the 1st of May,2019-05-01,23,40,went to the doctor,went,4,22,4,8
+"Their anniversary celebration took place on the 20th of December, and it was beautiful",2019-12-20,41,64,anniversary celebration,took place,6,29,30,40
+"The new law goes into effect on the 30th of January, changing several regulations",2019-01-30,29,51,new law goes into effect,goes,4,28,12,16
+"on the 20th of February, he finally talked to me",2019-02-20,0,23,talked to me,talked,36,48,36,42
+"I know they are leaving on the 20th of November, but I don't know when they will return",2019-11-20,24,47,leaving on the 20th of November,leaving,16,47,16,23
+"The concert was postponed to on the 1st of December, due to unexpected weather conditions",2019-12-01,29,51,concert was postponed,was postponed,4,25,12,25
+"The film came out on the 30th of August, receving a mixed reception",2019-08-30,18,39,film came out,came out,4,17,9,17
+"on the 20th of December, he finally talked to me",2019-12-20,0,23,talked to me,talked,36,48,36,42
+"Their anniversary celebration took place on the 1st of March, and it was beautiful",2019-03-01,41,60,anniversary celebration took place,took place,6,40,30,40
+"on the 10th of February, he finally talked to me",2019-02-10,0,23,talked to me,talked,36,48,36,42
+"I know they are leaving on the 1st of June, but I don't know when they will return",2019-06-01,24,42,leaving,leaving,16,23,16,23
+"I know they are leaving on the 1st of January, but I don't know when they will return",2019-01-01,24,45,leaving on the 1st of January,leaving,16,45,16,23
+"I last saw them on the 1st of February, and we had a great time catching up",2019-02-01,16,38,saw them,saw,7,15,7,10
+I'll go buy groceries on the 1st of June,2019-06-01,22,40,buy groceries,go,8,21,5,7
+"I met him for the first time on the 20th of July, and we immediately hit it off",2019-07-20,29,48,met him for the first time,met,2,28,2,5
+I was watching a video on the 30th of May which explained the subject really well,2019-05-30,23,41,watching a video,was watching,6,22,2,14
+"on the 1st of January, he finally talked to me",2019-01-01,0,21,talked to me,talked,34,46,34,40
+I'll go buy groceries on the 10th of August,2019-08-10,22,43,buy groceries,go,8,21,5,7
+Our meeting is set on the 10th of August,2019-08-10,19,40,meeting is set,is set,4,18,12,18
+"on the 10th of June, he finally talked to me",2019-06-10,0,19,talked to me,talked,32,44,32,38
+"on the 10th of December, he finally talked to me",2019-12-10,0,23,talked to me,talked,36,48,36,42
+"I'll call you back on the 1st of July, once I have more information",2019-07-01,19,37,call you back,call,5,18,5,9
+He had to wait until on the 1st of September to get a table,2019-09-01,21,44,wait until on the 1st of September to get a table,wait,10,59,10,14
+The product launched on the 30th of April and was a great success,2019-04-30,21,41,product launched,launched,4,20,12,20
+I was watching a video on the 20th of August which explained the subject really well,2019-08-20,23,44,watching a video,was watching,6,22,2,14
+"I know they are leaving on the 30th of July, but I don't know when they will return",2019-07-30,24,43,leaving,are leaving,16,23,12,23
+That matter was concluded on the 30th of April,2019-04-30,26,46,matter was concluded,was concluded,5,25,12,25
+She went to the doctor on the 20th of September,2019-09-20,23,47,went to the doctor,went,4,22,4,8
+"We’re planning to visit them on the 1st of September, if everything goes as expected",2019-09-01,29,52,visit them,planning,18,28,6,14
+Our meeting is set on the 10th of July,2019-07-10,19,38,meeting is set,is set,4,18,12,18
+The product launched on the 20th of April and was a great success,2019-04-20,21,41,product launched,launched,4,20,12,20
+"I met him for the first time on the 20th of January, and we immediately hit it off",2019-01-20,29,51,met him for the first time,met,2,28,2,5
+I was watching a video on the 1st of February which explained the subject really well,2019-02-01,23,45,watching a video,was watching,6,22,2,14
+"I last saw them on the 1st of November, and we had a great time catching up",2019-11-01,16,38,saw them,saw,7,15,7,10
+"The concert was postponed to on the 1st of August, due to unexpected weather conditions",2019-08-01,29,49,concert was postponed,was postponed,4,25,12,25
+"His resignation was officially announced on the 1st of February, shocking many employees",2019-02-01,41,63,resignation was officially announced,was officially announced,4,40,16,40
+The product launched on the 1st of May and was a great success,2019-05-01,21,38,product launched,launched,4,20,12,20
+"I know they are leaving on the 10th of November, but I don't know when they will return",2019-11-10,24,47,leaving,are leaving,16,23,12,23
+"The film came out on the 10th of August, receving a mixed reception",2019-08-10,18,39,film came out,came out,4,17,9,17
+"The store is expected to restock the item on the 1st of March, according to their website",2019-03-01,42,61,restock the item,expected,25,41,13,21
+"The film came out on the 20th of June, receving a mixed reception",2019-06-20,18,37,film came out,came out,4,17,9,17
+"I met him for the first time on the 10th of March, and we immediately hit it off",2019-03-10,29,49,met him for the first time,met,2,28,2,5
+We watched the movie together on the 1st of May,2019-05-01,30,47,watched the movie together,watched,3,29,3,10
+I was watching a video on the 30th of April which explained the subject really well,2019-04-30,23,43,watching a video,was watching,6,22,2,14
+"His resignation was officially announced on the 30th of July, shocking many employees",2019-07-30,41,60,resignation was officially announced,was officially announced,4,40,16,40
+The product launched on the 20th of March and was a great success,2019-03-20,21,41,product launched,launched,4,20,12,20
+"I met him for the first time on the 30th of April, and we immediately hit it off",2019-04-30,29,49,met him for the first time,met,2,28,2,5
+"The new law goes into effect on the 30th of July, changing several regulations",2019-07-30,29,48,new law goes into effect,goes,4,28,12,16
+"The concert was postponed to on the 1st of October, due to unexpected weather conditions",2019-10-01,29,50,concert was postponed,postponed,4,25,16,25
+"on the 10th of April, he finally talked to me",2019-04-10,0,20,talked to me,talked,33,45,33,39
+He had to wait until on the 10th of September to get a table,2019-09-10,21,45,wait until on the 10th of September to get a table,wait,10,60,10,14
+"The concert was postponed to on the 1st of September, due to unexpected weather conditions",2019-09-01,29,52,concert was postponed to,was postponed,4,28,12,25
+"We’re planning to visit them on the 10th of January, if everything goes as expected",2019-01-10,29,51,visit them,planning,18,28,6,14
+Our meeting is set on the 10th of December,2019-12-10,19,42,meeting is set,is set,4,18,12,18
+I'll go buy groceries on the 10th of June,2019-06-10,22,41,buy groceries,go,8,21,5,7
+"The concert was postponed to on the 1st of April, due to unexpected weather conditions",2019-04-01,29,48,concert was postponed,was postponed,4,25,12,25
+I'll go buy groceries on the 30th of November,2019-11-30,22,45,buy groceries,go,8,21,5,7
+We watched the movie together on the 30th of October,2019-10-30,30,52,watched the movie together,watched,3,29,3,10
+"I know they are leaving on the 30th of September, but I don't know when they will return",2019-09-30,24,48,leaving,are leaving,16,23,12,23
+Our meeting is set on the 10th of February,2019-02-10,19,42,meeting is set,is set,4,18,12,18
+"I know they are leaving on the 30th of August, but I don't know when they will return",2019-08-30,24,45,leaving on the 30th of August,leaving,16,45,16,23
+"The store is expected to restock the item on the 1st of September, according to their website",2019-09-01,42,65,restock the item,expected,25,41,13,21
+"His resignation was officially announced on the 20th of October, shocking many employees",2019-10-20,41,63,resignation was officially announced,was officially announced,4,40,16,40
+Our meeting is set on the 10th of May,2019-05-10,19,37,meeting is set,is set,4,18,12,18
+"on the 1st of April, he finally talked to me",2019-04-01,0,19,talked to me,talked,32,44,32,38
+"I met him for the first time on the 1st of July, and we immediately hit it off",2019-07-01,29,47,met him for the first time,met,2,28,2,5
+"The new law goes into effect on the 10th of December, changing several regulations",2019-12-10,29,52,new law goes into effect,goes,4,28,12,16
+I was watching a video on the 30th of March which explained the subject really well,2019-03-30,23,43,watching a video,was watching,6,22,2,14
+"We’re planning to visit them on the 30th of September, if everything goes as expected",2019-09-30,29,53,visit them,planning,18,28,6,14
+"The film came out on the 20th of September, receving a mixed reception",2019-09-20,18,42,film came out,came out,4,17,9,17
+"I last saw them on the 1st of October, and we had a great time catching up",2019-10-01,16,37,saw them,last,7,15,2,6
+"on the 1st of September, he finally talked to me",2019-09-01,0,23,talked to me,talked,36,48,36,42
+"I met him for the first time on the 20th of February, and we immediately hit it off",2019-02-20,29,52,met him for the first time,met,2,28,2,5
+"Their anniversary celebration took place on the 30th of September, and it was beautiful",2019-09-30,41,65,anniversary celebration took place,took place,6,40,30,40
+"The new law goes into effect on the 1st of June, changing several regulations",2019-06-01,29,47,new law goes into effect,goes into effect,4,28,12,28
+I was watching a video on the 1st of January which explained the subject really well,2019-01-01,23,44,watching a video,watching,6,22,6,14
+I was watching a video on the 10th of November which explained the subject really well,2019-11-10,23,46,watching a video,watching,6,22,6,14
+The product launched on the 20th of May and was a great success,2019-05-20,21,39,product launched,launched,4,20,12,20
+Our meeting is set on the 20th of February,2019-02-20,19,42,meeting is set,is set,4,18,12,18
+"The film came out on the 20th of July, receving a mixed reception",2019-07-20,18,37,film came out,came out,4,17,9,17
+The product launched on the 30th of June and was a great success,2019-06-30,21,40,product launched,launched,4,20,12,20
+"I met him for the first time on the 20th of November, and we immediately hit it off",2019-11-20,29,52,met him for the first time,met,2,28,2,5
+"The film came out on the 10th of September, receving a mixed reception",2019-09-10,18,42,film came out,came out,4,17,9,17
+"His resignation was officially announced on the 10th of April, shocking many employees",2019-04-10,41,61,resignation was officially announced,was officially announced,4,40,16,40
+I'll go buy groceries on the 20th of February,2019-02-20,22,45,buy groceries,go,8,21,5,7
+We watched the movie together on the 20th of April,2019-04-20,30,50,watched the movie together,watched,3,29,3,10
+She went to the doctor on the 1st of October,2019-10-01,23,44,went to the doctor,went,4,22,4,8
+"The film came out on the 10th of January, receving a mixed reception",2019-01-10,18,40,film came out,came out,4,17,9,17
+"I last saw them on the 20th of February, and we had a great time catching up",2019-02-20,16,39,"saw them on the 20th of February, and we had a great time catching up",last,7,76,2,6
+I'll go buy groceries on the 20th of July,2019-07-20,22,41,buy groceries,go,8,21,5,7
+We watched the movie together on the 10th of February,2019-02-10,30,53,watched the movie together,watched,3,29,3,10
+"His resignation was officially announced on the 30th of March, shocking many employees",2019-03-30,41,61,resignation was officially announced,was officially announced,4,40,16,40
+"The concert was postponed to on the 1st of May, due to unexpected weather conditions",2019-05-01,29,46,concert was postponed,was postponed,4,25,12,25
+"I know they are leaving on the 20th of June, but I don't know when they will return",2019-06-20,24,43,leaving,are leaving,16,23,12,23
+"I'll call you back on the 1st of September, once I have more information",2019-09-01,19,42,call you back,call,5,18,5,9
+"His resignation was officially announced on the 10th of June, shocking many employees",2019-06-10,41,60,resignation was officially announced,was officially announced,4,40,16,40
+"The new law goes into effect on the 10th of August, changing several regulations",2019-08-10,29,50,new law goes into effect,goes,4,28,12,16
+"The film came out on the 10th of November, receving a mixed reception",2019-11-10,18,41,film came out,came out,4,17,9,17
+She went to the doctor on the 30th of July,2019-07-30,23,42,went to the doctor,went,4,22,4,8
+"We’re planning to visit them on the 20th of January, if everything goes as expected",2019-01-20,29,51,visit them,planning,18,28,6,14
+"The film came out on the 30th of October, receving a mixed reception",2019-10-30,18,40,film came out,came out,4,17,9,17
+She went to the doctor on the 1st of February,2019-02-01,23,45,went to the doctor,went,4,22,4,8
+"His resignation was officially announced on the 30th of January, shocking many employees",2019-01-30,41,63,resignation was officially announced,was officially announced,4,40,16,40
+"I last saw them on the 20th of August, and we had a great time catching up",2019-08-20,16,37,last saw them,saw,2,15,7,10
+Our meeting is set on the 1st of September,2019-09-01,19,42,meeting is set,is set,4,18,12,18
+"on the 1st of February, he finally talked to me",2019-02-01,0,22,talked to me,talked,35,47,35,41
+"We’re planning to visit them on the 20th of October, if everything goes as expected",2019-10-20,29,51,visit them,planning,18,28,6,14
+I was watching a video on the 10th of June which explained the subject really well,2019-06-10,23,42,watching a video,was watching,6,22,2,14
+We watched the movie together on the 30th of July,2019-07-30,30,49,watched the movie together,watched,3,29,3,10
+"We’re planning to visit them on the 10th of April, if everything goes as expected",2019-04-10,29,49,visit them,planning,18,28,6,14
+"I know they are leaving on the 20th of January, but I don't know when they will return",2019-01-20,24,46,leaving,are leaving,16,23,12,23
+"Their anniversary celebration took place on the 1st of May, and it was beautiful",2019-05-01,41,58,anniversary celebration took place,took place,6,40,30,40
+"I met him for the first time on the 20th of March, and we immediately hit it off",2019-03-20,29,49,met him for the first time,met,2,28,2,5
+"Their anniversary celebration took place on the 10th of June, and it was beautiful",2019-06-10,41,60,anniversary celebration,took place,6,29,30,40
+"The film came out on the 10th of February, receving a mixed reception",2019-02-10,18,41,film came out,came out,4,17,9,17
+"The concert was postponed to on the 10th of January, due to unexpected weather conditions",2019-01-10,29,51,concert was postponed to,was postponed,4,28,12,25
+"The store is expected to restock the item on the 30th of March, according to their website",2019-03-30,42,62,restock the item,expected,25,41,13,21
+"Their anniversary celebration took place on the 30th of August, and it was beautiful",2019-08-30,41,62,anniversary celebration took place,took place,6,40,30,40
+The product launched on the 20th of January and was a great success,2019-01-20,21,43,product launched,launched,4,20,12,20
+"The concert was postponed to on the 1st of June, due to unexpected weather conditions",2019-06-01,29,47,concert was postponed,was postponed,4,25,12,25
+We watched the movie together on the 10th of May,2019-05-10,30,48,watched the movie together,watched,3,29,3,10
+We watched the movie together on the 30th of January,2019-01-30,30,52,watched the movie together,watched,3,29,3,10
+Our meeting is set on the 1st of May,2019-05-01,19,36,meeting is set,is set,4,18,12,18
+He had to wait until on the 30th of September to get a table,2019-09-30,21,45,wait until on the 30th of September to get a table,had to wait,10,60,3,14
+"I last saw them on the 20th of September, and we had a great time catching up",2019-09-20,16,40,saw them,last saw,7,15,2,10
+"The concert was postponed to on the 1st of February, due to unexpected weather conditions",2019-02-01,29,51,concert was postponed,was postponed,4,25,12,25
+The product launched on the 10th of October and was a great success,2019-10-10,21,43,product launched,launched,4,20,12,20
+"The new law goes into effect on the 1st of December, changing several regulations",2019-12-01,29,51,new law goes into effect,goes,4,28,12,16
+"His resignation was officially announced on the 10th of March, shocking many employees",2019-03-10,41,61,resignation was officially announced,was officially announced,4,40,16,40
+She went to the doctor on the 10th of June,2019-06-10,23,42,went to the doctor,went,4,22,4,8
+"I'll call you back on the 30th of May, once I have more information",2019-05-30,19,37,call you back,call,5,18,5,9
+I'll go buy groceries on the 1st of February,2019-02-01,22,44,buy groceries,go,8,21,5,7
+The product launched on the 1st of July and was a great success,2019-07-01,21,39,product launched,launched,4,20,12,20
+"Their anniversary celebration took place on the 10th of October, and it was beautiful",2019-10-10,41,63,anniversary celebration took place,took place,6,40,30,40
+He had to wait until on the 30th of November to get a table,2019-11-30,21,44,wait until on the 30th of November to get a table,had to wait,10,59,3,14
+"We’re planning to visit them on the 1st of July, if everything goes as expected",2019-07-01,29,47,visit them,planning,18,28,6,14
+He had to wait until on the 20th of October to get a table,2019-10-20,21,43,wait until on the 20th of October to get a table,had to wait,10,58,3,14
+That matter was concluded on the 30th of December,2019-12-30,26,49,matter was concluded,was concluded,5,25,12,25
+"I'll call you back on the 30th of July, once I have more information",2019-07-30,19,38,call you back,call,5,18,5,9
+He had to wait until on the 20th of November to get a table,2019-11-20,21,44,wait until on the 20th of November to get a table,had to wait,10,59,3,14
+"I last saw them on the 1st of July, and we had a great time catching up",2019-07-01,16,34,saw them,saw,7,15,7,10
+We watched the movie together on the 1st of November,2019-11-01,30,52,watched the movie together,watched,3,29,3,10
+"His resignation was officially announced on the 20th of June, shocking many employees",2019-06-20,41,60,resignation was officially announced,was officially announced,4,40,16,40
+"I last saw them on the 10th of August, and we had a great time catching up",2019-08-10,16,37,saw them,last saw,7,15,2,10
+"Their anniversary celebration took place on the 20th of February, and it was beautiful",2019-02-20,41,64,anniversary celebration took place,took place,6,40,30,40
+She went to the doctor on the 1st of April,2019-04-01,23,42,went to the doctor,went,4,22,4,8
+"I'll call you back on the 1st of April, once I have more information",2019-04-01,19,38,call you back,call,5,18,5,9
+"The store is expected to restock the item on the 10th of August, according to their website",2019-08-10,42,63,store is expected to restock the item,is expected,4,41,10,21
+"I'll call you back on the 10th of December, once I have more information",2019-12-10,19,42,call you back,call,5,18,5,9
+The product launched on the 1st of November and was a great success,2019-11-01,21,43,product launched,launched,4,20,12,20
+Our meeting is set on the 10th of September,2019-09-10,19,43,meeting is set,is set,4,18,12,18
+"The store is expected to restock the item on the 20th of April, according to their website",2019-04-20,42,62,restock the item,expected,25,41,13,21
+That matter was concluded on the 10th of July,2019-07-10,26,45,matter was concluded,was concluded,5,25,12,25
+"The store is expected to restock the item on the 10th of October, according to their website",2019-10-10,42,64,restock the item,is expected to restock,25,41,10,32
+I was watching a video on the 30th of September which explained the subject really well,2019-09-30,23,47,watching a video,was watching,6,22,2,14
+The product launched on the 30th of August and was a great success,2019-08-30,21,42,product launched,launched,4,20,12,20
+"Their anniversary celebration took place on the 1st of September, and it was beautiful",2019-09-01,41,64,anniversary celebration took place,took place,6,40,30,40
+"I'll call you back on the 20th of May, once I have more information",2019-05-20,19,37,call you back,call,5,18,5,9
+"I know they are leaving on the 30th of October, but I don't know when they will return",2019-10-30,24,46,leaving on the 30th of October,are leaving,16,46,12,23
+"Their anniversary celebration took place on the 20th of September, and it was beautiful",2019-09-20,41,65,anniversary celebration took place,took place,6,40,30,40
+"I'll call you back on the 20th of September, once I have more information",2019-09-20,19,43,call you back,call,5,18,5,9
+"I last saw them on the 10th of June, and we had a great time catching up",2019-06-10,16,35,last saw them,saw,2,15,7,10
+"I last saw them on the 10th of October, and we had a great time catching up",2019-10-10,16,38,saw them,saw,7,15,7,10
+"on the 20th of March, he finally talked to me",2019-03-20,0,20,talked to me,talked,33,45,33,39
+"I last saw them on the 1st of December, and we had a great time catching up",2019-12-01,16,38,last saw them,saw,2,15,7,10
+"The concert was postponed to on the 10th of December, due to unexpected weather conditions",2019-12-10,29,52,concert was postponed to,was postponed,4,28,12,25
+"I know they are leaving on the 10th of December, but I don't know when they will return",2019-12-10,24,47,leaving,are leaving,16,23,12,23
+"I met him for the first time on the 30th of September, and we immediately hit it off",2019-09-30,29,53,met him for the first time,met,2,28,2,5
+"His resignation was officially announced on the 20th of November, shocking many employees",2019-11-20,41,64,resignation was officially announced,was officially announced,4,40,16,40
+"His resignation was officially announced on the 10th of December, shocking many employees",2019-12-10,41,64,resignation was officially announced,was officially announced,4,40,16,40
+"We’re planning to visit them on the 20th of November, if everything goes as expected",2019-11-20,29,52,visit them,planning,18,28,6,14
+"Their anniversary celebration took place on the 1st of October, and it was beautiful",2019-10-01,41,62,anniversary celebration took place,took place,6,40,30,40
+"The new law goes into effect on the 20th of July, changing several regulations",2019-07-20,29,48,new law goes into effect,goes,4,28,12,16
+"The new law goes into effect on the 1st of May, changing several regulations",2019-05-01,29,46,new law goes into effect,goes into effect,4,28,12,28
+She went to the doctor on the 20th of November,2019-11-20,23,46,went to the doctor,went,4,22,4,8
+"Their anniversary celebration took place on the 20th of August, and it was beautiful",2019-08-20,41,62,anniversary celebration,took place,6,29,30,40
+That matter was concluded on the 30th of July,2019-07-30,26,45,matter was concluded,was concluded,5,25,12,25
+"I know they are leaving on the 30th of March, but I don't know when they will return",2019-03-30,24,44,leaving,are leaving,16,23,12,23
+I was watching a video on the 20th of June which explained the subject really well,2019-06-20,23,42,watching a video,was watching,6,22,2,14
+"I last saw them on the 20th of December, and we had a great time catching up",2019-12-20,16,39,saw them,last,7,15,2,6
+"I met him for the first time on the 10th of November, and we immediately hit it off",2019-11-10,29,52,met him for the first time,met,2,28,2,5
+She went to the doctor on the 10th of August,2019-08-10,23,44,went to the doctor,went,4,22,4,8
+That matter was concluded on the 20th of August,2019-08-20,26,47,matter was concluded,was concluded,5,25,12,25
+"I'll call you back on the 30th of January, once I have more information",2019-01-30,19,41,call you back,call,5,18,5,9
+"The concert was postponed to on the 10th of July, due to unexpected weather conditions",2019-07-10,29,48,concert was postponed to,was postponed,4,28,12,25
+"Their anniversary celebration took place on the 10th of September, and it was beautiful",2019-09-10,41,65,anniversary celebration took place,took place,6,40,30,40
+"on the 30th of April, he finally talked to me",2019-04-30,0,20,talked to me,talked,33,45,33,39
+He had to wait until on the 10th of August to get a table,2019-08-10,21,42,wait until on the 10th of August to get a table,wait,10,57,10,14
+We watched the movie together on the 1st of April,2019-04-01,30,49,watched the movie together,watched,3,29,3,10
+"I'll call you back on the 1st of May, once I have more information",2019-05-01,19,36,call you back,call,5,18,5,9
+"on the 20th of October, he finally talked to me",2019-10-20,0,22,talked to me,talked,35,47,35,41
+"The film came out on the 10th of June, receving a mixed reception",2019-06-10,18,37,film came out,came out,4,17,9,17
+"His resignation was officially announced on the 1st of November, shocking many employees",2019-11-01,41,63,resignation was officially announced,was officially announced,4,40,16,40
+"The new law goes into effect on the 1st of April, changing several regulations",2019-04-01,29,48,new law goes into effect,goes,4,28,12,16
+"The concert was postponed to on the 20th of July, due to unexpected weather conditions",2019-07-20,29,48,concert was postponed,postponed,4,25,16,25
+That matter was concluded on the 1st of October,2019-10-01,26,47,matter was concluded,was concluded,5,25,12,25
+"The film came out on the 30th of December, receving a mixed reception",2019-12-30,18,41,film came out,came out,4,17,9,17
+"I last saw them on the 10th of July, and we had a great time catching up",2019-07-10,16,35,saw them,saw,7,15,7,10
+"The film came out on the 30th of June, receving a mixed reception",2019-06-30,18,37,film came out,came out,4,17,9,17
+"Their anniversary celebration took place on the 1st of December, and it was beautiful",2019-12-01,41,63,anniversary celebration took place,took place,6,40,30,40
+"I'll call you back on the 10th of May, once I have more information",2019-05-10,19,37,call you back,call,5,18,5,9
+"Their anniversary celebration took place on the 10th of December, and it was beautiful",2019-12-10,41,64,anniversary celebration took place,took place,6,40,30,40
+"on the 10th of August, he finally talked to me",2019-08-10,0,21,talked to me,talked,34,46,34,40
+Our meeting is set on the 20th of March,2019-03-20,19,39,meeting is set,is set,4,18,12,18
+We watched the movie together on the 10th of October,2019-10-10,30,52,watched the movie together,watched,3,29,3,10
+I was watching a video on the 30th of October which explained the subject really well,2019-10-30,23,45,watching a video,was watching,6,22,2,14
+"Their anniversary celebration took place on the 20th of November, and it was beautiful",2019-11-20,41,64,anniversary celebration took place,took place,6,40,30,40
+"The new law goes into effect on the 1st of March, changing several regulations",2019-03-01,29,48,new law goes into effect,goes,4,28,12,16
+The product launched on the 1st of September and was a great success,2019-09-01,21,44,product launched,launched,4,20,12,20
+The product launched on the 20th of August and was a great success,2019-08-20,21,42,product launched,launched,4,20,12,20
+"The concert was postponed to on the 10th of November, due to unexpected weather conditions",2019-11-10,29,52,concert was postponed to,was postponed,4,28,12,25
+"We’re planning to visit them on the 30th of April, if everything goes as expected",2019-04-30,29,49,visit them,planning,18,28,6,14
+Our meeting is set on the 1st of August,2019-08-01,19,39,meeting is set,is set,4,18,12,18
+She went to the doctor on the 20th of February,2019-02-20,23,46,went to the doctor,went,4,22,4,8
+That matter was concluded on the 20th of May,2019-05-20,26,44,matter was concluded,was concluded,5,25,12,25
+We watched the movie together on the 10th of March,2019-03-10,30,50,watched the movie together,watched,3,29,3,10
+"His resignation was officially announced on the 20th of September, shocking many employees",2019-09-20,41,65,resignation was officially announced,was officially announced,4,40,16,40
+"Their anniversary celebration took place on the 1st of July, and it was beautiful",2019-07-01,41,59,anniversary celebration took place,took place,6,40,30,40
+The product launched on the 20th of November and was a great success,2019-11-20,21,44,product launched,launched,4,20,12,20
+"The store is expected to restock the item on the 1st of December, according to their website",2019-12-01,42,64,store is expected to restock the item,expected,4,41,13,21
+"I know they are leaving on the 1st of August, but I don't know when they will return",2019-08-01,24,44,leaving,are leaving,16,23,12,23
+Our meeting is set on the 10th of January,2019-01-10,19,41,meeting is set,is set,4,18,12,18
+"I'll call you back on the 10th of October, once I have more information",2019-10-10,19,41,call you back,call,5,18,5,9
+Our meeting is set on the 1st of July,2019-07-01,19,37,meeting is set,is set,4,18,12,18
+"The concert was postponed to on the 20th of October, due to unexpected weather conditions",2019-10-20,29,51,concert was postponed to,was postponed,4,28,12,25
+"We’re planning to visit them on the 20th of September, if everything goes as expected",2019-09-20,29,53,visit them,planning,18,28,6,14
+"The film came out on the 1st of February, receving a mixed reception",2019-02-01,18,40,film came out,came out,4,17,9,17
+"I know they are leaving on the 30th of May, but I don't know when they will return",2019-05-30,24,42,leaving,are leaving,16,23,12,23
+"I'll call you back on the 10th of June, once I have more information",2019-06-10,19,38,call you back,call,5,18,5,9
+"on the 30th of May, he finally talked to me",2019-05-30,0,18,talked to me,talked,31,43,31,37
+"I met him for the first time on the 20th of April, and we immediately hit it off",2019-04-20,29,49,met him for the first time,met,2,28,2,5
+"I know they are leaving on the 1st of October, but I don't know when they will return",2019-10-01,24,45,leaving on the 1st of October,leaving,16,45,16,23
+She went to the doctor on the 10th of September,2019-09-10,23,47,went to the doctor,went,4,22,4,8
+"The store is expected to restock the item on the 1st of November, according to their website",2019-11-01,42,64,restock the item,expected,25,41,13,21
+"I know they are leaving on the 1st of December, but I don't know when they will return",2019-12-01,24,46,leaving,leaving,16,23,16,23
+She went to the doctor on the 1st of June,2019-06-01,23,41,went to the doctor,went,4,22,4,8
+I'll go buy groceries on the 1st of May,2019-05-01,22,39,buy groceries,go,8,21,5,7
+I was watching a video on the 10th of October which explained the subject really well,2019-10-10,23,45,watching a video,was watching,6,22,2,14
+"We’re planning to visit them on the 10th of March, if everything goes as expected",2019-03-10,29,49,visit them,planning,18,28,6,14
+"The film came out on the 1st of December, receving a mixed reception",2019-12-01,18,40,film came out,came out,4,17,9,17
+"The new law goes into effect on the 10th of November, changing several regulations",2019-11-10,29,52,new law goes into effect,goes,4,28,12,16
+"The new law goes into effect on the 10th of February, changing several regulations",2019-02-10,29,52,new law goes into effect,goes,4,28,12,16
+The product launched on the 20th of February and was a great success,2019-02-20,21,44,product launched,launched,4,20,12,20
+"I know they are leaving on the 30th of January, but I don't know when they will return",2019-01-30,24,46,leaving,leaving,16,23,16,23
+She went to the doctor on the 30th of December,2019-12-30,23,46,went to the doctor,went,4,22,4,8
+"I know they are leaving on the 10th of July, but I don't know when they will return",2019-07-10,24,43,leaving on the 10th of July,are leaving,16,43,12,23
+"I last saw them on the 20th of January, and we had a great time catching up",2019-01-20,16,38,saw them,last saw,7,15,2,10
+Our meeting is set on the 30th of July,2019-07-30,19,38,meeting is set,is set,4,18,12,18
+"I know they are leaving on the 1st of September, but I don't know when they will return",2019-09-01,24,47,leaving,are leaving,16,23,12,23
+The product launched on the 20th of July and was a great success,2019-07-20,21,40,product launched,launched,4,20,12,20
+"I met him for the first time on the 30th of March, and we immediately hit it off",2019-03-30,29,49,met him for the first time,met,2,28,2,5
+"The store is expected to restock the item on the 1st of January, according to their website",2019-01-01,42,63,restock the item,expected,25,41,13,21
+He had to wait until on the 20th of March to get a table,2019-03-20,21,41,wait until on the 20th of March to get a table,had to wait,10,56,3,14
+"Their anniversary celebration took place on the 10th of February, and it was beautiful",2019-02-10,41,64,anniversary celebration took place,took place,6,40,30,40
+I'll go buy groceries on the 30th of August,2019-08-30,22,43,buy groceries,go,8,21,5,7
+She went to the doctor on the 1st of September,2019-09-01,23,46,went to the doctor,went,4,22,4,8
+Our meeting is set on the 1st of October,2019-10-01,19,40,meeting is set,is set,4,18,12,18
+"on the 30th of March, he finally talked to me",2019-03-30,0,20,talked to me,talked,33,45,33,39
+"I last saw them on the 30th of June, and we had a great time catching up",2019-06-30,16,35,saw them,last,7,15,2,6
+"The concert was postponed to on the 10th of October, due to unexpected weather conditions",2019-10-10,29,51,concert was postponed to,was postponed to,4,28,12,28
+"The film came out on the 10th of May, receving a mixed reception",2019-05-10,18,36,film came out,came out,4,17,9,17
+That matter was concluded on the 10th of June,2019-06-10,26,45,matter was concluded,was concluded,5,25,12,25
+I was watching a video on the 10th of September which explained the subject really well,2019-09-10,23,47,watching a video,was watching,6,22,2,14
+"His resignation was officially announced on the 20th of April, shocking many employees",2019-04-20,41,61,resignation was officially announced,was officially announced,4,40,16,40
+She went to the doctor on the 20th of August,2019-08-20,23,44,went to the doctor,went,4,22,4,8
+"I last saw them on the 30th of October, and we had a great time catching up",2019-10-30,16,38,saw them,last,7,15,2,6
+"The store is expected to restock the item on the 1st of June, according to their website",2019-06-01,42,60,restock the item,expected to restock,25,41,13,32
+I was watching a video on the 1st of June which explained the subject really well,2019-06-01,23,41,watching a video,was watching,6,22,2,14
+"The new law goes into effect on the 30th of November, changing several regulations",2019-11-30,29,52,new law goes into effect,goes into effect,4,28,12,28
+"I know they are leaving on the 20th of May, but I don't know when they will return",2019-05-20,24,42,leaving,are leaving,16,23,12,23
+Our meeting is set on the 30th of April,2019-04-30,19,39,meeting is set,is set,4,18,12,18
+"on the 1st of November, he finally talked to me",2019-11-01,0,22,talked to me,talked,35,47,35,41
+"I last saw them on the 10th of March, and we had a great time catching up",2019-03-10,16,36,saw them,saw,7,15,7,10
+"The concert was postponed to on the 30th of October, due to unexpected weather conditions",2019-10-30,29,51,concert was postponed,was postponed,4,25,12,25
+"The new law goes into effect on the 20th of February, changing several regulations",2019-02-20,29,52,new law goes into effect,goes into effect,4,28,12,28
+He had to wait until on the 10th of April to get a table,2019-04-10,21,41,wait until on the 10th of April to get a table,wait,10,56,10,14
+"I know they are leaving on the 20th of October, but I don't know when they will return",2019-10-20,24,46,leaving on the 20th of October,are leaving,16,46,12,23
+"The store is expected to restock the item on the 20th of February, according to their website",2019-02-20,42,65,restock the item,expected to restock,25,41,13,32
+That matter was concluded on the 1st of December,2019-12-01,26,48,matter was concluded,was concluded,5,25,12,25
+The product launched on the 1st of June and was a great success,2019-06-01,21,39,product launched,launched,4,20,12,20
+"The new law goes into effect on the 1st of October, changing several regulations",2019-10-01,29,50,law goes into effect,goes,8,28,12,16
+Our meeting is set on the 20th of August,2019-08-20,19,40,meeting is set,is set,4,18,12,18
+"I last saw them on the 30th of November, and we had a great time catching up",2019-11-30,16,39,saw them,saw,7,15,7,10
+"We’re planning to visit them on the 10th of October, if everything goes as expected",2019-10-10,29,51,visit them,planning,18,28,6,14
+"I met him for the first time on the 1st of August, and we immediately hit it off",2019-08-01,29,49,met him for the first time,met,2,28,2,5
+I'll go buy groceries on the 10th of February,2019-02-10,22,45,buy groceries,go,8,21,5,7
+"The store is expected to restock the item on the 1st of May, according to their website",2019-05-01,42,59,restock the item,expected,25,41,13,21
+He had to wait until on the 1st of January to get a table,2019-01-01,21,42,wait until on the 1st of January to get a table,had to wait,10,57,3,14
+"The store is expected to restock the item on the 30th of July, according to their website",2019-07-30,42,61,restock the item,is expected to,25,41,10,24
+"The concert was postponed to on the 20th of May, due to unexpected weather conditions",2019-05-20,29,47,concert was postponed,was postponed,4,25,12,25
+"We’re planning to visit them on the 20th of June, if everything goes as expected",2019-06-20,29,48,visit them,planning,18,28,6,14
+The product launched on the 10th of September and was a great success,2019-09-10,21,45,product launched,launched,4,20,12,20
+We watched the movie together on the 20th of January,2019-01-20,30,52,watched the movie together,watched,3,29,3,10
+"The store is expected to restock the item on the 30th of January, according to their website",2019-01-30,42,64,restock the item,is expected,25,41,10,21
+The product launched on the 30th of September and was a great success,2019-09-30,21,45,product launched,launched,4,20,12,20
+"The new law goes into effect on the 20th of November, changing several regulations",2019-11-20,29,52,new law goes into effect,goes into effect,4,28,12,28
+He had to wait until on the 1st of December to get a table,2019-12-01,21,43,wait until on the 1st of December to get a table,had to wait,10,58,3,14
+"The store is expected to restock the item on the 20th of May, according to their website",2019-05-20,42,60,restock the item,is expected to,25,41,10,24
+"The concert was postponed to on the 10th of April, due to unexpected weather conditions",2019-04-10,29,49,concert was postponed to,was postponed,4,28,12,25
+I was watching a video on the 20th of December which explained the subject really well,2019-12-20,23,46,watching a video,was watching,6,22,2,14
+That matter was concluded on the 1st of November,2019-11-01,26,48,matter was concluded,was concluded,5,25,12,25
+She went to the doctor on the 30th of April,2019-04-30,23,43,went to the doctor,went,4,22,4,8
+"I last saw them on the 30th of May, and we had a great time catching up",2019-05-30,16,34,last saw them,saw,2,15,7,10
+She went to the doctor on the 10th of May,2019-05-10,23,41,went to the doctor,went,4,22,4,8
+"We’re planning to visit them on the 30th of January, if everything goes as expected",2019-01-30,29,51,visit them,planning,18,28,6,14
+"I met him for the first time on the 1st of February, and we immediately hit it off",2019-02-01,29,51,met him for the first time,met,2,28,2,5
+"We’re planning to visit them on the 1st of March, if everything goes as expected",2019-03-01,29,48,visit them,planning,18,28,6,14
+"I last saw them on the 10th of September, and we had a great time catching up",2019-09-10,16,40,saw them,last saw,7,15,2,10
+The product launched on the 30th of July and was a great success,2019-07-30,21,40,product launched,launched,4,20,12,20
+"I met him for the first time on the 30th of December, and we immediately hit it off",2019-12-30,29,52,met him for the first time,met,2,28,2,5
+"The new law goes into effect on the 20th of March, changing several regulations",2019-03-20,29,49,new law goes into effect,goes into effect,4,28,12,28
+He had to wait until on the 1st of March to get a table,2019-03-01,21,40,wait until on the 1st of March to get a table,wait,10,55,10,14
+"The concert was postponed to on the 20th of June, due to unexpected weather conditions",2019-06-20,29,48,concert was postponed,was postponed,4,25,12,25
+She went to the doctor on the 10th of December,2019-12-10,23,46,went to the doctor,went,4,22,4,8
+"I know they are leaving on the 10th of February, but I don't know when they will return",2019-02-10,24,47,leaving on the 10th of February,are leaving,16,47,12,23
+"His resignation was officially announced on the 20th of February, shocking many employees",2019-02-20,41,64,resignation was officially announced,was officially announced,4,40,16,40
+We watched the movie together on the 20th of November,2019-11-20,30,53,watched the movie together,watched,3,29,3,10
+"I met him for the first time on the 1st of May, and we immediately hit it off",2019-05-01,29,46,met him for the first time,met,2,28,2,5
+She went to the doctor on the 20th of June,2019-06-20,23,42,went to the doctor,went,4,22,4,8
+"We’re planning to visit them on the 1st of May, if everything goes as expected",2019-05-01,29,46,visit them,planning,18,28,6,14
+I was watching a video on the 30th of December which explained the subject really well,2019-12-30,23,46,watching a video,was watching,6,22,2,14
+"I met him for the first time on the 10th of January, and we immediately hit it off",2019-01-10,29,51,met him for the first time,met,2,28,2,5
+We watched the movie together on the 10th of November,2019-11-10,30,53,watched the movie together,watched,3,29,3,10
+I was watching a video on the 30th of August which explained the subject really well,2019-08-30,23,44,watching a video,was watching,6,22,2,14
+"The concert was postponed to on the 20th of December, due to unexpected weather conditions",2019-12-20,29,52,concert was postponed to,was postponed,4,28,12,25
+"I'll call you back on the 20th of March, once I have more information",2019-03-20,19,39,call you back,call,5,18,5,9
+"The store is expected to restock the item on the 30th of June, according to their website",2019-06-30,42,61,store is expected to restock the item,is expected to restock,4,41,10,32
+She went to the doctor on the 30th of November,2019-11-30,23,46,went to the doctor,went,4,22,4,8
+Our meeting is set on the 20th of May,2019-05-20,19,37,meeting is set,is set,4,18,12,18
+"The new law goes into effect on the 10th of June, changing several regulations",2019-06-10,29,48,new law goes into effect,goes,4,28,12,16
+He had to wait until on the 30th of January to get a table,2019-01-30,21,43,wait until on the 30th of January to get a table,wait,10,58,10,14
+She went to the doctor on the 30th of October,2019-10-30,23,45,went to the doctor,went,4,22,4,8
+"I met him for the first time on the 30th of May, and we immediately hit it off",2019-05-30,29,47,met him for the first time,met,2,28,2,5
+"Their anniversary celebration took place on the 20th of April, and it was beautiful",2019-04-20,41,61,anniversary celebration,took place,6,29,30,40
+"We’re planning to visit them on the 20th of December, if everything goes as expected",2019-12-20,29,52,visit them,planning,18,28,6,14
+"Their anniversary celebration took place on the 20th of June, and it was beautiful",2019-06-20,41,60,anniversary celebration took place,took place,6,40,30,40
+"His resignation was officially announced on the 1st of March, shocking many employees",2019-03-01,41,60,resignation was officially announced,was officially announced,4,40,16,40
+That matter was concluded on the 30th of June,2019-06-30,26,45,matter was concluded,was concluded,5,25,12,25
+I was watching a video on the 10th of April which explained the subject really well,2019-04-10,23,43,watching a video,was watching,6,22,2,14
+"The concert was postponed to on the 20th of January, due to unexpected weather conditions",2019-01-20,29,51,concert was postponed,was postponed,4,25,12,25
+"Their anniversary celebration took place on the 10th of August, and it was beautiful",2019-08-10,41,62,anniversary celebration took place,took place,6,40,30,40
+I was watching a video on the 20th of April which explained the subject really well,2019-04-20,23,43,watching a video,watching,6,22,6,14
+She went to the doctor on the 10th of July,2019-07-10,23,42,went to the doctor,went,4,22,4,8
+"I met him for the first time on the 30th of July, and we immediately hit it off",2019-07-30,29,48,met him for the first time,met,2,28,2,5
+I'll go buy groceries on the 30th of January,2019-01-30,22,44,buy groceries,go,8,21,5,7
+"I'll call you back on the 30th of April, once I have more information",2019-04-30,19,39,call you back,call,5,18,5,9
+"I'll call you back on the 30th of December, once I have more information",2019-12-30,19,42,call you back,call,5,18,5,9
+"on the 1st of July, he finally talked to me",2019-07-01,0,18,talked to me,talked,31,43,31,37
+He had to wait until on the 10th of February to get a table,2019-02-10,21,44,wait until on the 10th of February to get a table,had to wait,10,59,3,14
+Our meeting is set on the 30th of August,2019-08-30,19,40,meeting is set,is set,4,18,12,18
+We watched the movie together on the 10th of September,2019-09-10,30,54,watched the movie together,watched,3,29,3,10
+That matter was concluded on the 20th of December,2019-12-20,26,49,matter was concluded,was concluded,5,25,12,25
+"I'll call you back on the 20th of July, once I have more information",2019-07-20,19,38,call you back,call,5,18,5,9
+"I met him for the first time on the 20th of December, and we immediately hit it off",2019-12-20,29,52,met him for the first time,met,2,28,2,5
+"on the 30th of January, he finally talked to me",2019-01-30,0,22,talked to me,talked,35,47,35,41
+We watched the movie together on the 10th of July,2019-07-10,30,49,watched the movie together,watched,3,29,3,10
+I'll go buy groceries on the 20th of April,2019-04-20,22,42,buy groceries,go,8,21,5,7
+"His resignation was officially announced on the 30th of August, shocking many employees",2019-08-30,41,62,resignation was officially announced,was officially announced,4,40,16,40
+"The concert was postponed to on the 30th of November, due to unexpected weather conditions",2019-11-30,29,52,concert was postponed to,was postponed,4,28,12,25
+"The film came out on the 30th of April, receving a mixed reception",2019-04-30,18,38,film came out,came out,4,17,9,17
+"on the 20th of June, he finally talked to me",2019-06-20,0,19,talked to me,talked,32,44,32,38
+"His resignation was officially announced on the 30th of September, shocking many employees",2019-09-30,41,65,resignation was officially announced,was officially announced,4,40,16,40
+"I last saw them on the 20th of May, and we had a great time catching up",2019-05-20,16,34,saw them,last saw,7,15,2,10
+She went to the doctor on the 20th of May,2019-05-20,23,41,went to the doctor,went,4,22,4,8
+The product launched on the 20th of June and was a great success,2019-06-20,21,40,product launched,launched,4,20,12,20
+"His resignation was officially announced on the 1st of January, shocking many employees",2019-01-01,41,62,resignation was officially announced,was officially announced,4,40,16,40
+That matter was concluded on the 20th of November,2019-11-20,26,49,matter was concluded,was concluded,5,25,12,25
+I was watching a video on the 1st of April which explained the subject really well,2019-04-01,23,42,watching a video,was watching,6,22,2,14
+I'll go buy groceries on the 1st of December,2019-12-01,22,44,buy groceries,go,8,21,5,7
+"The film came out on the 1st of September, receving a mixed reception",2019-09-01,18,41,film came out,came out,4,17,9,17
+The product launched on the 30th of January and was a great success,2019-01-30,21,43,product launched,launched,4,20,12,20
+"I met him for the first time on the 30th of October, and we immediately hit it off",2019-10-30,29,51,met him for the first time,met,2,28,2,5
+"The film came out on the 1st of November, receving a mixed reception",2019-11-01,18,40,film came out,came out,4,17,9,17
+She went to the doctor on the 1st of December,2019-12-01,23,45,went to the doctor,went,4,22,4,8
+"The film came out on the 20th of November, receving a mixed reception",2019-11-20,18,41,film came out,came out,4,17,9,17
+The product launched on the 20th of October and was a great success,2019-10-20,21,43,product launched,launched,4,20,12,20
+Our meeting is set on the 20th of September,2019-09-20,19,43,meeting is set,is set,4,18,12,18
+"The film came out on the 20th of February, receving a mixed reception",2019-02-20,18,41,film came out,came out,4,17,9,17
+"I'll call you back on the 10th of September, once I have more information",2019-09-10,19,43,call you back,call,5,18,5,9
+She went to the doctor on the 20th of December,2019-12-20,23,46,went to the doctor,went,4,22,4,8
+"The film came out on the 1st of May, receving a mixed reception",2019-05-01,18,35,film came out,came out,4,17,9,17
+That matter was concluded on the 30th of August,2019-08-30,26,47,matter was concluded,was concluded,5,25,12,25
+"on the 30th of October, he finally talked to me",2019-10-30,0,22,talked to me,talked,35,47,35,41
+The product launched on the 30th of December and was a great success,2019-12-30,21,44,product launched,launched,4,20,12,20
+"I met him for the first time on the 10th of December, and we immediately hit it off",2019-12-10,29,52,met him for the first time,met,2,28,2,5
+That matter was concluded on the 10th of February,2019-02-10,26,49,matter was concluded,was concluded,5,25,12,25
+Our meeting is set on the 1st of December,2019-12-01,19,41,meeting is set,is set,4,18,12,18
+Our meeting is set on the 30th of September,2019-09-30,19,43,meeting is set,is set,4,18,12,18
+That matter was concluded on the 1st of June,2019-06-01,26,44,matter was concluded,was concluded,5,25,12,25
+I'll go buy groceries on the 10th of April,2019-04-10,22,42,buy groceries,go,8,21,5,7
+I was watching a video on the 10th of February which explained the subject really well,2019-02-10,23,46,watching a video,was watching,6,22,2,14
+Our meeting is set on the 1st of March,2019-03-01,19,38,meeting is set,is set,4,18,12,18
+"I'll call you back on the 30th of March, once I have more information",2019-03-30,19,39,call you back,call,5,18,5,9
+Our meeting is set on the 20th of November,2019-11-20,19,42,meeting is set,is set,4,18,12,18
+We watched the movie together on the 1st of August,2019-08-01,30,50,watched the movie together,watched,3,29,3,10
+"I met him for the first time on the 30th of June, and we immediately hit it off",2019-06-30,29,48,met him for the first time,met,2,28,2,5
+We watched the movie together on the 1st of January,2019-01-01,30,51,watched the movie together,watched,3,29,3,10
+"The film came out on the 20th of May, receving a mixed reception",2019-05-20,18,36,film came out,came out,4,17,9,17
+He had to wait until on the 10th of June to get a table,2019-06-10,21,40,wait until on the 10th of June to get a table,wait,10,55,10,14
+The product launched on the 1st of January and was a great success,2019-01-01,21,42,product launched,launched,4,20,12,20
+We watched the movie together on the 30th of March,2019-03-30,30,50,watched the movie together,watched,3,29,3,10
+She went to the doctor on the 20th of January,2019-01-20,23,45,went to the doctor,went,4,22,4,8
+"on the 1st of October, he finally talked to me",2019-10-01,0,21,talked to me,talked,34,46,34,40
+"Their anniversary celebration took place on the 10th of July, and it was beautiful",2019-07-10,41,60,anniversary celebration took place,took place,6,40,30,40
+We watched the movie together on the 20th of December,2019-12-20,30,53,watched the movie together,watched,3,29,3,10
+He had to wait until on the 10th of May to get a table,2019-05-10,21,39,wait until on the 10th of May to get a table,had to wait,10,54,3,14
+"I last saw them on the 30th of April, and we had a great time catching up",2019-04-30,16,36,saw them,last saw,7,15,2,10
+"His resignation was officially announced on the 10th of November, shocking many employees",2019-11-10,41,64,resignation was officially announced,was officially announced,4,40,16,40
+"I know they are leaving on the 30th of June, but I don't know when they will return",2019-06-30,24,43,leaving,leaving,16,23,16,23
+We watched the movie together on the 20th of May,2019-05-20,30,48,watched the movie together,watched,3,29,3,10
+The product launched on the 10th of December and was a great success,2019-12-10,21,44,product launched,launched,4,20,12,20
+"We’re planning to visit them on the 30th of October, if everything goes as expected",2019-10-30,29,51,visit them,planning,18,28,6,14
+I'll go buy groceries on the 20th of March,2019-03-20,22,42,buy groceries,go,8,21,5,7
+"The concert was postponed to on the 10th of February, due to unexpected weather conditions",2019-02-10,29,52,concert was postponed to,was postponed,4,28,12,25
+"I last saw them on the 10th of November, and we had a great time catching up",2019-11-10,16,39,saw them,last,7,15,2,6
+"I last saw them on the 10th of December, and we had a great time catching up",2019-12-10,16,39,saw them,last saw,7,15,2,10
+"The store is expected to restock the item on the 20th of June, according to their website",2019-06-20,42,61,store is expected to restock the item,expected to restock,4,41,13,32
+"I met him for the first time on the 20th of May, and we immediately hit it off",2019-05-20,29,47,met him for the first time,met,2,28,2,5
+"I know they are leaving on the 20th of December, but I don't know when they will return",2019-12-20,24,47,leaving,leaving,16,23,16,23
+"The concert was postponed to on the 30th of April, due to unexpected weather conditions",2019-04-30,29,49,concert was postponed,was postponed,4,25,12,25
+"I'll call you back on the 30th of October, once I have more information",2019-10-30,19,41,call you back,call,5,18,5,9
+He had to wait until on the 1st of June to get a table,2019-06-01,21,39,wait until on the 1st of June to get a table,had to wait,10,54,3,14
+We watched the movie together on the 1st of March,2019-03-01,30,49,watched the movie together,watched,3,29,3,10
+That matter was concluded on the 30th of March,2019-03-30,26,46,matter was concluded,was concluded,5,25,12,25
+"I met him for the first time on the 30th of August, and we immediately hit it off",2019-08-30,29,50,met him for the first time,met,2,28,2,5
+Our meeting is set on the 10th of October,2019-10-10,19,41,meeting is set,is set,4,18,12,18
+That matter was concluded on the 1st of May,2019-05-01,26,43,matter was concluded,was concluded,5,25,12,25
+The product launched on the 1st of March and was a great success,2019-03-01,21,40,product launched,launched,4,20,12,20
+"We’re planning to visit them on the 10th of November, if everything goes as expected",2019-11-10,29,52,visit them,planning,18,28,6,14
+"The film came out on the 1st of June, receving a mixed reception",2019-06-01,18,36,film came out,came out,4,17,9,17
+I was watching a video on the 10th of July which explained the subject really well,2019-07-10,23,42,watching a video,was watching,6,22,2,14
+"Their anniversary celebration took place on the 30th of June, and it was beautiful",2019-06-30,41,60,anniversary celebration took place,took place,6,40,30,40
+"His resignation was officially announced on the 20th of January, shocking many employees",2019-01-20,41,63,resignation was officially announced,was officially announced,4,40,16,40
+That matter was concluded on the 30th of October,2019-10-30,26,48,matter was concluded,was concluded,5,25,12,25
+"I'll call you back on the 20th of December, once I have more information",2019-12-20,19,42,call you back,call,5,18,5,9
+He had to wait until on the 30th of October to get a table,2019-10-30,21,43,wait until on the 30th of October to get a table,had to wait,10,58,3,14
+"I'll call you back on the 20th of October, once I have more information",2019-10-20,19,41,call you back,call,5,18,5,9
+"His resignation was officially announced on the 10th of October, shocking many employees",2019-10-10,41,63,resignation was officially announced,was officially announced,4,40,16,40
+"The new law goes into effect on the 20th of September, changing several regulations",2019-09-20,29,53,new law goes into effect,goes,4,28,12,16
+"Their anniversary celebration took place on the 10th of May, and it was beautiful",2019-05-10,41,59,anniversary celebration took place,took place,6,40,30,40
+I'll go buy groceries on the 10th of November,2019-11-10,22,45,buy groceries,go,8,21,5,7
+She went to the doctor on the 30th of September,2019-09-30,23,47,went to the doctor,went,4,22,4,8
+"I'll call you back on the 30th of June, once I have more information",2019-06-30,19,38,call you back,call,5,18,5,9
+"I met him for the first time on the 20th of September, and we immediately hit it off",2019-09-20,29,53,met him for the first time,met,2,28,2,5
+"The new law goes into effect on the 20th of April, changing several regulations",2019-04-20,29,49,new law goes into effect,goes into effect,4,28,12,28
+"We’re planning to visit them on the 10th of February, if everything goes as expected",2019-02-10,29,52,visit them,planning,18,28,6,14
+That matter was concluded on the 30th of May,2019-05-30,26,44,matter was concluded,was concluded,5,25,12,25
+We watched the movie together on the 30th of April,2019-04-30,30,50,watched the movie together,watched,3,29,3,10
+"I met him for the first time on the 20th of October, and we immediately hit it off",2019-10-20,29,51,met him for the first time,met,2,28,2,5
+"The new law goes into effect on the 10th of May, changing several regulations",2019-05-10,29,47,new law goes into effect,goes,4,28,12,16
+"I know they are leaving on the 10th of June, but I don't know when they will return",2019-06-10,24,43,leaving,are leaving,16,23,12,23
+I was watching a video on the 10th of December which explained the subject really well,2019-12-10,23,46,watching a video,was watching,6,22,2,14
+That matter was concluded on the 1st of January,2019-01-01,26,47,matter was concluded,was concluded,5,25,12,25
+"I'll call you back on the 1st of November, once I have more information",2019-11-01,19,41,call you back,call,5,18,5,9
+He had to wait until on the 10th of March to get a table,2019-03-10,21,41,wait until on the 10th of March to get a table,had to wait,10,56,3,14
+I'll go buy groceries on the 30th of June,2019-06-30,22,41,buy groceries,go,8,21,5,7
+The product launched on the 20th of September and was a great success,2019-09-20,21,45,product launched,launched,4,20,12,20
+The product launched on the 10th of February and was a great success,2019-02-10,21,44,product launched,launched,4,20,12,20
+"on the 20th of April, he finally talked to me",2019-04-20,0,20,talked to me,talked,33,45,33,39
+"on the 30th of July, he finally talked to me",2019-07-30,0,19,talked to me,talked,32,44,32,38
+"The concert was postponed to on the 30th of May, due to unexpected weather conditions",2019-05-30,29,47,concert was postponed,postponed,4,25,16,25
+"I'll call you back on the 1st of October, once I have more information",2019-10-01,19,40,call you back,call,5,18,5,9
+The product launched on the 20th of December and was a great success,2019-12-20,21,44,product launched,launched,4,20,12,20
+"The film came out on the 20th of April, receving a mixed reception",2019-04-20,18,38,film came out,came out,4,17,9,17
+That matter was concluded on the 10th of December,2019-12-10,26,49,matter was concluded,was concluded,5,25,12,25
+I was watching a video on the 20th of February which explained the subject really well,2019-02-20,23,46,watching a video,was watching,6,22,2,14
+He had to wait until on the 1st of May to get a table,2019-05-01,21,38,wait until on the 1st of May to get a table,wait,10,53,10,14
+"I met him for the first time on the 1st of September, and we immediately hit it off",2019-09-01,29,52,met him for the first time,met,2,28,2,5
+"I'll call you back on the 20th of November, once I have more information",2019-11-20,19,42,call you back,call,5,18,5,9
+I'll go buy groceries on the 20th of August,2019-08-20,22,43,buy groceries,go,8,21,5,7
+"The store is expected to restock the item on the 10th of July, according to their website",2019-07-10,42,61,store is expected to restock the item,is expected to restock,4,41,10,32
+That matter was concluded on the 10th of May,2019-05-10,26,44,matter was concluded,was concluded,5,25,12,25
+"I met him for the first time on the 10th of October, and we immediately hit it off",2019-10-10,29,51,met him for the first time,met,2,28,2,5
+She went to the doctor on the 10th of April,2019-04-10,23,43,went to the doctor,went,4,22,4,8
+He had to wait until on the 1st of February to get a table,2019-02-01,21,43,wait until on the 1st of February to get a table,wait,10,58,10,14
+"The concert was postponed to on the 30th of June, due to unexpected weather conditions",2019-06-30,29,48,concert was postponed,was postponed,4,25,12,25
+He had to wait until on the 10th of July to get a table,2019-07-10,21,40,wait until on the 10th of July to get a table,wait,10,55,10,14
+I was watching a video on the 1st of May which explained the subject really well,2019-05-01,23,40,watching a video,was watching,6,22,2,14
+"on the 10th of October, he finally talked to me",2019-10-10,0,22,talked to me,talked,35,47,35,41
+I'll go buy groceries on the 1st of March,2019-03-01,22,41,buy groceries,go,8,21,5,7
+He had to wait until on the 1st of August to get a table,2019-08-01,21,41,wait until on the 1st of August to get a table,wait,10,56,10,14
+"on the 30th of September, he finally talked to me",2019-09-30,0,24,talked to me,talked,37,49,37,43
+She went to the doctor on the 10th of February,2019-02-10,23,46,went to the doctor,went,4,22,4,8
+We watched the movie together on the 20th of June,2019-06-20,30,49,watched the movie together,watched,3,29,3,10
+I was watching a video on the 10th of May which explained the subject really well,2019-05-10,23,41,watching a video,was watching,6,22,2,14
+"The concert was postponed to on the 30th of December, due to unexpected weather conditions",2019-12-30,29,52,concert was postponed to,postponed,4,28,16,25
+That matter was concluded on the 20th of March,2019-03-20,26,46,matter was concluded,was concluded,5,25,12,25
+The product launched on the 10th of May and was a great success,2019-05-10,21,39,product launched,launched,4,20,12,20
+We watched the movie together on the 20th of March,2019-03-20,30,50,watched the movie together,watched,3,29,3,10
+"His resignation was officially announced on the 1st of September, shocking many employees",2019-09-01,41,64,resignation was officially announced,was officially announced,4,40,16,40
+"We’re planning to visit them on the 30th of July, if everything goes as expected",2019-07-30,29,48,visit them,planning,18,28,6,14
+Our meeting is set on the 20th of October,2019-10-20,19,41,meeting is set,is set,4,18,12,18
+I was watching a video on the 30th of June which explained the subject really well,2019-06-30,23,42,watching a video,was watching,6,22,2,14
+Our meeting is set on the 20th of April,2019-04-20,19,39,meeting is set,is set,4,18,12,18
+She went to the doctor on the 30th of March,2019-03-30,23,43,went to the doctor,went,4,22,4,8
+I was watching a video on the 20th of March which explained the subject really well,2019-03-20,23,43,watching a video,was watching,6,22,2,14
+We watched the movie together on the 30th of May,2019-05-30,30,48,watched the movie together,watched,3,29,3,10
+The product launched on the 10th of June and was a great success,2019-06-10,21,40,product launched,launched,4,20,12,20
+He had to wait until on the 1st of July to get a table,2019-07-01,21,39,wait until on the 1st of July to get a table,wait,10,54,10,14
+"The store is expected to restock the item on the 30th of November, according to their website",2019-11-30,42,65,store is expected to restock the item,expected,4,41,13,21
+The product launched on the 30th of May and was a great success,2019-05-30,21,39,product launched,launched,4,20,12,20
+"His resignation was officially announced on the 1st of August, shocking many employees",2019-08-01,41,61,resignation was officially announced,was officially announced,4,40,16,40
+"The store is expected to restock the item on the 20th of July, according to their website",2019-07-20,42,61,restock the item,expected to restock,25,41,13,32
+He had to wait until on the 30th of May to get a table,2019-05-30,21,39,wait until on the 30th of May to get a table,had to wait,10,54,3,14
+I'll go buy groceries on the 20th of January,2019-01-20,22,44,buy groceries,go,8,21,5,7
+"We’re planning to visit them on the 30th of June, if everything goes as expected",2019-06-30,29,48,visit them,planning,18,28,6,14
+"I met him for the first time on the 30th of January, and we immediately hit it off",2019-01-30,29,51,met him for the first time,met,2,28,2,5
+She went to the doctor on the 1st of August,2019-08-01,23,43,went to the doctor,went,4,22,4,8
+That matter was concluded on the 10th of January,2019-01-10,26,48,matter was concluded,was concluded,5,25,12,25
+She went to the doctor on the 1st of January,2019-01-01,23,44,went to the doctor,went,4,22,4,8
+"I met him for the first time on the 10th of February, and we immediately hit it off",2019-02-10,29,52,met him for the first time,met,2,28,2,5
+"I last saw them on the 30th of July, and we had a great time catching up",2019-07-30,16,35,saw them,last,7,15,2,6
+"We’re planning to visit them on the 30th of March, if everything goes as expected",2019-03-30,29,49,visit them,planning,18,28,6,14
+Our meeting is set on the 1st of April,2019-04-01,19,38,meeting is set,is set,4,18,12,18
+I was watching a video on the 1st of November which explained the subject really well,2019-11-01,23,45,watching a video,was watching,6,22,2,14
+"I last saw them on the 20th of July, and we had a great time catching up",2019-07-20,16,35,saw them,last,7,15,2,6
+"I'll call you back on the 20th of February, once I have more information",2019-02-20,19,42,call you back,call,5,18,5,9
+She went to the doctor on the 30th of August,2019-08-30,23,44,went to the doctor,went,4,22,4,8
+"The concert was postponed to on the 20th of April, due to unexpected weather conditions",2019-04-20,29,49,concert was postponed,was postponed,4,25,12,25
+I'll go buy groceries on the 10th of March,2019-03-10,22,42,buy groceries,go,8,21,5,7
+She went to the doctor on the 10th of March,2019-03-10,23,43,went to the doctor,went,4,22,4,8
+"The store is expected to restock the item on the 10th of February, according to their website",2019-02-10,42,65,store is expected to restock the item,expected,4,41,13,21
+"The store is expected to restock the item on the 30th of October, according to their website",2019-10-30,42,64,restock the item,is expected to restock,25,41,10,32
+"I met him for the first time on the 1st of January, and we immediately hit it off",2019-01-01,29,50,met him for the first time,met,2,28,2,5
+The product launched on the 1st of February and was a great success,2019-02-01,21,43,product launched,launched,4,20,12,20
+"Their anniversary celebration took place on the 30th of March, and it was beautiful",2019-03-30,41,61,anniversary celebration took place,took place,6,40,30,40
+I was watching a video on the 1st of August which explained the subject really well,2019-08-01,23,43,watching a video,was watching,6,22,2,14
+"His resignation was officially announced on the 10th of February, shocking many employees",2019-02-10,41,64,resignation was officially announced,was officially announced,4,40,16,40
+"The store is expected to restock the item on the 10th of May, according to their website",2019-05-10,42,60,store is expected to restock the item,expected,4,41,13,21
+That matter was concluded on the 20th of October,2019-10-20,26,48,matter was concluded,was concluded,5,25,12,25
+That matter was concluded on the 10th of November,2019-11-10,26,49,matter was concluded,was concluded,5,25,12,25
+"The film came out on the 10th of March, receving a mixed reception",2019-03-10,18,38,film came out,came out,4,17,9,17
+"The store is expected to restock the item on the 10th of March, according to their website",2019-03-10,42,62,restock the item,is expected,25,41,10,21
+"Their anniversary celebration took place on the 30th of December, and it was beautiful",2019-12-30,41,64,anniversary celebration took place,took place,6,40,30,40
+"His resignation was officially announced on the 1st of December, shocking many employees",2019-12-01,41,63,resignation was officially announced,was officially announced,4,40,16,40
+We watched the movie together on the 10th of June,2019-06-10,30,49,watched the movie together,watched,3,29,3,10
+"Their anniversary celebration took place on the 30th of November, and it was beautiful",2019-11-30,41,64,anniversary celebration took place,took place,6,40,30,40
+I'll go buy groceries on the 10th of December,2019-12-10,22,45,buy groceries,go,8,21,5,7
+The product launched on the 30th of November and was a great success,2019-11-30,21,44,product launched,launched,4,20,12,20
+He had to wait until on the 30th of April to get a table,2019-04-30,21,41,wait until on the 30th of April to get a table,had to wait,10,56,3,14
+"The film came out on the 10th of July, receving a mixed reception",2019-07-10,18,37,film came out,came out,4,17,9,17
+I'll go buy groceries on the 20th of September,2019-09-20,22,46,buy groceries,go,8,21,5,7
+"on the 1st of August, he finally talked to me",2019-08-01,0,20,talked to me,talked,33,45,33,39
+"The film came out on the 30th of November, receving a mixed reception",2019-11-30,18,41,film came out,came out,4,17,9,17
+"on the 10th of January, he finally talked to me",2019-01-10,0,22,talked to me,talked,35,47,35,41
+"I know they are leaving on the 30th of April, but I don't know when they will return",2019-04-30,24,44,leaving,are leaving,16,23,12,23
+"The new law goes into effect on the 10th of March, changing several regulations",2019-03-10,29,49,new law goes into effect,goes into effect,4,28,12,28
+"The new law goes into effect on the 30th of June, changing several regulations",2019-06-30,29,48,new law goes into effect,goes,4,28,12,16
+"The new law goes into effect on the 1st of September, changing several regulations",2019-09-01,29,52,new law goes into effect,goes into effect,4,28,12,28
+I was watching a video on the 20th of November which explained the subject really well,2019-11-20,23,46,watching a video,was watching,6,22,2,14
+"Their anniversary celebration took place on the 1st of June, and it was beautiful",2019-06-01,41,59,anniversary celebration took place,took place,6,40,30,40
+"The new law goes into effect on the 1st of November, changing several regulations",2019-11-01,29,51,new law goes into effect,goes,4,28,12,16
+The product launched on the 1st of April and was a great success,2019-04-01,21,40,product launched,launched,4,20,12,20
+"The new law goes into effect on the 10th of April, changing several regulations",2019-04-10,29,49,new law goes into effect,goes into effect,4,28,12,28
+"The store is expected to restock the item on the 10th of June, according to their website",2019-06-10,42,61,restock the item,expected,25,41,13,21
+"His resignation was officially announced on the 1st of June, shocking many employees",2019-06-01,41,59,resignation was officially announced,was officially announced,4,40,16,40
+I'll go buy groceries on the 30th of May,2019-05-30,22,40,buy groceries,go,8,21,5,7
+"I'll call you back on the 20th of April, once I have more information",2019-04-20,19,39,call you back,call,5,18,5,9
+"The store is expected to restock the item on the 30th of August, according to their website",2019-08-30,42,63,store is expected to restock the item,is expected to restock,4,41,10,32
+"We’re planning to visit them on the 1st of December, if everything goes as expected",2019-12-01,29,51,visit them,planning,18,28,6,14
+"I'll call you back on the 10th of November, once I have more information",2019-11-10,19,42,"call you back on the 10th of November, once I have more information",call,5,72,5,9
+"We’re planning to visit them on the 1st of August, if everything goes as expected",2019-08-01,29,49,visit them,planning,18,28,6,14
+She went to the doctor on the 10th of October,2019-10-10,23,45,went to the doctor,went,4,22,4,8
+"I met him for the first time on the 10th of June, and we immediately hit it off",2019-06-10,29,48,met him for the first time,met,2,28,2,5
+"The concert was postponed to on the 1st of July, due to unexpected weather conditions",2019-07-01,29,47,concert was postponed,was postponed,4,25,12,25
+"We’re planning to visit them on the 10th of June, if everything goes as expected",2019-06-10,29,48,visit them,planning,18,28,6,14
+"I met him for the first time on the 20th of August, and we immediately hit it off",2019-08-20,29,50,met him for the first time,met,2,28,2,5
+I'll go buy groceries on the 1st of August,2019-08-01,22,42,buy groceries,go,8,21,5,7
+The product launched on the 30th of March and was a great success,2019-03-30,21,41,product launched,launched,4,20,12,20
+"The new law goes into effect on the 30th of August, changing several regulations",2019-08-30,29,50,new law goes into effect,goes,4,28,12,16
+That matter was concluded on the 10th of March,2019-03-10,26,46,matter was concluded,concluded,5,25,16,25
+"We’re planning to visit them on the 20th of May, if everything goes as expected",2019-05-20,29,47,visit them,planning,18,28,6,14
+"on the 20th of July, he finally talked to me",2019-07-20,0,19,talked to me,talked,32,44,32,38
+"We’re planning to visit them on the 20th of April, if everything goes as expected",2019-04-20,29,49,visit them,planning,18,28,6,14
+"I last saw them on the 1st of March, and we had a great time catching up",2019-03-01,16,35,saw them,last,7,15,2,6
+"The concert was postponed to on the 1st of March, due to unexpected weather conditions",2019-03-01,29,48,concert was postponed,was postponed,4,25,12,25
+"I met him for the first time on the 20th of June, and we immediately hit it off",2019-06-20,29,48,met him for the first time,met,2,28,2,5
+I'll go buy groceries on the 30th of September,2019-09-30,22,46,buy groceries,go,8,21,5,7
+That matter was concluded on the 10th of September,2019-09-10,26,50,matter was concluded,was concluded,5,25,12,25
+"The store is expected to restock the item on the 10th of December, according to their website",2019-12-10,42,65,store is expected to restock the item,is expected to restock,4,41,10,32
+"I met him for the first time on the 10th of May, and we immediately hit it off",2019-05-10,29,47,met him for the first time,met,2,28,2,5
+I'll go buy groceries on the 1st of November,2019-11-01,22,44,buy groceries,go,8,21,5,7
+"His resignation was officially announced on the 10th of May, shocking many employees",2019-05-10,41,59,resignation was officially announced,was officially announced,4,40,16,40
+I'll go buy groceries on the 30th of July,2019-07-30,22,41,buy groceries,go,8,21,5,7
+I was watching a video on the 20th of May which explained the subject really well,2019-05-20,23,41,watching a video,was watching,6,22,2,14
+"I last saw them on the 1st of June, and we had a great time catching up",2019-06-01,16,34,saw them,saw,7,15,7,10
+"I know they are leaving on the 1st of April, but I don't know when they will return",2019-04-01,24,43,leaving,are leaving,16,23,12,23
+"I last saw them on the 1st of September, and we had a great time catching up",2019-09-01,16,39,saw them,last saw,7,15,2,10
+"on the 20th of January, he finally talked to me",2019-01-20,0,22,talked to me,talked,35,47,35,41
+She went to the doctor on the 20th of April,2019-04-20,23,43,went to the doctor,went,4,22,4,8
+"I know they are leaving on the 10th of August, but I don't know when they will return",2019-08-10,24,45,leaving on the 10th of August,are leaving,16,45,12,23
+"The store is expected to restock the item on the 20th of August, according to their website",2019-08-20,42,63,store is expected to restock the item,expected,4,41,13,21
+He had to wait until on the 30th of December to get a table,2019-12-30,21,44,wait until on the 30th of December to get a table,wait,10,59,10,14
+"on the 10th of July, he finally talked to me",2019-07-10,0,19,talked to me,talked,32,44,32,38
+She went to the doctor on the 30th of January,2019-01-30,23,45,went to the doctor,went,4,22,4,8
+"We’re planning to visit them on the 10th of December, if everything goes as expected",2019-12-10,29,52,visit them,planning,18,28,6,14
+"His resignation was officially announced on the 10th of August, shocking many employees",2019-08-10,41,62,resignation was officially announced,was officially announced,4,40,16,40
+I was watching a video on the 30th of July which explained the subject really well,2019-07-30,23,42,watching a video,was watching,6,22,2,14
+"Their anniversary celebration took place on the 30th of January, and it was beautiful",2019-01-30,41,63,anniversary celebration took place,took place,6,40,30,40
+She went to the doctor on the 20th of July,2019-07-20,23,42,went to the doctor,went,4,22,4,8
+"The film came out on the 30th of September, receving a mixed reception",2019-09-30,18,42,film came out,came out,4,17,9,17
+"The film came out on the 1st of January, receving a mixed reception",2019-01-01,18,39,film came out,came out,4,17,9,17
+"I last saw them on the 20th of June, and we had a great time catching up",2019-06-20,16,35,"saw them on the 20th of June, and we had a great time catching up",last,7,72,2,6
+"I last saw them on the 30th of January, and we had a great time catching up",2019-01-30,16,38,saw them,last,7,15,2,6
+"The store is expected to restock the item on the 10th of November, according to their website",2019-11-10,42,65,restock the item,expected to restock,25,41,13,32
+"The new law goes into effect on the 10th of September, changing several regulations",2019-09-10,29,53,new law goes into effect,goes,4,28,12,16
+She went to the doctor on the 1st of March,2019-03-01,23,42,went to the doctor,went,4,22,4,8
+"The store is expected to restock the item on the 20th of December, according to their website",2019-12-20,42,65,restock the item,expected to restock,25,41,13,32
+He had to wait until on the 20th of September to get a table,2019-09-20,21,45,wait until on the 20th of September to get a table,had to wait,10,60,3,14
+The product launched on the 1st of August and was a great success,2019-08-01,21,41,product launched,launched,4,20,12,20
+I'll go buy groceries on the 10th of July,2019-07-10,22,41,buy groceries,go,8,21,5,7
+"His resignation was officially announced on the 30th of May, shocking many employees",2019-05-30,41,59,resignation was officially announced,was officially announced,4,40,16,40
+She went to the doctor on the 1st of November,2019-11-01,23,45,went to the doctor,went,4,22,4,8
+He had to wait until on the 10th of November to get a table,2019-11-10,21,44,wait until on the 10th of November to get a table,wait,10,59,10,14
+I'll go buy groceries on the 10th of May,2019-05-10,22,40,buy groceries,go,8,21,5,7
+Our meeting is set on the 30th of December,2019-12-30,19,42,meeting is set,set,4,18,15,18
+I was watching a video on the 20th of January which explained the subject really well,2019-01-20,23,45,watching a video,was watching,6,22,2,14
+"His resignation was officially announced on the 10th of September, shocking many employees",2019-09-10,41,65,resignation was officially announced,was officially announced,4,40,16,40
+"on the 10th of March, he finally talked to me",2019-03-10,0,20,talked to me,talked,33,45,33,39
+"I'll call you back on the 1st of December, once I have more information",2019-12-01,19,41,call you back,call,5,18,5,9
+"I know they are leaving on the 10th of September, but I don't know when they will return",2019-09-10,24,48,leaving,are leaving,16,23,12,23
+"His resignation was officially announced on the 20th of August, shocking many employees",2019-08-20,41,62,resignation was officially announced,was officially announced,4,40,16,40
+"Their anniversary celebration took place on the 20th of March, and it was beautiful",2019-03-20,41,61,anniversary celebration took place,took place,6,40,30,40
+"The new law goes into effect on the 10th of January, changing several regulations",2019-01-10,29,51,new law goes into effect,goes,4,28,12,16
+"I know they are leaving on the 10th of January, but I don't know when they will return",2019-01-10,24,46,leaving,leaving,16,23,16,23
+That matter was concluded on the 20th of July,2019-07-20,26,45,matter was concluded,was concluded,5,25,12,25
+"I know they are leaving on the 20th of July, but I don't know when they will return",2019-07-20,24,43,they are leaving,are leaving,7,23,12,23
+"His resignation was officially announced on the 1st of May, shocking many employees",2019-05-01,41,58,resignation was officially announced,was officially announced,4,40,16,40
+"We’re planning to visit them on the 20th of August, if everything goes as expected",2019-08-20,29,50,visit them,planning,18,28,6,14
+"I last saw them on the 20th of March, and we had a great time catching up",2019-03-20,16,36,saw them,last saw,7,15,2,10
+"I know they are leaving on the 10th of April, but I don't know when they will return",2019-04-10,24,44,leaving on the 10th of April,are leaving,16,44,12,23
+I'll go buy groceries on the 1st of September,2019-09-01,22,45,buy groceries,go,8,21,5,7
+We watched the movie together on the 20th of August,2019-08-20,30,51,watched the movie together,watched,3,29,3,10
+"The concert was postponed to on the 20th of November, due to unexpected weather conditions",2019-11-20,29,52,concert was postponed,was postponed,4,25,12,25
+He had to wait until on the 20th of December to get a table,2019-12-20,21,44,wait until on the 20th of December to get a table,had to wait,10,59,3,14
+"on the 30th of November, he finally talked to me",2019-11-30,0,23,talked to me,talked,36,48,36,42
+"The store is expected to restock the item on the 20th of November, according to their website",2019-11-20,42,65,store is expected to restock the item,expected,4,41,13,21
+"The new law goes into effect on the 20th of August, changing several regulations",2019-08-20,29,50,new law goes into effect,goes,4,28,12,16
+The product launched on the 10th of July and was a great success,2019-07-10,21,40,product launched,launched,4,20,12,20
+"The new law goes into effect on the 20th of May, changing several regulations",2019-05-20,29,47,new law goes into effect,goes,4,28,12,16
+We watched the movie together on the 20th of July,2019-07-20,30,49,watched the movie together,watched,3,29,3,10
+I'll go buy groceries on the 20th of December,2019-12-20,22,45,buy groceries,go,8,21,5,7
+"The concert was postponed to on the 10th of May, due to unexpected weather conditions",2019-05-10,29,47,concert was postponed,was postponed,4,25,12,25
+"I last saw them on the 30th of September, and we had a great time catching up",2019-09-30,16,40,saw them,last saw,7,15,2,10
+"The film came out on the 10th of October, receving a mixed reception",2019-10-10,18,40,film came out,came out,4,17,9,17
+We watched the movie together on the 30th of November,2019-11-30,30,53,watched the movie together,watched,3,29,3,10
+"The store is expected to restock the item on the 20th of October, according to their website",2019-10-20,42,64,restock the item,expected,25,41,13,21
+"on the 1st of March, he finally talked to me",2019-03-01,0,19,talked to me,talked,32,44,32,38
+"We’re planning to visit them on the 10th of July, if everything goes as expected",2019-07-10,29,48,visit them,planning,18,28,6,14
+"Their anniversary celebration took place on the 1st of January, and it was beautiful",2019-01-01,41,62,anniversary celebration took place,took place,6,40,30,40
+Our meeting is set on the 1st of January,2019-01-01,19,40,meeting is set,is set,4,18,12,18
+"The store is expected to restock the item on the 1st of July, according to their website",2019-07-01,42,60,restock the item,expected,25,41,13,21
+She went to the doctor on the 30th of June,2019-06-30,23,42,went to the doctor,went,4,22,4,8
+"We’re planning to visit them on the 1st of February, if everything goes as expected",2019-02-01,29,51,visit them,planning,18,28,6,14
+"His resignation was officially announced on the 1st of October, shocking many employees",2019-10-01,41,62,resignation was officially announced,was officially announced,4,40,16,40
+"The new law goes into effect on the 30th of April, changing several regulations",2019-04-30,29,49,new law goes into effect,goes into effect,4,28,12,28
+"I'll call you back on the 30th of September, once I have more information",2019-09-30,19,43,call you back,call,5,18,5,9
+"His resignation was officially announced on the 30th of June, shocking many employees",2019-06-30,41,60,resignation was officially announced,was officially announced,4,40,16,40
+"Their anniversary celebration took place on the 10th of November, and it was beautiful",2019-11-10,41,64,anniversary celebration,took place,6,29,30,40
+"I know they are leaving on the 1st of May, but I don't know when they will return",2019-05-01,24,41,leaving on the 1st of May,are leaving,16,41,12,23
+Our meeting is set on the 20th of December,2019-12-20,19,42,meeting is set,is set,4,18,12,18
+He had to wait until on the 1st of October to get a table,2019-10-01,21,42,wait until on the 1st of October to get a table,wait,10,57,10,14
+"on the 30th of August, he finally talked to me",2019-08-30,0,21,talked to me,talked,34,46,34,40
+"I last saw them on the 1st of January, and we had a great time catching up",2019-01-01,16,37,last saw them,saw,2,15,7,10
+"His resignation was officially announced on the 1st of July, shocking many employees",2019-07-01,41,59,resignation was officially announced,was officially announced,4,40,16,40
+"I'll call you back on the 10th of March, once I have more information",2019-03-10,19,39,call you back,call,5,18,5,9
+I was watching a video on the 10th of August which explained the subject really well,2019-08-10,23,44,watching a video,was watching,6,22,2,14
+"Their anniversary celebration took place on the 20th of July, and it was beautiful",2019-07-20,41,60,anniversary celebration took place,took place,6,40,30,40
+"I know they are leaving on the 30th of December, but I don't know when they will return",2019-12-30,24,47,leaving,leaving,16,23,16,23
+"The new law goes into effect on the 30th of December, changing several regulations",2019-12-30,29,52,new law goes into effect,goes,4,28,12,16
+"The film came out on the 30th of July, receving a mixed reception",2019-07-30,18,37,film came out,came out,4,17,9,17
+"The film came out on the 1st of October, receving a mixed reception",2019-10-01,18,39,film came out,came out,4,17,9,17
+The product launched on the 10th of April and was a great success,2019-04-10,21,41,product launched,launched,4,20,12,20
+"His resignation was officially announced on the 1st of April, shocking many employees",2019-04-01,41,60,resignation was officially announced,was officially announced,4,40,16,40
+Our meeting is set on the 30th of November,2019-11-30,19,42,meeting is set,is set,4,18,12,18
+"We’re planning to visit them on the 10th of September, if everything goes as expected",2019-09-10,29,53,visit them,planning,18,28,6,14
+He had to wait until on the 1st of November to get a table,2019-11-01,21,43,wait until on the 1st of November to get a table,had to wait,10,58,3,14
+The product launched on the 10th of March and was a great success,2019-03-10,21,41,product launched,launched,4,20,12,20
+"We’re planning to visit them on the 1st of October, if everything goes as expected",2019-10-01,29,50,visit them,planning,18,28,6,14
+"I know they are leaving on the 20th of April, but I don't know when they will return",2019-04-20,24,44,leaving,are leaving,16,23,12,23
+"The new law goes into effect on the 1st of July, changing several regulations",2019-07-01,29,47,new law goes into effect,goes,4,28,12,16
+I was watching a video on the 30th of January which explained the subject really well,2019-01-30,23,45,watching a video,watching,6,22,6,14
+"His resignation was officially announced on the 20th of May, shocking many employees",2019-05-20,41,59,resignation was officially announced,was officially announced,4,40,16,40
+"Their anniversary celebration took place on the 1st of November, and it was beautiful",2019-11-01,41,63,anniversary celebration took place,took place,6,40,30,40
+"We’re planning to visit them on the 20th of March, if everything goes as expected",2019-03-20,29,49,visit them,planning,18,28,6,14
+"The store is expected to restock the item on the 30th of May, according to their website",2019-05-30,42,60,store is expected to restock the item,expected,4,41,13,21
+"The film came out on the 1st of April, receving a mixed reception",2019-04-01,18,37,film came out,came out,4,17,9,17
+Our meeting is set on the 1st of June,2019-06-01,19,37,meeting is set,is set,4,18,12,18
+"Their anniversary celebration took place on the 10th of April, and it was beautiful",2019-04-10,41,61,anniversary celebration,took place,6,29,30,40
+"I know they are leaving on the 1st of March, but I don't know when they will return",2019-03-01,24,43,leaving,are leaving,16,23,12,23
+"I last saw them on the 20th of April, and we had a great time catching up",2019-04-20,16,36,saw them,last saw,7,15,2,10
+The product launched on the 1st of December and was a great success,2019-12-01,21,43,product launched,launched,4,20,12,20
+"The concert was postponed to on the 30th of September, due to unexpected weather conditions",2019-09-30,29,53,concert was postponed to,was postponed,4,28,12,25
+"The film came out on the 30th of May, receving a mixed reception",2019-05-30,18,36,film came out,came out,4,17,9,17
+I'll go buy groceries on the 20th of October,2019-10-20,22,44,buy groceries,go,8,21,5,7
+"I met him for the first time on the 10th of April, and we immediately hit it off",2019-04-10,29,49,met him for the first time,met,2,28,2,5
+We watched the movie together on the 30th of June,2019-06-30,30,49,watched the movie together,watched,3,29,3,10
+"on the 10th of May, he finally talked to me",2019-05-10,0,18,talked to me,talked,31,43,31,37
+"I'll call you back on the 10th of April, once I have more information",2019-04-10,19,39,call you back,call,5,18,5,9
+He had to wait until on the 20th of February to get a table,2019-02-20,21,44,wait until on the 20th of February to get a table,had to wait,10,59,3,14
+"The concert was postponed to on the 1st of November, due to unexpected weather conditions",2019-11-01,29,51,concert was postponed,postponed,4,25,16,25
+"The concert was postponed to on the 30th of July, due to unexpected weather conditions",2019-07-30,29,48,concert was postponed to,was postponed,4,28,12,25
+"The store is expected to restock the item on the 1st of October, according to their website",2019-10-01,42,63,restock the item,restock,25,41,25,32
+I'll go buy groceries on the 1st of April,2019-04-01,22,41,buy groceries,go,8,21,5,7
+"I last saw them on the 10th of May, and we had a great time catching up",2019-05-10,16,34,saw them,last,7,15,2,6
+"on the 10th of September, he finally talked to me",2019-09-10,0,24,talked to me,talked,37,49,37,43
+I was watching a video on the 20th of July which explained the subject really well,2019-07-20,23,42,watching a video,was watching,6,22,2,14
+"We’re planning to visit them on the 20th of February, if everything goes as expected",2019-02-20,29,52,visit them,planning,18,28,6,14
+"Their anniversary celebration took place on the 30th of July, and it was beautiful",2019-07-30,41,60,anniversary celebration took place,took place,6,40,30,40
+"I'll call you back on the 20th of August, once I have more information",2019-08-20,19,40,call you back,call,5,18,5,9
+"I know they are leaving on the 10th of May, but I don't know when they will return",2019-05-10,24,42,leaving on the 10th of May,leaving,16,42,16,23
+Our meeting is set on the 20th of June,2019-06-20,19,38,meeting is set,is set,4,18,12,18
+We watched the movie together on the 30th of September,2019-09-30,30,54,watched the movie together,watched,3,29,3,10
+"I met him for the first time on the 1st of March, and we immediately hit it off",2019-03-01,29,48,met him for the first time,met,2,28,2,5
+That matter was concluded on the 20th of February,2019-02-20,26,49,matter was concluded,was concluded,5,25,12,25
+"The new law goes into effect on the 1st of August, changing several regulations",2019-08-01,29,49,new law goes into effect,goes,4,28,12,16
+"His resignation was officially announced on the 30th of October, shocking many employees",2019-10-30,41,63,resignation was officially announced,was officially announced,4,40,16,40
+"The film came out on the 10th of December, receving a mixed reception",2019-12-10,18,41,film came out,came out,4,17,9,17
+"His resignation was officially announced on the 30th of November, shocking many employees",2019-11-30,41,64,resignation was officially announced,was officially announced,4,40,16,40
+"The concert was postponed to on the 30th of January, due to unexpected weather conditions",2019-01-30,29,51,concert was postponed,postponed,4,25,16,25
+"The store is expected to restock the item on the 10th of September, according to their website",2019-09-10,42,66,restock the item,expected,25,41,13,21
+"The new law goes into effect on the 1st of January, changing several regulations",2019-01-01,29,50,law goes into effect,goes,8,28,12,16
+"The new law goes into effect on the 30th of October, changing several regulations",2019-10-30,29,51,new law goes into effect,goes into effect,4,28,12,28
+"The store is expected to restock the item on the 1st of February, according to their website",2019-02-01,42,64,restock the item,expected to restock,25,41,13,32
+"The film came out on the 20th of March, receving a mixed reception",2019-03-20,18,38,film came out,came out,4,17,9,17
+"I met him for the first time on the 1st of November, and we immediately hit it off",2019-11-01,29,51,met him for the first time,met,2,28,2,5
+"The film came out on the 1st of July, receving a mixed reception",2019-07-01,18,36,film came out,came out,4,17,9,17
+That matter was concluded on the 20th of January,2019-01-20,26,48,matter was concluded,was concluded,5,25,12,25
+"I met him for the first time on the 1st of April, and we immediately hit it off",2019-04-01,29,48,met him for the first time,met,2,28,2,5
+"We’re planning to visit them on the 30th of August, if everything goes as expected",2019-08-30,29,50,visit them,planning,18,28,6,14
+"I'll call you back on the 20th of June, once I have more information",2019-06-20,19,38,call you back,call,5,18,5,9
+"The new law goes into effect on the 30th of May, changing several regulations",2019-05-30,29,47,new law goes into effect,goes into effect,4,28,12,28
+He had to wait until on the 30th of June to get a table,2019-06-30,21,40,wait until on the 30th of June to get a table,wait,10,55,10,14
+The product launched on the 30th of October and was a great success,2019-10-30,21,43,product launched,launched,4,20,12,20
+The product launched on the 10th of January and was a great success,2019-01-10,21,43,product launched,launched,4,20,12,20
+"The concert was postponed to on the 10th of June, due to unexpected weather conditions",2019-06-10,29,48,concert was postponed to,was postponed,4,28,12,25
+"on the 1st of June, he finally talked to me",2019-06-01,0,18,talked to me,talked,31,43,31,37
+"The new law goes into effect on the 20th of January, changing several regulations",2019-01-20,29,51,new law goes into effect,goes,4,28,12,16
+"The film came out on the 20th of October, receving a mixed reception",2019-10-20,18,40,film came out,came out,4,17,9,17
+"Their anniversary celebration took place on the 1st of August, and it was beautiful",2019-08-01,41,61,anniversary celebration took place,took place,6,40,30,40
+"The film came out on the 20th of August, receving a mixed reception",2019-08-20,18,39,film came out,came out,4,17,9,17
+"I met him for the first time on the 30th of November, and we immediately hit it off",2019-11-30,29,52,met him for the first time,met,2,28,2,5
+We watched the movie together on the 10th of January,2019-01-10,30,52,watched the movie together,watched,3,29,3,10
+"We’re planning to visit them on the 1st of June, if everything goes as expected",2019-06-01,29,47,visit them,planning,18,28,6,14
+"The concert was postponed to on the 30th of March, due to unexpected weather conditions",2019-03-30,29,49,concert was postponed,was postponed,4,25,12,25
+"The store is expected to restock the item on the 1st of August, according to their website",2019-08-01,42,62,restock the item,expected,25,41,13,21
+"I met him for the first time on the 10th of August, and we immediately hit it off",2019-08-10,29,50,met him for the first time,met,2,28,2,5
+"The new law goes into effect on the 20th of December, changing several regulations",2019-12-20,29,52,new law goes into effect,goes,4,28,12,16
+"on the 20th of November, he finally talked to me",2019-11-20,0,23,talked to me,talked,36,48,36,42
+"The film came out on the 30th of March, receving a mixed reception",2019-03-30,18,38,film came out,came out,4,17,9,17
+He had to wait until on the 30th of July to get a table,2019-07-30,21,40,wait until on the 30th of July to get a table,had to wait,10,55,3,14
+We watched the movie together on the 20th of February,2019-02-20,30,53,watched the movie together,watched,3,29,3,10
+She went to the doctor on the 20th of October,2019-10-20,23,45,went to the doctor,went,4,22,4,8
+We watched the movie together on the 10th of April,2019-04-10,30,50,watched the movie together,watched,3,29,3,10
+"His resignation was officially announced on the 10th of July, shocking many employees",2019-07-10,41,60,resignation was officially announced,was officially announced,4,40,16,40
+That matter was concluded on the 30th of January,2019-01-30,26,48,matter was concluded,was concluded,5,25,12,25
+"We’re planning to visit them on the 1st of January, if everything goes as expected",2019-01-01,29,50,visit them,planning,18,28,6,14
+"Their anniversary celebration took place on the 20th of January, and it was beautiful",2019-01-20,41,63,anniversary celebration took place,took place,6,40,30,40
+He had to wait until on the 20th of April to get a table,2019-04-20,21,41,wait until on the 20th of April to get a table,had to wait,10,56,3,14
+"The concert was postponed to on the 20th of February, due to unexpected weather conditions",2019-02-20,29,52,concert was postponed,postponed,4,25,16,25
+"I'll call you back on the 10th of August, once I have more information",2019-08-10,19,40,call you back,call,5,18,5,9
+That matter was concluded on the 30th of September,2019-09-30,26,50,matter was concluded,was concluded,5,25,12,25
+I was watching a video on the 20th of September which explained the subject really well,2019-09-20,23,47,watching a video,was watching,6,22,2,14
+"His resignation was officially announced on the 20th of December, shocking many employees",2019-12-20,41,64,resignation was officially announced,was officially announced,4,40,16,40
+"I know they are leaving on the 20th of September, but I don't know when they will return",2019-09-20,24,48,leaving,leaving,16,23,16,23
+"I met him for the first time on the 10th of September, and we immediately hit it off",2019-09-10,29,53,met him for the first time,met,2,28,2,5
+He had to wait until on the 1st of April to get a table,2019-04-01,21,40,wait until on the 1st of April to get a table,wait,10,55,10,14
+"Their anniversary celebration took place on the 20th of October, and it was beautiful",2019-10-20,41,63,anniversary celebration took place,took place,6,40,30,40
+That matter was concluded on the 20th of April,2019-04-20,26,46,matter was concluded,was concluded,5,25,12,25
+That matter was concluded on the 10th of April,2019-04-10,26,46,matter was concluded,was concluded,5,25,12,25
+He had to wait until on the 10th of October to get a table,2019-10-10,21,43,wait until on the 10th of October to get a table,had to wait,10,58,3,14
+That matter was concluded on the 1st of July,2019-07-01,26,44,matter was concluded,was concluded,5,25,12,25
+That matter was concluded on the 30th of November,2019-11-30,26,49,matter was concluded,was concluded,5,25,12,25
+"I last saw them on the 1st of May, and we had a great time catching up",2019-05-01,16,33,last saw them,saw,2,15,7,10
+"I last saw them on the 20th of October, and we had a great time catching up",2019-10-20,16,38,last saw them,last,2,15,2,6
+Our meeting is set on the 1st of February,2019-02-01,19,41,meeting is set,set,4,18,15,18
+"I'll call you back on the 10th of February, once I have more information",2019-02-10,19,42,call you back,call,5,18,5,9
+He had to wait until on the 20th of July to get a table,2019-07-20,21,40,wait until on the 20th of July to get a table,wait,10,55,10,14
+"I know they are leaving on the 1st of February, but I don't know when they will return",2019-02-01,24,46,leaving,are leaving,16,23,12,23
+"on the 1st of December, he finally talked to me",2019-12-01,0,22,talked to me,talked,35,47,35,41
+I'll go buy groceries on the 30th of December,2019-12-30,22,45,buy groceries,go,8,21,5,7
+"Their anniversary celebration took place on the 30th of April, and it was beautiful",2019-04-30,41,61,anniversary celebration took place,took place,6,40,30,40
+"The concert was postponed to on the 10th of March, due to unexpected weather conditions",2019-03-10,29,49,concert was postponed to,was postponed,4,28,12,25
+He had to wait until on the 20th of August to get a table,2019-08-20,21,42,wait until on the 20th of August to get a table,had to wait,10,57,3,14
+Our meeting is set on the 1st of November,2019-11-01,19,41,meeting is set,is set,4,18,12,18
+"We’re planning to visit them on the 30th of December, if everything goes as expected",2019-12-30,29,52,visit them,planning,18,28,6,14
+That matter was concluded on the 20th of June,2019-06-20,26,45,matter was concluded,was concluded,5,25,12,25
+"The concert was postponed to on the 10th of August, due to unexpected weather conditions",2019-08-10,29,50,concert was postponed,was postponed,4,25,12,25
+"I know they are leaving on the 1st of November, but I don't know when they will return",2019-11-01,24,46,leaving,leaving,16,23,16,23
+I was watching a video on the 30th of November which explained the subject really well,2019-11-30,23,46,watching a video,was watching,6,22,2,14
+"The store is expected to restock the item on the 10th of January, according to their website",2019-01-10,42,64,restock the item,is expected to restock,25,41,10,32
+I was watching a video on the 1st of March which explained the subject really well,2019-03-01,23,42,watching a video,was watching,6,22,2,14
+He had to wait until on the 30th of March to get a table,2019-03-30,21,41,wait until on the 30th of March to get a table,had to wait,10,56,3,14
+"I last saw them on the 1st of April, and we had a great time catching up",2019-04-01,16,35,saw them,last,7,15,2,6
+That matter was concluded on the 1st of September,2019-09-01,26,49,matter was concluded,was concluded,5,25,12,25
+Our meeting is set on the 10th of June,2019-06-10,19,38,meeting is set,is set,4,18,12,18
+"His resignation was officially announced on the 10th of January, shocking many employees",2019-01-10,41,63,resignation was officially announced,was officially announced,4,40,16,40
+"Their anniversary celebration took place on the 30th of May, and it was beautiful",2019-05-30,41,59,anniversary celebration took place,took place,6,40,30,40
+"His resignation was officially announced on the 20th of March, shocking many employees",2019-03-20,41,61,resignation was officially announced,was officially announced,4,40,16,40

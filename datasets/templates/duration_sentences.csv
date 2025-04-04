@@ -1,0 +1,340 @@
+sentence,hours_delta,date_idx_start,date_idx_end,reference_type
+I stayed abroad for six months,4320,20,30,month
+I studied for six weeks to prepare for the exam,1008,14,23,week
+Training requires six months of preparation,4320,18,28,month
+They debated for six hours before deciding,6,17,26,hour
+The overall planning required two weeks of hard work from the whole team,336,30,39,week
+I stayed abroad for a month,720,20,27,month
+I'll be away for six months,4320,17,27,month
+"The hike took us four hours, but the view was worth it",4,17,27,hour
+"The experiment ran for a day, producing significant results",24,23,28,day
+I stayed abroad for four days,96,20,29,day
+"I was away for a year, and a lot changed in that time",8760,15,21,year
+Training requires two years of preparation,17520,18,27,year
+I studied for five days to prepare for the exam,120,14,23,day
+They discussed the issue for an hour before voting on it,1,29,36,hour
+They postponed the event for six months,4320,29,39,month
+She practiced for six years before the big performance,52560,18,27,year
+The negotiations dragged on for four days before a deal was reached,96,32,41,day
+The negotiations dragged on for three years before a deal was reached,26280,32,43,year
+"The experiment ran for two years, producing significant results",17520,23,32,year
+The negotiations dragged on for six months before a deal was reached,4320,32,42,month
+They postponed the event for six days,144,29,37,day
+I'll be away for an hour,1,17,24,hour
+I'll be away for a year,8760,17,23,year
+The negotiations dragged on for five days before a deal was reached,120,32,41,day
+"He was gone for six hours, but it felt like forever",6,16,25,hour
+I stayed abroad for three months,2160,20,32,month
+They postponed the event for a year,8760,29,35,year
+They postponed the event for two days,48,29,37,day
+Construction took six days to complete,144,18,26,day
+"Her recovery took two days, but she’s doing much better now",48,18,26,day
+They debated for three hours before deciding,3,17,28,hour
+"We explored the city for two hours, visiting all the famous spots",2,25,34,hour
+The negotiations dragged on for two years before a deal was reached,17520,32,41,year
+We talked for two hours before heading home,2,14,23,hour
+I stayed abroad for three days,72,20,30,day
+She practiced for a month before the big performance,720,18,25,month
+We talked for six hours before heading home,6,14,23,hour
+"The hike took us six hours, but the view was worth it",6,17,26,hour
+"We explored the city for an hour, visiting all the famous spots",1,25,32,hour
+We talked for eight hours before heading home,8,14,25,hour
+I'll be away for three hours,3,17,28,hour
+Training requires three days of preparation,72,18,28,day
+I stayed abroad for two weeks,336,20,29,week
+The negotiations dragged on for a week before a deal was reached,168,32,38,week
+"For an hour, the storm raged on",1,4,11,hour
+I'll be away for six hours,6,17,26,hour
+The overall planning required a week of hard work from the whole team,168,30,36,week
+Construction took two weeks to complete,336,18,27,week
+They postponed the event for four hours,4,29,39,hour
+"The experiment ran for two days, producing significant results",48,23,31,day
+Training requires six weeks of preparation,1008,18,27,week
+"I was away for a month, and a lot changed in that time",720,15,22,month
+"The experiment ran for an hour, producing significant results",1,23,30,hour
+Construction took a week to complete,168,18,24,week
+They postponed the event for five days,120,29,38,day
+"I was away for two hours, and a lot changed in that time",2,15,24,hour
+It took me two hours to make it through the first chapter,2,11,20,hour
+It took me six hours to make it through the first chapter,6,11,20,hour
+She practiced for five days before the big performance,120,18,27,day
+The overall planning required two months of hard work from the whole team,1440,30,40,month
+I'll be away for three days,72,17,27,day
+"The experiment ran for eight hours, producing significant results",8,23,34,hour
+"I was away for four days, and a lot changed in that time",96,15,24,day
+"Her recovery took six weeks, but she’s doing much better now",1008,18,27,week
+"The hike took us two hours, but the view was worth it",2,17,26,hour
+I studied for six years to prepare for the exam,52560,14,23,year
+The negotiations dragged on for three days before a deal was reached,72,32,42,day
+It took me four hours to make it through the first chapter,4,11,21,hour
+"The experiment ran for three weeks, producing significant results",504,23,34,week
+"I was away for three years, and a lot changed in that time",26280,15,26,year
+They postponed the event for two hours,2,29,38,hour
+The negotiations dragged on for a day before a deal was reached,24,32,37,day
+Training requires two months of preparation,1440,18,28,month
+I stayed abroad for three years,26280,20,31,year
+"The hike took us an hour, but the view was worth it",1,17,24,hour
+I stayed abroad for a year,8760,20,26,year
+"We explored the city for five days, visiting all the famous spots",120,25,34,day
+I'll be away for five days,120,17,26,day
+"We explored the city for three years, visiting all the famous spots",26280,25,36,year
+"We explored the city for six years, visiting all the famous spots",52560,25,34,year
+"Her recovery took four days, but she’s doing much better now",96,18,27,day
+She practiced for two months before the big performance,1440,18,28,month
+"The operation itself took an hour, but recovery took much longer",1,26,33,hour
+The overall planning required three weeks of hard work from the whole team,504,30,41,week
+They postponed the event for twelve hours,12,29,41,hour
+"Her recovery took a month, but she’s doing much better now",720,18,25,month
+Training requires three weeks of preparation,504,18,29,week
+"The operation itself took eight hours, but recovery took much longer",8,26,37,hour
+The overall planning required eight hours of hard work from the whole team,8,30,41,hour
+She practiced for two years before the big performance,17520,18,27,year
+"I was away for six years, and a lot changed in that time",52560,15,24,year
+They debated for four hours before deciding,4,17,27,hour
+The negotiations dragged on for two weeks before a deal was reached,336,32,41,week
+We talked for four hours before heading home,4,14,24,hour
+"The experiment ran for six days, producing significant results",144,23,31,day
+"We explored the city for three days, visiting all the famous spots",72,25,35,day
+I'll be away for three weeks,504,17,28,week
+The overall planning required five days of hard work from the whole team,120,30,39,day
+They discussed the issue for eight hours before voting on it,8,29,40,hour
+"I was away for three days, and a lot changed in that time",72,15,25,day
+"We explored the city for two weeks, visiting all the famous spots",336,25,34,week
+I studied for six months to prepare for the exam,4320,14,24,month
+They discussed the issue for two hours before voting on it,2,29,38,hour
+They discussed the issue for three hours before voting on it,3,29,40,hour
+"We explored the city for a week, visiting all the famous spots",168,25,31,week
+The overall planning required two years of hard work from the whole team,17520,30,39,year
+"I was away for a day, and a lot changed in that time",24,15,20,day
+"We explored the city for a day, visiting all the famous spots",24,25,30,day
+Construction took a month to complete,720,18,25,month
+"We explored the city for six days, visiting all the famous spots",144,25,33,day
+She practiced for two weeks before the big performance,336,18,27,week
+She practiced for a week before the big performance,168,18,24,week
+They postponed the event for six weeks,1008,29,38,week
+"I was away for a week, and a lot changed in that time",168,15,21,week
+"The experiment ran for three hours, producing significant results",3,23,34,hour
+The overall planning required six months of hard work from the whole team,4320,30,40,month
+"We explored the city for twelve hours, visiting all the famous spots",12,25,37,hour
+Training requires a week of preparation,168,18,24,week
+"We explored the city for three hours, visiting all the famous spots",3,25,36,hour
+"We waited in line for an hour, but it moved quickly",1,22,29,hour
+They postponed the event for an hour,1,29,36,hour
+They discussed the issue for twelve hours before voting on it,12,29,41,hour
+They postponed the event for two weeks,336,29,38,week
+"Her recovery took three years, but she’s doing much better now",26280,18,29,year
+"The experiment ran for two hours, producing significant results",2,23,32,hour
+"Her recovery took a year, but she’s doing much better now",8760,18,24,year
+"We explored the city for two days, visiting all the famous spots",48,25,33,day
+"He was gone for eight hours, but it felt like forever",8,16,27,hour
+I studied for three weeks to prepare for the exam,504,14,25,week
+"I was away for twelve hours, and a lot changed in that time",12,15,27,hour
+She practiced for a year before the big performance,8760,18,24,year
+I'll be away for two months,1440,17,27,month
+I stayed abroad for six days,144,20,28,day
+"For eight hours, the storm raged on",8,4,15,hour
+They postponed the event for three years,26280,29,40,year
+The negotiations dragged on for three weeks before a deal was reached,504,32,43,week
+"I was away for two days, and a lot changed in that time",48,15,23,day
+"We explored the city for six months, visiting all the famous spots",4320,25,35,month
+I studied for a week to prepare for the exam,168,14,20,week
+It took me three hours to make it through the first chapter,3,11,22,hour
+Construction took two months to complete,1440,18,28,month
+"The experiment ran for six weeks, producing significant results",1008,23,32,week
+I'll be away for three months,2160,17,29,month
+"We explored the city for three months, visiting all the famous spots",2160,25,37,month
+Construction took four days to complete,96,18,27,day
+"For twelve hours, the storm raged on",12,4,16,hour
+"I was away for six months, and a lot changed in that time",4320,15,25,month
+Construction took two years to complete,17520,18,27,year
+"I was away for two weeks, and a lot changed in that time",336,15,24,week
+"I was away for three hours, and a lot changed in that time",3,15,26,hour
+"I was away for six hours, and a lot changed in that time",6,15,24,hour
+"We explored the city for six weeks, visiting all the famous spots",1008,25,34,week
+I'll be away for twelve hours,12,17,29,hour
+Construction took three months to complete,2160,18,30,month
+"We waited in line for three hours, but it moved quickly",3,22,33,hour
+"The operation itself took three hours, but recovery took much longer",3,26,37,hour
+It took me twelve hours to make it through the first chapter,12,11,23,hour
+I'll be away for a month,720,17,24,month
+"The hike took us twelve hours, but the view was worth it",12,17,29,hour
+Construction took two days to complete,48,18,26,day
+Construction took six months to complete,4320,18,28,month
+"We explored the city for three weeks, visiting all the famous spots",504,25,36,week
+They debated for two hours before deciding,2,17,26,hour
+"I was away for five days, and a lot changed in that time",120,15,24,day
+I studied for six days to prepare for the exam,144,14,22,day
+They postponed the event for four days,96,29,38,day
+They debated for eight hours before deciding,8,17,28,hour
+"The experiment ran for two months, producing significant results",1440,23,33,month
+She practiced for three days before the big performance,72,18,28,day
+"The experiment ran for three months, producing significant results",2160,23,35,month
+I stayed abroad for two years,17520,20,29,year
+"We explored the city for two years, visiting all the famous spots",17520,25,34,year
+Construction took six weeks to complete,1008,18,27,week
+The overall planning required three years of hard work from the whole team,26280,30,41,year
+"I was away for six weeks, and a lot changed in that time",1008,15,24,week
+She practiced for three weeks before the big performance,504,18,29,week
+"Her recovery took three months, but she’s doing much better now",2160,18,30,month
+"The operation itself took four hours, but recovery took much longer",4,26,36,hour
+I stayed abroad for two months,1440,20,30,month
+"We waited in line for eight hours, but it moved quickly",8,22,33,hour
+I stayed abroad for six years,52560,20,29,year
+"The experiment ran for twelve hours, producing significant results",12,23,35,hour
+"He was gone for four hours, but it felt like forever",4,16,26,hour
+They postponed the event for eight hours,8,29,40,hour
+They postponed the event for a day,24,29,34,day
+"The experiment ran for a week, producing significant results",168,23,29,week
+I'll be away for four hours,4,17,27,hour
+We talked for an hour before heading home,1,14,21,hour
+The overall planning required six weeks of hard work from the whole team,1008,30,39,week
+"We explored the city for a month, visiting all the famous spots",720,25,32,month
+"The hike took us eight hours, but the view was worth it",8,17,28,hour
+I studied for three months to prepare for the exam,2160,14,26,month
+They postponed the event for two years,17520,29,38,year
+We talked for three hours before heading home,3,14,25,hour
+"The operation itself took six hours, but recovery took much longer",6,26,35,hour
+They postponed the event for six years,52560,29,38,year
+Training requires four days of preparation,96,18,27,day
+I studied for three years to prepare for the exam,26280,14,25,year
+She practiced for six weeks before the big performance,1008,18,27,week
+Training requires six years of preparation,52560,18,27,year
+I stayed abroad for five days,120,20,29,day
+"For six hours, the storm raged on",6,4,13,hour
+"He was gone for twelve hours, but it felt like forever",12,16,28,hour
+"I was away for three weeks, and a lot changed in that time",504,15,26,week
+I'll be away for two years,17520,17,26,year
+I stayed abroad for two days,48,20,28,day
+"We explored the city for two months, visiting all the famous spots",1440,25,35,month
+"We explored the city for four days, visiting all the famous spots",96,25,34,day
+The overall planning required twelve hours of hard work from the whole team,12,30,42,hour
+I'll be away for eight hours,8,17,28,hour
+Training requires a year of preparation,8760,18,24,year
+Construction took three years to complete,26280,18,29,year
+The negotiations dragged on for three months before a deal was reached,2160,32,44,month
+She practiced for three months before the big performance,2160,18,30,month
+They debated for an hour before deciding,1,17,24,hour
+They postponed the event for three months,2160,29,41,month
+"The experiment ran for a month, producing significant results",720,23,30,month
+"For four hours, the storm raged on",4,4,14,hour
+The overall planning required a month of hard work from the whole team,720,30,37,month
+"I was away for four hours, and a lot changed in that time",4,15,25,hour
+"I was away for an hour, and a lot changed in that time",1,15,22,hour
+Training requires three years of preparation,26280,18,29,year
+The negotiations dragged on for two days before a deal was reached,48,32,40,day
+Training requires a day of preparation,24,18,23,day
+The negotiations dragged on for a month before a deal was reached,720,32,39,month
+I studied for two months to prepare for the exam,1440,14,24,month
+They discussed the issue for four hours before voting on it,4,29,39,hour
+"The experiment ran for six hours, producing significant results",6,23,32,hour
+The overall planning required three days of hard work from the whole team,72,30,40,day
+Construction took six years to complete,52560,18,27,year
+Training requires six days of preparation,144,18,26,day
+The overall planning required two days of hard work from the whole team,48,30,38,day
+I'll be away for six weeks,1008,17,26,week
+Construction took five days to complete,120,18,27,day
+The overall planning required four hours of hard work from the whole team,4,30,40,hour
+They postponed the event for two months,1440,29,39,month
+She practiced for a day before the big performance,24,18,23,day
+I stayed abroad for three weeks,504,20,31,week
+They postponed the event for a month,720,29,36,month
+"We waited in line for twelve hours, but it moved quickly",12,22,34,hour
+I'll be away for four days,96,17,26,day
+"The experiment ran for four days, producing significant results",96,23,32,day
+They postponed the event for three hours,3,29,40,hour
+"I was away for two years, and a lot changed in that time",17520,15,24,year
+I stayed abroad for a day,24,20,25,day
+I studied for two weeks to prepare for the exam,336,14,23,week
+"Her recovery took a day, but she’s doing much better now",24,18,23,day
+"He was gone for an hour, but it felt like forever",1,16,23,hour
+"We explored the city for a year, visiting all the famous spots",8760,25,31,year
+The negotiations dragged on for a year before a deal was reached,8760,32,38,year
+"Her recovery took six days, but she’s doing much better now",144,18,26,day
+They postponed the event for three days,72,29,39,day
+"I was away for six days, and a lot changed in that time",144,15,23,day
+"We explored the city for six hours, visiting all the famous spots",6,25,34,hour
+She practiced for two days before the big performance,48,18,26,day
+Training requires two weeks of preparation,336,18,27,week
+The overall planning required three hours of hard work from the whole team,3,30,41,hour
+I'll be away for two hours,2,17,26,hour
+"I was away for eight hours, and a lot changed in that time",8,15,26,hour
+"We waited in line for two hours, but it moved quickly",2,22,31,hour
+I studied for a year to prepare for the exam,8760,14,20,year
+She practiced for four days before the big performance,96,18,27,day
+I'll be away for six years,52560,17,26,year
+"He was gone for two hours, but it felt like forever",2,16,25,hour
+I studied for four days to prepare for the exam,96,14,23,day
+It took me eight hours to make it through the first chapter,8,11,22,hour
+I studied for a month to prepare for the exam,720,14,21,month
+They discussed the issue for six hours before voting on it,6,29,38,hour
+The negotiations dragged on for six years before a deal was reached,52560,32,41,year
+Construction took a year to complete,8760,18,24,year
+"The experiment ran for five days, producing significant results",120,23,32,day
+"He was gone for three hours, but it felt like forever",3,16,27,hour
+I'll be away for a week,168,17,23,week
+The overall planning required four days of hard work from the whole team,96,30,39,day
+I'll be away for three years,26280,17,28,year
+I'll be away for two weeks,336,17,26,week
+"The operation itself took twelve hours, but recovery took much longer",12,26,38,hour
+"The operation itself took two hours, but recovery took much longer",2,26,35,hour
+"Her recovery took a week, but she’s doing much better now",168,18,24,week
+I stayed abroad for six weeks,1008,20,29,week
+I'll be away for a day,24,17,22,day
+They postponed the event for three weeks,504,29,40,week
+"We waited in line for four hours, but it moved quickly",4,22,32,hour
+Training requires two days of preparation,48,18,26,day
+The overall planning required a year of hard work from the whole team,8760,30,36,year
+"Her recovery took two weeks, but she’s doing much better now",336,18,27,week
+The negotiations dragged on for two months before a deal was reached,1440,32,42,month
+"Her recovery took two months, but she’s doing much better now",1440,18,28,month
+The overall planning required three months of hard work from the whole team,2160,30,42,month
+They postponed the event for a week,168,29,35,week
+She practiced for six months before the big performance,4320,18,28,month
+I'll be away for six days,144,17,25,day
+Training requires three months of preparation,2160,18,30,month
+"Her recovery took five days, but she’s doing much better now",120,18,27,day
+I studied for a day to prepare for the exam,24,14,19,day
+I studied for two days to prepare for the exam,48,14,22,day
+"For three hours, the storm raged on",3,4,15,hour
+Construction took three days to complete,72,18,28,day
+The overall planning required an hour of hard work from the whole team,1,30,37,hour
+The overall planning required six days of hard work from the whole team,144,30,38,day
+"The experiment ran for a year, producing significant results",8760,23,29,year
+They debated for twelve hours before deciding,12,17,29,hour
+It took me an hour to make it through the first chapter,1,11,18,hour
+The overall planning required two hours of hard work from the whole team,2,30,39,hour
+"The experiment ran for two weeks, producing significant results",336,23,32,week
+The overall planning required a day of hard work from the whole team,24,30,35,day
+I studied for two years to prepare for the exam,17520,14,23,year
+"I was away for two months, and a lot changed in that time",1440,15,25,month
+The overall planning required six years of hard work from the whole team,52560,30,39,year
+"Her recovery took two years, but she’s doing much better now",17520,18,27,year
+"The experiment ran for six years, producing significant results",52560,23,32,year
+Training requires a month of preparation,720,18,25,month
+"The experiment ran for three years, producing significant results",26280,23,34,year
+I stayed abroad for a week,168,20,26,week
+"Her recovery took three days, but she’s doing much better now",72,18,28,day
+"I was away for three months, and a lot changed in that time",2160,15,27,month
+"We explored the city for eight hours, visiting all the famous spots",8,25,36,hour
+We talked for twelve hours before heading home,12,14,26,hour
+"Her recovery took six months, but she’s doing much better now",4320,18,28,month
+"Her recovery took six years, but she’s doing much better now",52560,18,27,year
+"We explored the city for four hours, visiting all the famous spots",4,25,35,hour
+She practiced for three years before the big performance,26280,18,29,year
+She practiced for six days before the big performance,144,18,26,day
+"The experiment ran for four hours, producing significant results",4,23,33,hour
+"The experiment ran for three days, producing significant results",72,23,33,day
+"We waited in line for six hours, but it moved quickly",6,22,31,hour
+The negotiations dragged on for six weeks before a deal was reached,1008,32,41,week
+The overall planning required six hours of hard work from the whole team,6,30,39,hour
+The negotiations dragged on for six days before a deal was reached,144,32,40,day
+They postponed the event for six hours,6,29,38,hour
+Construction took a day to complete,24,18,23,day
+I studied for three days to prepare for the exam,72,14,24,day
+Construction took three weeks to complete,504,18,29,week
+"Her recovery took three weeks, but she’s doing much better now",504,18,29,week
+"The hike took us three hours, but the view was worth it",3,17,28,hour
+I'll be away for two days,48,17,25,day
+"For two hours, the storm raged on",2,4,13,hour
+"The experiment ran for six months, producing significant results",4320,23,33,month
+Training requires five days of preparation,120,18,27,day
