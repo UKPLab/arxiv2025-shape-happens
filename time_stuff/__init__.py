@@ -1,8 +1,10 @@
 from .base import BaseClass
+from .utils import prompt_ollama
 
 
 
 __all__ = [
     "subpackage",
-    "BaseClass"
+    "BaseClass",
+    "prompt_ollama"
     ]
