@@ -1,0 +1,51 @@
+action,days,weeks,months,years,activity
+{name}'s subscription starts on the {date} and lasts for {duration}.,false,true,true,true,subscription
+{name}'s treatment begins on the {date} and is scheduled to last for {duration}.,false,true,true,false,treatment
+{name}'s exchange starts on the {date} and goes on for {duration}.,false,true,true,false,exchange
+{name} is beginning a research fellowship on the {date} and will last for {duration}.,false,false,true,true,fellowship
+{name} is starting a language course on the {date} and will last for {duration}.,false,true,true,true,language course
+{name} is starting their internship on the {date} and is set to run for {duration}.,false,true,true,false,internship
+{name} is starting a workshop on the {date} lasting {duration}.,true,false,false,false,workshop
+"{name} is attending a first aid course on the {date}, lasting {duration}.",true,true,false,false,first aid course
+"{name} is enrolled in a cooking class beginning on the {date} and lasting {duration}.",true,true,false,false,cooking class
+"{name} is starting a coding sprint on the {date}, running for {duration}.",true,false,false,false,coding sprint
+"{name}'s residency begins on the {date} and goes on for {duration}.",false,false,true,true,residency
+"{name} is taking part in a writing retreat on the {date}, which spans {duration}.",true,false,false,false,writing retreat
+"{name} starts a photography bootcamp on the {date}, which lasts for {duration}.",true,false,false,false,photography bootcamp
+"{name} starts a data science course on the {date}, continuing for {duration}.",false,true,true,true,data science course
+"{name} begins a seminar on the {date}, lasting for {duration}.",true,false,false,false,seminar
+"{name} is beginning a short course on the {date}, running over {duration}.",true,true,false,false,course
+"{name}'s mentorship begins on the {date} and continues for {duration}.",false,true,true,false,mentorship
+"{name} begins doctoral research on the {date}, continuing over a period of {duration}.",false,false,false,true,doctoral research
+"{name} is commencing a postdoctoral fellowship on the {date}, scheduled to span {duration}.",false,false,true,true,fellowship
+"{name} is enrolling in a professional training program on the {date}, which runs for about {duration}.",false,false,true,true,training program
+"{name} begins their employment contract on the {date}, with a term of {duration}.",false,false,true,true,employment contract
+"{name} begins a renovation project on the {date}, scheduled to take {duration} to complete.",false,false,true,true,renovation project
+"{name} starts a sabbatical on the {date}, which will continue for the next {duration}.",false,false,true,true,sabbatical
+"{name} is beginning a sailing trip on the {date}, lasting roughly {duration}.",true,true,true,false,sailing trip
+"{name} is starting a hiking expedition on the {date}, which will last for {duration}.",true,true,false,false,expedition
+{name} is starting a remote assignment on the {date} and will work for {duration}.,false,false,true,true,remote work
+{name} is moving abroad on the {date} and intends to stay for {duration}.,false,false,true,true,relocation
+{name} is beginning a writing project on the {date} and will be working on it for {duration}.,false,false,true,true,writing project
+{name} is taking a parenting leave starting on the {date} and it will last for {duration}.,false,true,true,false,parenting leave
+{name} is starting a physical therapy plan on the {date} and will follow it for {duration}.,false,true,false,false,therapy plan
+{name} is starting a consultancy role on the {date} and will serve for {duration}.,false,false,true,true,consultancy
+{name} is starting a community service project on the {date} and will be involved for {duration}.,false,true,true,false,community service
+{name} is starting a volunteer program on the {date} and will be active for {duration}.,false,true,true,false,volunteer program
+{name} is starting a mentorship program on the {date} and will be engaged for {duration}.,false,true,true,false,mentorship program
+{name}'s probation period starts on the {date} and will complete it in {duration}.,false,true,true,true,probation period
+{name}'s conference kicks off on the {date} and continues for {duration}.,true,true,false,false,conference
+{name}'s trial period begins on the {date} and lasts for {duration}.,true,true,false,false,trial period
+{name}'s intensive course starts on the {date} and lasts for {duration}.,true,true,false,false,intensive course
+{name}'s project kickoff is on the {date} and lasts for {duration}.,true,true,false,false,project
+{name}'s music tour starts on the {date} and lasts for {duration}.,true,true,false,false,music tour
+{name}'s photography exhibit opens on the {date} and runs for {duration}.,true,false,false,false,exhibit
+{name}'s guided hike begins on the {date} and lasts for {duration}.,true,false,false,false,hike
+{name} runs a festival booth on the {date} staying open for {duration}.,true,true,false,false,festival booth
+{name} is going on vacation starting on the {date} and will be away for {duration}.,false,true,true,false,vacation
+{name} is leaving for a business trip on the {date} and will be gone for {duration}.,true,true,false,false,business trip
+{name} is going on a road trip starting on the {date} and will be traveling for {duration}.,true,true,false,false,road trip
+{name} is going camping on the {date} and will be out for {duration}.,true,true,false,false,camping
+{name} is going on a cruise starting on the {date} and will be at sea for {duration}.,true,true,false,false,cruise
+{name} leaves for a retreat on the {date} and will be away for {duration}.,true,true,false,false,retreat
+{name} is going on a pilgrimage starting on the {date} and will be away for {duration}.,true,true,false,false,pilgrimage
