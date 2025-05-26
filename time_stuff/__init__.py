@@ -1,10 +1,14 @@
-from .base import BaseClass
-from .utils import prompt_ollama
-
+from .utils import prompt_ollama, find_token_idx, activate_eval, clean
+from .utils import SupervisedMDS
+from .utils import ActivationDataset
 
 
 __all__ = [
     "subpackage",
-    "BaseClass",
-    "prompt_ollama"
+    "prompt_ollama",
+    "find_token_idx",
+    "activate_eval",
+    "clean",
+    "SupervisedMDS",
+    "ActivationDataset"
     ]
