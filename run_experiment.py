@@ -22,7 +22,7 @@ from tqdm import tqdm
 import ast
 from time_stuff import clean, activate_eval, ActivationDataset
 import gc
-from numba import cuda
+
 
 models = [
     'Qwen/Qwen2.5-3B-Instruct',
@@ -63,7 +63,7 @@ datasets = [
 
 settings = {
     'delta_token': 0,
-    'debug': 10,
+    'debug': False,
     'frac': 1,  # Fraction of the dataset to use
 }
 
