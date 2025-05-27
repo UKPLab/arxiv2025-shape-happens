@@ -26,4 +26,4 @@ export TOKENIZERS_PARALLELISM=true
 
 source /ukp-storage-1/tiblias/miniconda/bin/activate td
 
-python run_experiments.py
+python run_experiment.py
