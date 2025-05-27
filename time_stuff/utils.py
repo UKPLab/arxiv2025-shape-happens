@@ -1,3 +1,4 @@
+import ast
 import os
 import requests
 
@@ -7,6 +8,12 @@ from sklearn.preprocessing import StandardScaler
 from scipy.optimize import minimize
 from scipy.spatial.distance import squareform
 from scipy.linalg import eigh
+import torch
+from tqdm import tqdm
+from transformers import LogitsProcessor, LogitsProcessorList
+from typing import Callable, Union
+import pandas as pd
+from transformers import AutoTokenizer
 
 
 def prompt_ollama(prompt, model="llama3.1:latest", api_url="http://10.167.31.201:11434/api/generate"):
@@ -38,8 +45,196 @@ def prompt_ollama(prompt, model="llama3.1:latest", api_url="http://10.167.31.201
         print(f"Error querying Ollama API: {e}")
         return []
 
-class LinearMetricEmbedder(BaseEstimator, TransformerMixin):
-    def __init__(self, n_components=2, graph='trivial'):
+
+class ActivationDataset:
+    def __init__(self, global_metadata: dict, activations: dict[str, np.ndarray],
+                 sample_metadata: list[dict]):
+        """
+        Initializes the ActivationDataset with the given parameters.
+
+        Parameters:
+            dataset_name (str): The name of the dataset.
+            model_name (str): The name of the model.
+            global_metadata (dict): Global metadata for the dataset.
+            activations (dict[str, np.ndarray]): Activations for selected columns.
+            sample_metadata (list[dict]): Metadata for each sample.
+        """
+        self.dataset_name = global_metadata['dataset_name']
+        self.model_name = global_metadata['model_name']
+        self.global_metadata = global_metadata
+        self.activations = activations
+        self.n_samples, self.n_layers, self.embedding_size = activations['correct_answer'].shape
+        self.n_tokens = len(activations) # Number of saved activations
+        self.sample_metadata = sample_metadata
+        self._tokenizer = AutoTokenizer.from_pretrained(self.model_name) # Necessary for slicing
+        self._df = pd.DataFrame(sample_metadata)
+
+    def save(self, path: str):
+        """
+        Saves the ActivationDataset to a file.
+
+        Parameters:
+            path (str): The path to save the dataset.
+        """
+        # If path does not exist, create it
+        os.makedirs(os.path.dirname(path), exist_ok=True)
+        print(f"Saving ActivationDataset to {path}...")
+        activations_names = list(self.activations.keys())
+        activations = list(self.activations.values())
+        # Convert activations to a tensor
+        activations = np.stack(activations, axis=1)  # Shape: (n_samples, n_tokens, n_layers, embedding_size)
+        activations = torch.from_numpy(activations)
+        print(f"Activations shape: {activations.shape}, names: {activations_names}")
+        torch.save({
+            'global_metadata': self.global_metadata,
+            'activations': activations,
+            'activations_names': activations_names,
+            'sample_metadata': self.get_metadata_df()
+        }, path)
+
+    @classmethod
+    def load(cls, path: str):
+        """
+        Loads the ActivationDataset from a file.
+
+        Parameters:
+            path (str): The path to load the dataset from.
+
+        Returns:
+            ActivationDataset: The loaded ActivationDataset.
+        """
+        data = torch.load(path, weights_only=False)
+
+        # Unstack activations along axis 1 and map them back to names
+        activations_tensor = data['activations']  # Shape: (n_samples, n_tokens, n_layers, embedding_size)
+        activations_names = data['activations_names']
+        activations = {name: activations_tensor[:, i].detach().cpu().numpy()
+                    for i, name in enumerate(activations_names)}
+        
+        if 'model_name' not in data['global_metadata']:
+            # Get it from the path as the last folder
+            data['global_metadata']['model_name'] = os.path.basename(os.path.dirname(path))
+        if 'dataset_name' not in data['global_metadata']:
+            # Get it from the path as the filename without extension
+            data['global_metadata']['dataset_name'] = os.path.splitext(os.path.basename(path))[0]
+
+        return cls(
+            global_metadata=data['global_metadata'],
+            activations=activations,
+            sample_metadata=data['sample_metadata'].to_dict(orient='records')
+        )
+
+    
+    def get_metadata_df(self, filter_incorrect=False) -> pd.DataFrame:
+        """
+        Returns the metadata as a pandas DataFrame.
+
+        Returns:
+            pd.DataFrame: The metadata DataFrame.
+        """
+        metadata_df = self._df
+        if filter_incorrect:
+            # Filter out samples with incorrect answers
+            metadata_df = metadata_df[metadata_df['correct'] == True]
+        return metadata_df
+
+    def get_target_activations(self, target_column: str):
+        """
+        Returns the activation at the target token for all samples.
+
+        Parameters:
+            target_column (str): The name of the column containing the target token index in the activation metadata.
+        Returns:
+            np.ndarray: The activations at the target token. Shape: (n_samples, n_layers, embedding_size).
+        """
+        return self.activations[target_column]
+        # n_samples, n_tokens, n_layers, embedding_size = self.activations[target_column].shape
+
+        # # First check if the first item in sample_metadata is a string
+        # # if it is, use find_token_idx to get the index int
+        # # then, use the int to get the activations
+        # if isinstance(self.sample_metadata[0][target_column], str):
+        #     target_indices = [find_token_idx(self._tokenizer, meta['decoded'], meta[target_column])
+        #                       + len(self._tokenizer.encode(meta['sentence']))
+        #                       for meta in self.sample_metadata]
+        # elif isinstance(self.sample_metadata[0][target_column], int):
+        #     target_indices = [meta[target_column] for meta in self.sample_metadata]
+        
+        # if len(target_indices) != self.n_samples:
+        #     # Log warning if not all samples have the target column
+        #     print(f"Warning: Not all samples have the target column '{target_column}'.")
+        
+        # # Create batch indices (0, 1, ..., n_samples-1)
+        # batch_indices = np.arange(n_samples)
+
+        # # Select the target activations
+        # target_activations = self.activations[batch_indices, :, target_indices, :]
+        
+        # return target_activations
+
+    def get_metadata_column(self, column_name: str):
+        """
+        Returns the specified column from the activation metadata.
+
+        Parameters:
+            column_name (str): The name of the column to retrieve.
+        Returns:
+            list: The values in the specified column.
+        """
+        return [meta[column_name] for meta in self.sample_metadata]
+
+    def get_slice(self, target_name: str = 'correct_answer', columns: Union[str, list[str]] = None,
+                  preprocess_funcs: Union[Callable, list[Callable]] = None, filter_incorrect: bool = True):
+        """
+        Returns a slice of the dataset consisting of target tokens and one or more metadata columns.
+
+        Parameters:
+            target_name (str): The name of the column of target tokens in the activation metadata.
+            columns (Union[str, list[str]]): The column(s) to include in the slice. If None, all columns are included.
+            preprocess_funcs (Union[Callable, list[Callable]]): Functions to preprocess the columns.
+            filter_incorrect (bool): If True, filters out samples with incorrect answers.
+
+        Returns:
+            np.ndarray, pd.DataFrame: The sliced activations and the metadata DataFrame.
+        """
+        target_activations = self.get_target_activations(target_name)
+        metadata_df = self.get_metadata_df(filter_incorrect=False) # Need all metadata to filter later
+
+        # Filter out incorrect samples if specified
+        if filter_incorrect:
+            correct_mask = metadata_df['correct'] == True
+            target_activations = target_activations[correct_mask]
+            metadata_df = metadata_df[correct_mask]
+
+        if columns is None:
+            columns = metadata_df.columns.tolist()
+        elif isinstance(columns, str):
+            columns = [columns]
+
+        metadata_df = metadata_df[columns]
+
+        if preprocess_funcs is not None:
+            if isinstance(preprocess_funcs, Callable):
+                preprocess_funcs = [preprocess_funcs] * len(columns)
+            elif len(preprocess_funcs) != len(columns):
+                raise ValueError("Length of preprocess_funcs must match the number of columns.")
+            for func, col in zip(preprocess_funcs, columns):
+                metadata_df[col] = metadata_df[col].apply(func)
+
+        return target_activations, metadata_df.to_numpy()
+    
+    def get_accuracy(self):
+        """
+        Returns the accuracy of the model on the dataset.
+
+        Returns:
+            float: The accuracy of the model.
+        """
+        return self.global_metadata.get('accuracy', 0.0)
+
+
+class SupervisedMDS(BaseEstimator, TransformerMixin):
+    def __init__(self, n_components=2, graph='trivial', alpha=0.1):
         """
         Parameters:
             n_components: int
@@ -51,6 +246,7 @@ class LinearMetricEmbedder(BaseEstimator, TransformerMixin):
         self.n_components = n_components
         self.graph = graph
         self.W_ = None
+        self.alpha = alpha
 
     def _compute_ideal_distances(self, y, threshold=2):
         n = len(y)
@@ -64,6 +260,10 @@ class LinearMetricEmbedder(BaseEstimator, TransformerMixin):
             for i in range(n):
                 for j in range(n):
                     d_ij[i, j] = np.linalg.norm(y[i] - y[j])
+        elif self.graph == 'log_linear':
+            for i in range(n):
+                for j in range(n):
+                    d_ij[i, j] = np.log(y[i] + 1) - np.log(y[j] + 1)
         elif self.graph == 'circular':
             max_y = np.max(y)
             for i in range(n):
@@ -75,6 +275,14 @@ class LinearMetricEmbedder(BaseEstimator, TransformerMixin):
                 for j in range(n):
                     dist = min(np.abs(y[i] - y[j]), max_y + 1 - np.abs(y[i] - y[j]))
                     d_ij[i, j] = dist if dist < threshold else -1
+        elif self.graph == 'semicircle':
+            max_y = np.max(y)
+            min_y = np.min(y)
+            for i in range(n):
+                for j in range(n):
+                    y_i_norm = (y[i] - min_y) / (max_y - min_y)
+                    y_j_norm = (y[j] - min_y) / (max_y - min_y)
+                    d_ij[i, j] = 2 * np.sin(np.pi/2 * np.abs(y_i_norm - y_j_norm)) 
 
         elif callable(self.graph):
             d_ij = self.graph(y)
@@ -136,7 +344,13 @@ class LinearMetricEmbedder(BaseEstimator, TransformerMixin):
             Y = self._classical_mds(D)
             X_centered = X - X.mean(axis=0)
             Y_centered = Y - Y.mean(axis=0)
-            self.W_ = Y_centered.T @ np.linalg.pinv(X_centered.T)
+            # Unregularized least squares
+            if self.alpha == 0:
+                self.W_ = Y_centered.T @ np.linalg.pinv(X_centered.T)
+            else:
+                # Regularized least squares
+                XtX = X_centered.T @ X_centered
+                self.W_ = Y_centered.T @ X_centered @ np.linalg.inv(XtX + self.alpha * np.eye(XtX.shape[0]))
 
         return self
 
@@ -177,3 +391,233 @@ class LinearMetricEmbedder(BaseEstimator, TransformerMixin):
         denom = np.sum(D_true[mask] ** 2)
 
         return 1 - stress / denom if denom > 0 else -np.inf
+    
+
+def clean(x):
+    return ast.literal_eval(x)
+
+class ConstrainedPrefixLogitsProcessor(LogitsProcessor):
+    def __init__(self, allowed_seqs, tokenizer):
+        self.tokenizer = tokenizer
+        # Add a space at the start of each sequence
+        self.allowed_seqs = [f" {seq}" for seq in allowed_seqs]
+        # Add period to the allowed sequences
+        self.allowed_seqs.append('.')
+        self.allowed_seqs.append('<|end_of_text|>')
+
+        self.allowed_token_seqs = [tokenizer(seq, add_special_tokens=False)['input_ids'] for seq in self.allowed_seqs]
+        # Add end of sentence token to the allowed sequences
+        self.allowed_token_seqs.append([tokenizer.eos_token_id])
+         
+    def __call__(self, input_ids: torch.LongTensor, scores: torch.FloatTensor) -> torch.FloatTensor:
+        batch_size, vocab_size = scores.shape
+        current_len = input_ids.shape[-1]
+        
+        allowed_next_tokens = set()
+        for seq in self.allowed_token_seqs:
+            if len(seq) > current_len:
+                if torch.equal(input_ids[0][-len(seq)+1:], torch.tensor(seq[:-1], device=input_ids.device)):
+                    allowed_next_tokens.add(seq[len(input_ids[0]) - len(seq)])
+
+        if not allowed_next_tokens:
+            # Start of generation, allow first tokens of all candidate sequences
+            allowed_next_tokens = {seq[0] for seq in self.allowed_token_seqs}
+
+        mask = torch.full_like(scores, float("-inf"))
+        for token_id in allowed_next_tokens:
+            mask[0, token_id] = scores[0, token_id]
+        return mask
+
+
+def find_token_idx(tokenizer, text, target, start=0):
+    """
+    Find the index of the last token corresponding to a target substring in a text using the tokenizer,
+    starting the search from a given character index.
+        
+    Args:
+        tokenizer: A HuggingFace tokenizer.
+        text (str): The input text to tokenize.
+        target (str): The substring to find in the tokenized input.
+        start (int): The character index in text to start searching from.
+    
+    Returns:
+        int: Index of the last token corresponding to the target substring in the tokenized input.
+             Returns -1 if the target is not found.
+    """
+    # Tokenize with offset mappings
+    encoding = tokenizer(text, return_offsets_mapping=True, add_special_tokens=True)
+    offsets = encoding['offset_mapping']
+    input_ids = encoding['input_ids']
+
+    # Find the character span of the target in the text, starting at 'start'
+    target_start = text.find(target, start)
+    if target_start == -1:
+        return -1  # Target substring not found
+    target_end = target_start + len(target)
+
+    # Find token indices that overlap with the target span
+    matched_token_idxs = []
+    for idx, (tok_start, tok_end) in enumerate(offsets):
+        if tok_start == tok_end == 0:
+            continue  # Likely a special/control token
+        if not (tok_end <= target_start or tok_start >= target_end):
+            matched_token_idxs.append(idx)
+
+    if not matched_token_idxs:
+        return -1
+
+    return matched_token_idxs[-1]  # Return the last matching token index
+
+
+
+
+# def find_token_idx(tokenizer, text, target):
+#     """
+#     Find the index of a target token in a text using the tokenizer.
+#     """
+#     # Find the token in the text
+#     start_token_idx = text.find(target)
+
+#     # If the token is not found or if it is at the end of the text, return -1 
+#     if start_token_idx == -1 or start_token_idx + len(target) >= len(text):
+#         return -1
+#     end_token_idx = start_token_idx + len(target)
+#     # Tokenize the text to compute the token index
+#     tokenized_text = tokenizer(text[:end_token_idx], add_special_tokens=False)
+#     return len(tokenized_text['input_ids']) - 1
+    
+
+# Does both the evaluation and storing of activations
+def activate_eval(df, dataset_name, model, tokenizer, label_columns, question_column='question', answer_column='correct_answer', context_column='context', 
+                  extra_columns=None, constrained_generation=False, delta_token=0, template="{context}", debug=False):
+    model.eval()
+    # Silence warnings
+    model.config.top_p = None
+    model.config.top_k = None
+    model.config.temperature = 1.0
+
+    global_metadata = {
+        'dataset_name': dataset_name,
+        'model_name': model.config._name_or_path,
+        'model_type': model.config.model_type,
+        'model_size': model.num_parameters(),
+        'question_column': question_column,
+        'answer_column': answer_column,
+        'context_column': context_column,
+        'label_columns': label_columns,
+        'extra_columns': extra_columns,
+        'constrained_generation': constrained_generation,
+        'template': template,
+        'delta_token': delta_token,
+    }
+    
+    sample_metadata = []
+    outputs = []
+    logits_processor = None
+    correct_count = 0
+    for _, row in tqdm(df.iterrows(), total=len(df)):
+        extra_cols_dict = {}
+        labels = {}
+        activations_idxs = []
+        for label_column in label_columns:
+            labels[label_column] = row[label_column] if label_column in row else None
+
+        context = row[context_column] if context_column in row else row['sentence']
+        question = row[question_column] if question_column in row else None
+        answer = str(row[answer_column]) if answer_column in row else None
+        sentence = template.format(context=context, question=question, answer=answer)
+
+        input_ids = tokenizer(sentence, return_tensors="pt").to("cuda")
+
+        if constrained_generation:
+            if 'alternatives' not in row:
+                raise ValueError("Alternatives column not found in dataset.")
+            logits_processor = LogitsProcessorList()
+            logits_processor.append(ConstrainedPrefixLogitsProcessor(
+                allowed_seqs=row['alternatives'],
+                tokenizer=tokenizer
+            ))
+
+        # Generate the answer to the question, no sampling
+        # NOTE: generate only outputs the hidden states of the generation, not the input
+        generations = model.generate(**input_ids, max_new_tokens=8, return_dict_in_generate=True, output_hidden_states=True, 
+                                     do_sample=False, logits_processor=logits_processor, pad_token_id=tokenizer.eos_token_id)
+        # Decode the generated answer
+        gen_decoded = tokenizer.decode(generations.sequences[0], skip_special_tokens=True)
+
+        correct_answer_idx = find_token_idx(tokenizer, gen_decoded, answer, start=len(sentence))
+        # If it's the last token, consider it incorrect as no hidden state is produced
+        if correct_answer_idx == len(generations.sequences[0]) - 1:
+            correct_answer_idx = -1
+        
+        correct = correct_answer_idx != -1
+        correct_count += correct
+        if not correct:
+            # Defaults to the first generated token
+            correct_answer_idx = 0
+        correct_answer_idx + delta_token
+        activations_idxs.append(correct_answer_idx)
+
+        last_prompt_idx = len(input_ids['input_ids'][0]) - 1 
+        activations_idxs.append(last_prompt_idx)
+
+        if extra_columns is not None:
+            for extra_column in extra_columns:
+                if extra_column in row:
+                    extra_cols_dict[extra_column] = row[extra_column]
+                    extra_col_idx = find_token_idx(tokenizer, gen_decoded, extra_cols_dict[extra_column])
+                    if extra_col_idx == -1:
+                        raise ValueError(f"Token '{extra_cols_dict[extra_column]}' from extra column '{extra_column}' not found in generation.")
+                    # extra_col_idx = extra_col_idx + len(input_ids['input_ids'][0])
+                    activations_idxs.append(extra_col_idx)
+                else:
+                    raise ValueError(f"Extra column '{extra_column}' not found in dataset.")
+
+        # The full length of tokens is = prompt size + n_generated_tokens + n_system_tokens
+        hidden_states = torch.cat([torch.cat(hs, dim=0) for hs in generations.hidden_states], dim=1)
+        hidden_states = hidden_states[:,activations_idxs]
+        hidden_states = hidden_states.type(torch.float64)
+        hidden_states_np = hidden_states.cpu().detach().numpy()
+
+        # hidden_states = generations.hidden_states[gen_idx]
+        # hidden_states = [h.type(torch.float16)[0,idx_end,:] for h in hidden_states]
+
+        outputs.append(hidden_states_np)
+        row_metadata = {
+            'context': context,
+            'question': question,
+            'answer': answer,
+            'sentence': sentence,
+            'correct_answer_idx': correct_answer_idx,
+            'decoded': gen_decoded,
+            'correct': correct,
+        }
+        row_metadata.update(labels)
+        row_metadata.update(extra_cols_dict)
+        sample_metadata.append(row_metadata)
+
+        if debug:
+            break
+    
+    outputs = np.stack(outputs, axis=0)
+
+    if debug: # Debug contains an int
+        # Create a dummy output for debugging with that length by multiplying all the outputs
+        outputs = torch.randn((debug, outputs.shape[1], outputs.shape[2], outputs.shape[3]))
+        sample_metadata = sample_metadata * debug 
+
+    # Turn hidden_states from an array to a dict of col_name: array
+    activation_cols = ['correct_answer', 'last_prompt_token'] + extra_columns
+    activations = {col: outputs[:, :, i, :] for i, col in enumerate(activation_cols)}
+    
+    accuracy = correct_count / len(df)
+    global_metadata['accuracy'] = accuracy
+
+    # Create ActivationDataset object
+    dataset = ActivationDataset(
+        global_metadata=global_metadata,
+        activations=activations,
+        sample_metadata=sample_metadata,
+    )
+
+    return dataset
