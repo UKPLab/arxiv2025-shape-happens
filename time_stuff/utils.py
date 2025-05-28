@@ -234,17 +234,17 @@ class ActivationDataset:
 
 
 class SupervisedMDS(BaseEstimator, TransformerMixin):
-    def __init__(self, n_components=2, graph='trivial', alpha=0.1):
+    def __init__(self, n_components=2, manifold='trivial', alpha=0.1):
         """
         Parameters:
             n_components: int
                 Target embedding dimension.
-            graph: str or callable
+            manifold: str or callable
                 If 'trivial', d_ij = 0 if y_i == y_j else 1.
                 If callable, should return a (n x n) ideal distance matrix given y.
         """
         self.n_components = n_components
-        self.graph = graph
+        self.manifold = manifold
         self.W_ = None
         self.alpha = alpha
 
@@ -252,30 +252,30 @@ class SupervisedMDS(BaseEstimator, TransformerMixin):
         n = len(y)
         d_ij = np.zeros((n, n))
 
-        if self.graph == 'trivial':
+        if self.manifold == 'trivial':
             for i in range(n):
                 for j in range(n):
                     d_ij[i, j] = 0.0 if y[i] == y[j] else 1.0
-        elif self.graph == 'euclidean':
+        elif self.manifold == 'euclidean':
             for i in range(n):
                 for j in range(n):
                     d_ij[i, j] = np.linalg.norm(y[i] - y[j])
-        elif self.graph == 'log_linear':
+        elif self.manifold == 'log_linear':
             for i in range(n):
                 for j in range(n):
                     d_ij[i, j] = np.log(y[i] + 1) - np.log(y[j] + 1)
-        elif self.graph == 'circular':
+        elif self.manifold == 'circular':
             max_y = np.max(y)
             for i in range(n):
                 for j in range(n):
                     d_ij[i, j] = min(np.abs(y[i] - y[j]), max_y + 1 - np.abs(y[i] - y[j]))
-        elif self.graph == 'chain':
+        elif self.manifold == 'chain':
             max_y = np.max(y)
             for i in range(n):
                 for j in range(n):
                     dist = min(np.abs(y[i] - y[j]), max_y + 1 - np.abs(y[i] - y[j]))
                     d_ij[i, j] = dist if dist < threshold else -1
-        elif self.graph == 'semicircle':
+        elif self.manifold == 'semicircle':
             max_y = np.max(y)
             min_y = np.min(y)
             for i in range(n):
@@ -283,11 +283,19 @@ class SupervisedMDS(BaseEstimator, TransformerMixin):
                     y_i_norm = (y[i] - min_y) / (max_y - min_y)
                     y_j_norm = (y[j] - min_y) / (max_y - min_y)
                     d_ij[i, j] = 2 * np.sin(np.pi/2 * np.abs(y_i_norm - y_j_norm)) 
+        elif self.manifold == 'log_semicircle':
+            max_y = np.max(y)
+            min_y = np.min(y)
+            for i in range(n):
+                for j in range(n):
+                    y_i_norm = (y[i] - min_y) / (max_y - min_y)
+                    y_j_norm = (y[j] - min_y) / (max_y - min_y)
+                    d_ij[i, j] = 2 * np.sin(np.pi/2 * np.abs(np.log(y_i_norm + 1) - np.log(y_j_norm + 1)))
 
-        elif callable(self.graph):
-            d_ij = self.graph(y)
+        elif callable(self.manifold):
+            d_ij = self.manifold(y)
         else:
-            raise ValueError("Invalid graph specification.")
+            raise ValueError("Invalid manifold specification.")
         
         return d_ij
 
