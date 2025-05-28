@@ -1,6 +1,5 @@
 from concurrent.futures import ProcessPoolExecutor, as_completed
 import itertools
-import random
 from time_stuff.utils import ActivationDataset, SupervisedMDS
 from sklearn.discriminant_analysis import LinearDiscriminantAnalysis
 from sklearn.decomposition import PCA
@@ -8,16 +7,10 @@ from sklearn.manifold import TSNE, Isomap
 from sklearn.preprocessing import Normalizer
 from sklearn.cross_decomposition import PLSRegression
 from sklearn.discriminant_analysis import LinearDiscriminantAnalysis as LDA
-from sklearn.manifold import MDS
-from umap import UMAP
 from sklearn.preprocessing import Normalizer
-import matplotlib.pyplot as plt
-import seaborn as sns
 import numpy as np
 import pandas as pd
 from tqdm import tqdm
-import matplotlib.patheffects as pe
-from pycolormap_2d import ColorMap2DZiegler
 from sklearn.model_selection import KFold
 
 
