@@ -100,6 +100,7 @@ def process_layer(args):
 
         return {
             'preprocess_func': preprocess_func,
+            'n_samples': len(labels),
             'n_components': n_components,
             'k': k,
             'manifold': manifold,
