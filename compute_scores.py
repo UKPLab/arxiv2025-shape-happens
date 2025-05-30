@@ -127,7 +127,7 @@ def process_layer(args):
         }
 
 def score_activations(path: str, label_col: str, reduction_method: str, k=5, target_columns=None, layers=None,
-                      n_components=2, manifold=None, preprocess_func=None, label_shift=0, max_samples=None, max_workers=4):
+                      n_components=2, manifold=None, preprocess_func=None, label_shift=0, max_samples=None, max_workers=16):
 
     ad = ActivationDataset.load(path)
 
@@ -202,8 +202,6 @@ def score_activations(path: str, label_col: str, reduction_method: str, k=5, tar
     return pd.DataFrame(all_scores)
 
 if __name__ == "__main__":
-    # (path: str, label_col: str, reduction_method: str, k=5, target_columns=None, layers=None,
-    #                  n_components=2, manifold=None, preprocess_func=None, label_shift=0, max_samples=None)
     global_scoring_settings = {
         'reduction_method': 'SMDS',
         'k': 5,
