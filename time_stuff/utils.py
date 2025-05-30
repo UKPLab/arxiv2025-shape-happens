@@ -217,7 +217,7 @@ class ActivationDataset:
             if isinstance(preprocess_funcs, Callable):
                 preprocess_funcs = [preprocess_funcs] * len(columns)
             elif len(preprocess_funcs) != len(columns):
-                raise ValueError("Length of preprocess_funcs must match the number of columns.")
+                raise ValueError(f"Length of preprocess_funcs {len(preprocess_funcs)} does not match provided columns {columns}.") 
             for func, col in zip(preprocess_funcs, columns):
                 metadata_df[col] = metadata_df[col].apply(func)
 

@@ -52,35 +52,13 @@ def explode_dict(d):
     combinations = [dict(zip(keys, combination)) for combination in itertools.product(*values)]
     return combinations
 
-# Define a wrapper for parallel execution
-def process_setting(setting):
-    return score_activations(**setting)
-
-# Parallel processing
-def parallel_score(settings, max_workers=None):
-    df_list = []
-
-    with ProcessPoolExecutor(max_workers=max_workers) as executor:
-        futures = {executor.submit(process_setting, s): s for s in settings}
-
-        for future in tqdm(as_completed(futures), total=len(futures), desc="Scoring"):
-            scores_df = future.result()
-            df_list.append(scores_df)
-
-    return pd.concat(df_list, ignore_index=True)
-
-def score_activations(path: str, label_col: str, reduction_method: str, k=5, target_columns=None, layers=None,
-                     n_components=2, manifold=None, preprocess_func=None, label_shift=0, max_samples=None):
-    ad = ActivationDataset.load(path)
+def process_layer(args):
+    (layer, label_col, target_col, activations, labels, reduction_method, n_components,
+     manifold, k, preprocess_func, global_metadata) = args
     
-    if layers is None: # Use all layers save for the first
-        layers = range(1, ad.activations['correct_answer'].shape[1])
-
-    if target_columns is None: # Use all columns
-        target_columns = ['correct_answer', 'last_prompt_token'] + ad.global_metadata['extra_columns']
-    if isinstance(target_columns, str):
-        target_columns = [target_columns]
-
+    if preprocess_func is not None and isinstance(preprocess_func, list) and len(preprocess_func) == 1:
+        preprocess_func = preprocess_func[0]
+    
     norm = Normalizer()
 
     if reduction_method == 'PCA':
@@ -97,89 +75,130 @@ def score_activations(path: str, label_col: str, reduction_method: str, k=5, tar
         rmodel = SupervisedMDS(n_components=n_components, manifold=manifold)
     else:
         raise ValueError(f"Unknown reduction method: {reduction_method}")
-    
+
+    try:
+        kf = KFold(n_splits=k, random_state=42, shuffle=True)
+        fold_scores = []
+
+        for train_index, test_index in kf.split(activations):
+            train_acts = activations[train_index, layer]
+            test_acts = activations[test_index, layer]
+            train_labels = labels[train_index]
+            test_labels = labels[test_index]
+
+            if reduction_method == 'PCA':
+                train_acts = norm.fit_transform(train_acts)
+                test_acts = norm.transform(test_acts)
+
+            rmodel.fit(train_acts, train_labels)
+            reduced_test = rmodel.transform(test_acts)
+
+            if reduction_method == 'LDA' and reduced_test.shape[1] <= 1:
+                return None  # Skip collinear case
+
+            fold_scores.append(rmodel.score(test_acts, test_labels))
+
+        return {
+            'preprocess_func': preprocess_func,
+            'n_components': n_components,
+            'k': k,
+            'manifold': manifold,
+            'layer': layer,
+            'target_col': target_col,
+            'reduction_method': reduction_method,
+            'score': float(np.mean(fold_scores)),
+            'label_col': label_col,
+            **global_metadata
+        }
+
+    except Exception as e:
+        print(f"Error in layer {layer}, target_col {target_col}: {e}")
+        return {
+            'preprocess_func': preprocess_func,
+            'n_components': n_components,
+            'k': k,
+            'manifold': manifold,
+            'layer': layer,
+            'target_col': target_col,
+            'reduction_method': reduction_method,
+            'score': None,
+            **global_metadata
+        }
+
+def score_activations(path: str, label_col: str, reduction_method: str, k=5, target_columns=None, layers=None,
+                      n_components=2, manifold=None, preprocess_func=None, label_shift=0, max_samples=None, max_workers=4):
+
+    ad = ActivationDataset.load(path)
+
+    if layers is None:
+        layers = range(1, ad.activations['correct_answer'].shape[1])
+
+    if target_columns is None:
+        target_columns = ['correct_answer', 'last_prompt_token'] + ad.global_metadata['extra_columns']
+    if isinstance(target_columns, str):
+        target_columns = [target_columns]
+
     if isinstance(preprocess_func, str):
         preprocess_func = [preprocess_func]
-    
-    preprocess_func_lambdas = []
-    for i, func in enumerate(preprocess_func):
-        if func == 'datetime_to_dayofyear':
-            preprocess_func_lambdas.append(lambda x: pd.to_datetime(x).day_of_year)
-        elif func == 'datetime_to_month':
-            preprocess_func_lambdas.append(lambda x: pd.to_datetime(x).month)
-        elif func == 'datetime_to_year':
-            preprocess_func_lambdas.append(lambda x: pd.to_datetime(x).year + label_shift)
-        elif func == 'datetime_to_hour':
-            preprocess_func_lambdas.append(lambda x: pd.to_datetime(x).hour)
-        elif func == 'log':
-            preprocess_func_lambdas.append(lambda x: np.log(x + 1))
 
-    scores = []
+    if preprocess_func is None:
+        preprocess_func_lambdas = None
+    else:
+        preprocess_func_lambdas = []
+        for func in preprocess_func or []:
+            if func == 'datetime_to_dayofyear':
+                preprocess_func_lambdas.append(lambda x: pd.to_datetime(x).day_of_year)
+            elif func == 'datetime_to_month':
+                preprocess_func_lambdas.append(lambda x: pd.to_datetime(x).month)
+            elif func == 'datetime_to_year':
+                preprocess_func_lambdas.append(lambda x: pd.to_datetime(x).year + label_shift)
+            elif func == 'datetime_to_hour':
+                preprocess_func_lambdas.append(lambda x: pd.to_datetime(x).hour)
+            elif func == 'log':
+                preprocess_func_lambdas.append(lambda x: np.log(x + 1))
+
+    all_scores = []
+
     for target_col in target_columns:
-        activations, labels = ad.get_slice(target_name=target_col, columns=label_col, preprocess_funcs=preprocess_func_lambdas, filter_incorrect=True)
+        activations, labels = ad.get_slice(
+            target_name=target_col,
+            columns=label_col,
+            preprocess_funcs=preprocess_func_lambdas,
+            filter_incorrect=True
+        )
         labels = np.squeeze(labels)
 
         if max_samples is not None and activations.shape[0] > max_samples:
             activations = activations[:max_samples]
             labels = labels[:max_samples]
 
-        for i, layer in tqdm(enumerate(layers), desc=f"Processing layer {target_col}"):
-            try:
-                # Define a K-Fold cross-validation generator
-                kf = KFold(n_splits=k, random_state=42, shuffle=True)
-                fold_scores = []
-                for fold, (train_index, test_index) in enumerate(kf.split(activations)):
-                    activations_layer_train = activations[train_index, layer]
-                    activations_layer_dev = activations[test_index, layer]
-                    labels_train = labels[train_index]
-                    labels_dev = labels[test_index]
+        # Prepare args list
+        args_list = [
+            (
+                layer,
+                label_col,
+                target_col,
+                activations,
+                labels,
+                reduction_method,
+                n_components,
+                manifold,
+                k,
+                preprocess_func,
+                ad.global_metadata
+            )
+            for layer in layers
+        ]
 
-                    if reduction_method in ['PCA']:
-                        activations_layer_train = norm.fit_transform(activations_layer_train)
-                        activations_layer_dev = norm.transform(activations_layer_dev)
+        # Parallel execution
+        with ProcessPoolExecutor(max_workers=max_workers) as executor:
+            results = executor.map(process_layer, args_list)
 
-                    # Fit the model
-                    rmodel.fit(activations_layer_train, labels_train)
-                    # Transform the data
-                    activations_reduced_train = rmodel.transform(activations_layer_train)
-                    activations_reduced_dev = rmodel.transform(activations_layer_dev)
+            for result in tqdm(results, total=len(args_list), desc=f"Target: {target_col}"):
+                if result is not None:
+                    all_scores.append(result)
 
-                    if reduction_method == 'LDA' and activations_reduced_dev.shape[1] <= 1:
-                        print(f"Layer {layer} has collinear centroids. Skipping.")
-                        continue
-
-                    fold_scores.append(rmodel.score(activations_layer_dev, labels_dev))
-
-                # Average the scores across folds
-                avg_score = np.mean(fold_scores)
-                score = {
-                    'preprocess_func': preprocess_func,
-                    'n_components': n_components,  
-                    'k': k,
-                    'manifold': manifold,
-                    'layer': layer,
-                    'target_col': target_col,
-                    'reduction_method': reduction_method,
-                    'score': avg_score
-                }
-                score.update(ad.global_metadata)
-                scores.append(score)
-            except Exception as e:
-                print(f"Something went wrong with layer {layer} and target column {target_col}: {e}")
-                score = {
-                    'preprocess_func': preprocess_func,
-                    'n_components': n_components,  
-                    'k': k,
-                    'manifold': manifold,
-                    'layer': layer,
-                    'target_col': target_col,
-                    'reduction_method': reduction_method,
-                    'score': None
-                }
-                score.update(ad.global_metadata)
-                scores.append(score)
-
-    return pd.DataFrame(scores)
+    return pd.DataFrame(all_scores)
 
 if __name__ == "__main__":
     # (path: str, label_col: str, reduction_method: str, k=5, target_columns=None, layers=None,
@@ -191,11 +210,11 @@ if __name__ == "__main__":
         'layers': None,  # Use all layers
         'n_components': 2,
         'manifold': ['euclidean', 'circular', 'semicircular', 'log_linear', 'log_semicircular'],
-        'max_samples': 20
+        'max_samples': 500
     }
     scoring_settings = [
         {'path': 'results/gemma-2-2b-it/date_3way.pt', 'label_col': 'correct_date', 'preprocess_func': 'datetime_to_dayofyear', },
-        {'path': 'results/gemma-2-2b-it/date_3way_season.pt', 'label_col': 'correct_season_label'},
+        {'path': 'results/gemma-2-2b-it/date_3way_season.pt', 'label_col': 'correct_season_label',},
         {'path': 'results/gemma-2-2b-it/date_3way_temperature.pt', 'label_col': 'correct_temperature_label',},
         {'path': 'results/gemma-2-2b-it/time_of_day_3way.pt', 'label_col': 'correct_time', 'preprocess_func': 'datetime_to_hour', },
         {'path': 'results/gemma-2-2b-it/time_of_day_3way_phase.pt', 'label_col': 'correct_phase_label'},
@@ -233,7 +252,19 @@ if __name__ == "__main__":
                 continue
             all_settings.append(combined_settings)
 
-    # Run the scoring in parallel
-    scores_df = parallel_score(all_settings, max_workers=16)
+    # Run the scoring
+    all_scores = []
+    for setting in all_settings:
+        print(f"Scoring with settings: {setting}")
+        scores_df = score_activations(**setting)
+        if scores_df is not None and not scores_df.empty:
+            all_scores.append(scores_df)
+    # Concatenate all scores into a single DataFrame
+    if all_scores:
+        scores_df = pd.concat(all_scores, ignore_index=True)
+    else:
+        scores_df = pd.DataFrame()
+            
     # Save the scores to a CSV file
+    print("Saving scores to results/scores.csv")
     scores_df.to_csv("results/scores.csv", header=True, index=False)
