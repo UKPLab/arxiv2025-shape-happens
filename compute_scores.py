@@ -1,5 +1,8 @@
 from concurrent.futures import ProcessPoolExecutor, as_completed
+import hashlib
 import itertools
+import json
+import os
 from time_stuff.utils import ActivationDataset, SupervisedMDS
 from sklearn.discriminant_analysis import LinearDiscriminantAnalysis
 from sklearn.decomposition import PCA
@@ -26,6 +29,12 @@ def datetime_to_month(x):
     x = pd.to_datetime(x)
     # Get the month
     return x.month
+
+def stable_hash(setting: dict) -> str:
+    # Convert the dict to a sorted JSON string
+    setting_str = json.dumps(setting, sort_keys=True)
+    # Compute MD5 hash (or SHA256 if you prefer)
+    return hashlib.md5(setting_str.encode()).hexdigest()
 
 def farthest_point_sampling(X, k, noise=0.1):
     n_points = X.shape[0]
@@ -254,10 +263,24 @@ if __name__ == "__main__":
     # Run the scoring
     all_scores = []
     for setting in all_settings:
+        id = stable_hash(setting)
+        # If the setting already exists, load it instead of scoring again
+        if os.path.exists(f"results/scores/{id}.csv"):
+            print(f"Loading existing scores for settings: {setting}")
+            scores_df = pd.read_csv(f"results/scores/{id}.csv")
+            all_scores.append(scores_df)
+            continue
+
+        # Otherwise, score the activations
         print(f"Scoring with settings: {setting}")
         scores_df = score_activations(**setting)
-        if scores_df is not None and not scores_df.empty:
-            all_scores.append(scores_df)
+        
+        # Save scores_df to results/scores
+        # Get a unique id from the combined settings via hashing
+        scores_df['id'] = id
+        if not scores_df.empty:
+            scores_df.to_csv(f"results/scores/{id}.csv", header=True, index=False)
+        all_scores.append(scores_df)
     # Concatenate all scores into a single DataFrame
     if all_scores:
         scores_df = pd.concat(all_scores, ignore_index=True)
@@ -266,4 +289,4 @@ if __name__ == "__main__":
             
     # Save the scores to a CSV file
     print("Saving scores to results/scores.csv")
-    scores_df.to_csv("results/scores.csv", header=True, index=False)
+    scores_df.to_csv("results/scores/all_scores.csv", header=True, index=False)
