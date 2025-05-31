@@ -275,7 +275,7 @@ class SupervisedMDS(BaseEstimator, TransformerMixin):
                 for j in range(n):
                     dist = min(np.abs(y[i] - y[j]), max_y + 1 - np.abs(y[i] - y[j]))
                     d_ij[i, j] = dist if dist < threshold else -1
-        elif self.manifold == 'semicircle':
+        elif self.manifold == 'semicircular':
             max_y = np.max(y)
             min_y = np.min(y)
             for i in range(n):
