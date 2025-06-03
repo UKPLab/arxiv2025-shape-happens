@@ -136,7 +136,7 @@ def process_layer(args):
         }
 
 def score_activations(path: str, label_col: str, reduction_method: str, k=5, target_columns=None, layers=None,
-                      n_components=2, manifold=None, preprocess_func=None, label_shift=0, max_samples=None, max_workers=16):
+                      n_components=2, manifold=None, preprocess_func=None, label_shift=0, max_samples=None, max_workers=1):
 
     ad = ActivationDataset.load(path)
 
@@ -161,7 +161,7 @@ def score_activations(path: str, label_col: str, reduction_method: str, k=5, tar
             elif func == 'datetime_to_month':
                 preprocess_func_lambdas.append(lambda x: pd.to_datetime(x).month)
             elif func == 'datetime_to_year':
-                preprocess_func_lambdas.append(lambda x: pd.to_datetime(x).year + label_shift)
+                preprocess_func_lambdas.append(lambda x: np.abs(pd.to_datetime(x).year + label_shift))
             elif func == 'datetime_to_hour':
                 preprocess_func_lambdas.append(lambda x: pd.to_datetime(x).hour)
             elif func == 'log':
@@ -216,8 +216,8 @@ if __name__ == "__main__":
         'k': 5,
         'target_columns': None,  # Use all columns
         'layers': None,  # Use all layers
-        'n_components': 2,
-        'manifold': ['euclidean', 'circular', 'semicircular', 'log_linear', 'log_semicircular'],
+        'n_components': [2, 3, 4],
+        'manifold': ['euclidean', 'discrete_circular', 'trivial', 'circular', 'semicircular', 'log_linear', 'log_semicircular'],
         'max_samples': 500
     }
     scoring_settings = [
@@ -230,14 +230,14 @@ if __name__ == "__main__":
         {'path': 'results/gemma-2-2b-it/periodic_3way.pt', 'label_col': 'correct_period_length', 'preprocess_func': 'log', },
         {'path': 'results/gemma-2-2b-it/notable_3way.pt', 'label_col': 'correct_date', 'preprocess_func': 'datetime_to_year', 'label_shift': -2023},
 
-        {'path': 'results/Llama-3.1-8B-Instruct/date_3way.pt', 'label_col': 'correct_date', 'preprocess_func': 'datetime_to_dayofyear', },
-        {'path': 'results/Llama-3.1-8B-Instruct/date_3way_season.pt', 'label_col': 'correct_season_label'},
-        {'path': 'results/Llama-3.1-8B-Instruct/date_3way_temperature.pt', 'label_col': 'correct_temperature_label',},
-        {'path': 'results/Llama-3.1-8B-Instruct/time_of_day_3way.pt', 'label_col': 'correct_time', 'preprocess_func': 'datetime_to_hour', },
-        {'path': 'results/Llama-3.1-8B-Instruct/time_of_day_3way_phase.pt', 'label_col': 'correct_phase_label'},
-        {'path': 'results/Llama-3.1-8B-Instruct/duration_3way.pt', 'label_col': ['correct_duration_length', 'correct_date'], 'preprocess_func':['log', 'datetime_to_dayofyear'], },
-        {'path': 'results/Llama-3.1-8B-Instruct/periodic_3way.pt', 'label_col': 'correct_period_length', 'preprocess_func': 'log', },
-        {'path': 'results/Llama-3.1-8B-Instruct/notable_3way.pt', 'label_col': 'correct_date', 'preprocess_func': 'datetime_to_year', 'label_shift': -2023},
+        {'path': 'results/Llama-3.2-3B-Instruct/date_3way.pt', 'label_col': 'correct_date', 'preprocess_func': 'datetime_to_dayofyear', },
+        {'path': 'results/Llama-3.2-3B-Instruct/date_3way_season.pt', 'label_col': 'correct_season_label'},
+        {'path': 'results/Llama-3.2-3B-Instruct/date_3way_temperature.pt', 'label_col': 'correct_temperature_label',},
+        {'path': 'results/Llama-3.2-3B-Instruct/time_of_day_3way.pt', 'label_col': 'correct_time', 'preprocess_func': 'datetime_to_hour', },
+        {'path': 'results/Llama-3.2-3B-Instruct/time_of_day_3way_phase.pt', 'label_col': 'correct_phase_label'},
+        {'path': 'results/Llama-3.2-3B-Instruct/duration_3way.pt', 'label_col': ['correct_duration_length', 'correct_date'], 'preprocess_func':['log', 'datetime_to_dayofyear'], },
+        {'path': 'results/Llama-3.2-3B-Instruct/periodic_3way.pt', 'label_col': 'correct_period_length', 'preprocess_func': 'log', },
+        {'path': 'results/Llama-3.2-3B-Instruct/notable_3way.pt', 'label_col': 'correct_date', 'preprocess_func': 'datetime_to_year', 'label_shift': -2023},
 
         {'path': 'results/Qwen2.5-3B-Instruct/date_3way.pt', 'label_col': 'correct_date', 'preprocess_func': 'datetime_to_dayofyear', },
         {'path': 'results/Qwen2.5-3B-Instruct/date_3way_season.pt', 'label_col': 'correct_season_label'},
