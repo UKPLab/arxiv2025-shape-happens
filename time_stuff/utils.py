@@ -234,7 +234,7 @@ class ActivationDataset:
 
 
 class SupervisedMDS(BaseEstimator, TransformerMixin):
-    def __init__(self, n_components=2, manifold='trivial', alpha=0.1):
+    def __init__(self, n_components=2, manifold='trivial', alpha=0.1, orthonormal=False):
         """
         Parameters:
             n_components: int
@@ -247,34 +247,62 @@ class SupervisedMDS(BaseEstimator, TransformerMixin):
         self.manifold = manifold
         self.W_ = None
         self.alpha = alpha
+        self.orthonormal = orthonormal
+        if orthonormal and alpha != 0:
+            print("Warning: orthonormal=True and alpha!=0. alpha will be ignored.")
 
     def _compute_ideal_distances(self, y, threshold=2):
         n = len(y)
-        d_ij = np.zeros((n, n))
+        D = np.zeros((n, n))
 
         if self.manifold == 'trivial':
             for i in range(n):
                 for j in range(n):
-                    d_ij[i, j] = 0.0 if y[i] == y[j] else 1.0
+                    D[i, j] = 0.0 if y[i] == y[j] else 1.0
         elif self.manifold == 'euclidean':
             for i in range(n):
                 for j in range(n):
-                    d_ij[i, j] = np.linalg.norm(y[i] - y[j])
+                    D[i, j] = np.linalg.norm(y[i] - y[j])
         elif self.manifold == 'log_linear':
-            for i in range(n):
-                for j in range(n):
-                    d_ij[i, j] = np.log(y[i] + 1) - np.log(y[j] + 1)
+            log_y = np.log(y + 1)
+            D = np.abs(log_y[:, None] - log_y[None, :])
         elif self.manifold == 'circular':
+            max_y = np.max(y)
+            min_y = np.min(y)
+
+            # Normalize y to [0, 1]
+            y_norm = (y - min_y) / (max_y - min_y)
+
+            # Compute pairwise circular distances
+            delta = np.abs(y_norm[:, None] - y_norm[None, :])
+            delta = np.minimum(delta, 1 - delta)  # Wrap around the circle
+            D = 2 * np.sin(np.pi * delta)  # Full circle version
+        elif self.manifold == 'helix':
+            y_norm = (y - np.min(y)) / (np.max(y) - np.min(y))  # shape: (n,)
+
+            # Map to 3D spiral
+            theta = 2 * np.pi * y_norm  # angle around the circle
+            x = np.cos(theta)
+            y_circle = np.sin(theta)
+            z = y_norm  # vertical component
+
+            spiral_coords = np.stack([x, y_circle, z], axis=1)  # shape: (n, 3)
+
+            # Compute pairwise Euclidean distances in spiral space
+            diffs = spiral_coords[:, None, :] - spiral_coords[None, :, :]
+            D = np.linalg.norm(diffs, axis=2)  # shape: (n, n)
+
+        elif self.manifold == 'discrete_circular':
             max_y = np.max(y)
             for i in range(n):
                 for j in range(n):
-                    d_ij[i, j] = min(np.abs(y[i] - y[j]), max_y + 1 - np.abs(y[i] - y[j]))
+                    D[i, j] = min(np.abs(y[i] - y[j]), max_y + 1 - np.abs(y[i] - y[j]))
         elif self.manifold == 'chain':
             max_y = np.max(y)
             for i in range(n):
                 for j in range(n):
                     dist = min(np.abs(y[i] - y[j]), max_y + 1 - np.abs(y[i] - y[j]))
-                    d_ij[i, j] = dist if dist < threshold else -1
+                    D[i, j] = dist if dist < threshold else -1
         elif self.manifold == 'semicircular':
             max_y = np.max(y)
             min_y = np.min(y)
@@ -282,22 +310,22 @@ class SupervisedMDS(BaseEstimator, TransformerMixin):
                 for j in range(n):
                     y_i_norm = (y[i] - min_y) / (max_y - min_y)
                     y_j_norm = (y[j] - min_y) / (max_y - min_y)
-                    d_ij[i, j] = 2 * np.sin(np.pi/2 * np.abs(y_i_norm - y_j_norm)) 
-        elif self.manifold == 'log_semicircle':
+                    D[i, j] = 2 * np.sin(np.pi/2 * np.abs(y_i_norm - y_j_norm)) 
+        elif self.manifold == 'log_semicircular':
             max_y = np.max(y)
             min_y = np.min(y)
             for i in range(n):
                 for j in range(n):
                     y_i_norm = (y[i] - min_y) / (max_y - min_y)
                     y_j_norm = (y[j] - min_y) / (max_y - min_y)
-                    d_ij[i, j] = 2 * np.sin(np.pi/2 * np.abs(np.log(y_i_norm + 1) - np.log(y_j_norm + 1)))
+                    D[i, j] = 2 * np.sin(np.pi/2 * np.abs(np.log(y_i_norm + 1) - np.log(y_j_norm + 1)))
 
         elif callable(self.manifold):
-            d_ij = self.manifold(y)
+            D = self.manifold(y)
         else:
             raise ValueError("Invalid manifold specification.")
         
-        return d_ij
+        return D
 
     def _classical_mds(self, D):
         # Step 1: square distances
@@ -336,6 +364,8 @@ class SupervisedMDS(BaseEstimator, TransformerMixin):
         D = self._compute_ideal_distances(y)
 
         if np.any(D < 0):
+            # Raise warning if any distances are negative
+            print("Warning: Distance matrix is incomplete. Using optimization to fit W.")
             mask = D >= 0
             rng = np.random.default_rng(42)
             W0 = rng.normal(scale=0.01, size=(self.n_components, X.shape[1]))
@@ -352,13 +382,18 @@ class SupervisedMDS(BaseEstimator, TransformerMixin):
             Y = self._classical_mds(D)
             X_centered = X - X.mean(axis=0)
             Y_centered = Y - Y.mean(axis=0)
-            # Unregularized least squares
-            if self.alpha == 0:
-                self.W_ = Y_centered.T @ np.linalg.pinv(X_centered.T)
+            if self.orthonormal:
+                # Orthogonal Procrustes
+                M = Y_centered.T @ X_centered
+                U, _, Vt = np.linalg.svd(M)
+                self.W_ = U @ Vt
             else:
-                # Regularized least squares
-                XtX = X_centered.T @ X_centered
-                self.W_ = Y_centered.T @ X_centered @ np.linalg.inv(XtX + self.alpha * np.eye(XtX.shape[0]))
+                if self.alpha == 0:
+                    self.W_ = Y_centered.T @ np.linalg.pinv(X_centered.T)
+                else:
+                    XtX = X_centered.T @ X_centered
+                    self.W_ = Y_centered.T @ X_centered @ np.linalg.inv(XtX + self.alpha * np.eye(XtX.shape[0]))
+
 
         return self
 
