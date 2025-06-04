@@ -1,4 +1,4 @@
-from .utils import prompt_ollama, find_token_idx, activate_eval, clean
+from .utils import prompt_ollama, find_token_idx, activate_eval, clean, plot_activations
 from .utils import SupervisedMDS
 from .utils import ActivationDataset
 
@@ -10,5 +10,6 @@ __all__ = [
     "activate_eval",
     "clean",
     "SupervisedMDS",
-    "ActivationDataset"
+    "ActivationDataset",
+    "plot_activations"
     ]
