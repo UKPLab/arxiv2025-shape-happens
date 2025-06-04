@@ -221,31 +221,34 @@ if __name__ == "__main__":
         'max_samples': 500
     }
     scoring_settings = [
+        {'path': 'results/gemma-2-2b-it/duration_3way.pt', 'label_col': ['correct_duration_length', 'correct_date'], 'preprocess_func':['log', 'datetime_to_dayofyear'], },
+        {'path': 'results/gemma-2-2b-it/duration_3way.pt', 'label_col': 'correct_duration_length', },
         {'path': 'results/gemma-2-2b-it/date_3way.pt', 'label_col': 'correct_date', 'preprocess_func': 'datetime_to_dayofyear', },
         {'path': 'results/gemma-2-2b-it/date_3way_season.pt', 'label_col': 'correct_season_label',},
         {'path': 'results/gemma-2-2b-it/date_3way_temperature.pt', 'label_col': 'correct_temperature_label',},
         {'path': 'results/gemma-2-2b-it/time_of_day_3way.pt', 'label_col': 'correct_time', 'preprocess_func': 'datetime_to_hour', },
         {'path': 'results/gemma-2-2b-it/time_of_day_3way_phase.pt', 'label_col': 'correct_phase_label'},
-        {'path': 'results/gemma-2-2b-it/duration_3way.pt', 'label_col': ['correct_duration_length', 'correct_date'], 'preprocess_func':['log', 'datetime_to_dayofyear'], },
-        {'path': 'results/gemma-2-2b-it/periodic_3way.pt', 'label_col': 'correct_period_length', 'preprocess_func': 'log', },
+        {'path': 'results/gemma-2-2b-it/periodic_3way.pt', 'label_col': 'correct_period_length', },
         {'path': 'results/gemma-2-2b-it/notable_3way.pt', 'label_col': 'correct_date', 'preprocess_func': 'datetime_to_year', 'label_shift': -2023},
 
+        {'path': 'results/Llama-3.2-3B-Instruct/duration_3way.pt', 'label_col': ['correct_duration_length', 'correct_date'], 'preprocess_func':['log', 'datetime_to_dayofyear'], },
+        {'path': 'results/Llama-3.2-3B-Instruct/duration_3way.pt', 'label_col': 'correct_duration_length', },
         {'path': 'results/Llama-3.2-3B-Instruct/date_3way.pt', 'label_col': 'correct_date', 'preprocess_func': 'datetime_to_dayofyear', },
         {'path': 'results/Llama-3.2-3B-Instruct/date_3way_season.pt', 'label_col': 'correct_season_label'},
         {'path': 'results/Llama-3.2-3B-Instruct/date_3way_temperature.pt', 'label_col': 'correct_temperature_label',},
         {'path': 'results/Llama-3.2-3B-Instruct/time_of_day_3way.pt', 'label_col': 'correct_time', 'preprocess_func': 'datetime_to_hour', },
         {'path': 'results/Llama-3.2-3B-Instruct/time_of_day_3way_phase.pt', 'label_col': 'correct_phase_label'},
-        {'path': 'results/Llama-3.2-3B-Instruct/duration_3way.pt', 'label_col': ['correct_duration_length', 'correct_date'], 'preprocess_func':['log', 'datetime_to_dayofyear'], },
-        {'path': 'results/Llama-3.2-3B-Instruct/periodic_3way.pt', 'label_col': 'correct_period_length', 'preprocess_func': 'log', },
+        {'path': 'results/Llama-3.2-3B-Instruct/periodic_3way.pt', 'label_col': 'correct_period_length', },
         {'path': 'results/Llama-3.2-3B-Instruct/notable_3way.pt', 'label_col': 'correct_date', 'preprocess_func': 'datetime_to_year', 'label_shift': -2023},
 
+        {'path': 'results/Qwen2.5-3B-Instruct/duration_3way.pt', 'label_col': ['correct_duration_length', 'correct_date'], 'preprocess_func':['log', 'datetime_to_dayofyear'], },
+        {'path': 'results/Qwen2.5-3B-Instruct/duration_3way.pt', 'label_col': 'correct_duration_length', },
         {'path': 'results/Qwen2.5-3B-Instruct/date_3way.pt', 'label_col': 'correct_date', 'preprocess_func': 'datetime_to_dayofyear', },
         {'path': 'results/Qwen2.5-3B-Instruct/date_3way_season.pt', 'label_col': 'correct_season_label'},
         {'path': 'results/Qwen2.5-3B-Instruct/date_3way_temperature.pt', 'label_col': 'correct_temperature_label',},
         {'path': 'results/Qwen2.5-3B-Instruct/time_of_day_3way.pt', 'label_col': 'correct_time', 'preprocess_func': 'datetime_to_hour', },
         {'path': 'results/Qwen2.5-3B-Instruct/time_of_day_3way_phase.pt', 'label_col': 'correct_phase_label'},
-        {'path': 'results/Qwen2.5-3B-Instruct/duration_3way.pt', 'label_col': ['correct_duration_length', 'correct_date'], 'preprocess_func':['log', 'datetime_to_dayofyear'], },
-        {'path': 'results/Qwen2.5-3B-Instruct/periodic_3way.pt', 'label_col': 'correct_period_length', 'preprocess_func': 'log', },
+        {'path': 'results/Qwen2.5-3B-Instruct/periodic_3way.pt', 'label_col': 'correct_period_length', },
         {'path': 'results/Qwen2.5-3B-Instruct/notable_3way.pt', 'label_col': 'correct_date', 'preprocess_func': 'datetime_to_year', 'label_shift': -2023},
     ]
 
@@ -256,7 +259,7 @@ if __name__ == "__main__":
     for global_settings in global_scoring_settings_exploded:
         for scoring_setting in scoring_settings:
             combined_settings = {**global_settings, **scoring_setting}
-            if 'duration' in combined_settings['path'] and 'manifold' != 'euclidean':
+            if 'duration' in combined_settings['path'] and combined_settings['manifold'] != 'euclidean' and len(combined_settings['label_col']) > 1:
                 continue
             all_settings.append(combined_settings)
 
