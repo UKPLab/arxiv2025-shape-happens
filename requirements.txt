@@ -4,8 +4,6 @@ brotli
 bs4
 chatintents
 data
-en-core-web-lg
-en-core-web-sm
 evaluate
 exceptiongroup
 importlib-metadata
