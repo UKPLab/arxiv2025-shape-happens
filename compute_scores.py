@@ -259,7 +259,7 @@ if __name__ == "__main__":
     for global_settings in global_scoring_settings_exploded:
         for scoring_setting in scoring_settings:
             combined_settings = {**global_settings, **scoring_setting}
-            if 'duration' in combined_settings['path'] and combined_settings['manifold'] != 'euclidean' and len(combined_settings['label_col']) > 1:
+            if 'duration' in combined_settings['path'] and combined_settings['manifold'] != 'euclidean' and isinstance(combined_settings['label_col'], list):
                 continue
             all_settings.append(combined_settings)
 
