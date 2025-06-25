@@ -1,5 +1,6 @@
 import ast
 import os
+import pickle
 import requests
 
 import numpy as np
@@ -28,6 +29,7 @@ import seaborn as sns
 import numpy as np
 import matplotlib.patheffects as pe
 from pycolormap_2d import ColorMap2DZiegler
+from sklearn.model_selection import KFold
 
 
 def prompt_ollama(prompt, model="llama3.1:latest", api_url="http://10.167.31.201:11434/api/generate"):
@@ -235,7 +237,7 @@ class ActivationDataset:
             for func, col in zip(preprocess_funcs, columns):
                 metadata_df[col] = metadata_df[col].apply(func)
 
-        return target_activations, metadata_df.to_numpy()
+        return target_activations, metadata_df.to_numpy().squeeze()
     
     def get_accuracy(self):
         """
@@ -262,6 +264,8 @@ class SupervisedMDS(BaseEstimator, TransformerMixin):
         self.W_ = None
         self.alpha = alpha
         self.orthonormal = orthonormal
+        self._X_mean = None
+        self._Y_mean = None
         if orthonormal and alpha != 0:
             print("Warning: orthonormal=True and alpha!=0. alpha will be ignored.")
 
@@ -269,7 +273,7 @@ class SupervisedMDS(BaseEstimator, TransformerMixin):
         n = len(y)
         D = np.zeros((n, n))
 
-        if self.manifold == 'trivial':
+        if self.manifold in ['trivial', 'cluster']: # Retrocompatibility
             for i in range(n):
                 for j in range(n):
                     D[i, j] = 0.0 if y[i] == y[j] else 1.0
@@ -375,6 +379,7 @@ class SupervisedMDS(BaseEstimator, TransformerMixin):
         and switches to optimization if some distances are undefined (negative).
         """
         X = np.asarray(X)
+        y = np.asarray(y).squeeze()  # Ensure y is 1D
         D = self._compute_ideal_distances(y)
 
         if np.any(D < 0):
@@ -394,6 +399,9 @@ class SupervisedMDS(BaseEstimator, TransformerMixin):
         else:
             # Use classical MDS + closed-form least squares
             Y = self._classical_mds(D)
+
+            self._X_mean = X.mean(axis=0)  # Centering
+            self._Y_mean = Y.mean(axis=0)  # Centering Y
             X_centered = X - X.mean(axis=0)
             Y_centered = Y - Y.mean(axis=0)
             if self.orthonormal:
@@ -419,8 +427,52 @@ class SupervisedMDS(BaseEstimator, TransformerMixin):
         if self.W_ is None:
             raise RuntimeError("You must fit the model before calling transform.")
         X = np.asarray(X)
-        X_centered = X - X.mean(axis=0)  # Important: center using same logic as during fit
+        if self._X_mean is not None:
+            # Center X using the same logic as during fit
+            X_centered = X - self._X_mean
+        else:
+            X_centered = X
         return (self.W_ @ X_centered.T).T
+        
+    def _truncated_pinv(self, W, tol=1e-5):
+        U, S, VT = np.linalg.svd(W, full_matrices=False)
+        S_inv = np.array([1/s if s > tol else 0 for s in S])
+        return VT.T @ np.diag(S_inv) @ U.T
+
+    def _regularized_pinv(self, W, lambda_=1e-5):
+        return np.linalg.inv(W.T @ W + lambda_ * np.eye(W.shape[1])) @ W.T
+
+
+    def inverse_transform(self, X_proj):
+        """
+        Reconstruct the original input X from its low-dimensional projection.
+        
+        Parameters:
+            X_proj: array-like of shape (n_samples, n_components)
+                The low-dimensional representation of the input data.
+        
+        Returns:
+            X_reconstructed: array of shape (n_samples, original_n_features)
+                The reconstructed data in the original space.
+        """
+        if self.W_ is None:
+            raise RuntimeError("You must fit the model before calling inverse_transform.")
+        
+        X_proj = np.asarray(X_proj)
+
+        # Use pseudo-inverse in case W_ is not square or full-rank
+        # W_pinv = np.linalg.pinv(self.W_)
+        # Use regularized pseudo-inverse to avoid numerical issues
+        # W_pinv = self._regularized_pinv(self.W_)
+        W_pinv = self._truncated_pinv(self.W_)
+
+        X_centered = (W_pinv @ X_proj.T).T
+
+        if hasattr(self, '_X_mean') and self._X_mean is not None:
+            return X_centered + self._X_mean
+        else:
+            return X_centered
+
 
     def fit_transform(self, X, y):
         return self.fit(X, y).transform(X)
@@ -449,6 +501,28 @@ class SupervisedMDS(BaseEstimator, TransformerMixin):
 
         return 1 - stress / denom if denom > 0 else -np.inf
     
+    def save(self, filepath):
+        """
+        Save the model to disk, including learned weights.
+        """
+        if not os.path.exists(os.path.dirname(filepath)):
+            os.makedirs(os.path.dirname(filepath))
+        with open(filepath, 'wb') as f:
+            pickle.dump(self, f)
+
+    @classmethod
+    def load(cls, filepath):
+        """
+        Load a model from disk.
+        Returns:
+            An instance of SupervisedMDS.
+        """
+        with open(filepath, 'rb') as f:
+            obj = pickle.load(f)
+        if not isinstance(obj, cls):
+            raise TypeError(f"Loaded object is not a {cls.__name__}")
+        return obj
+
 
 def clean(x):
     return ast.literal_eval(x)
@@ -649,6 +723,190 @@ def activate_eval(df, dataset_name, model, tokenizer, label_columns, question_co
 
         # The full length of tokens is = prompt size + n_generated_tokens + n_system_tokens
         hidden_states = torch.cat([torch.cat(hs, dim=0) for hs in generations.hidden_states], dim=1)
+        hidden_states = hidden_states[:,activations_idxs]
+        hidden_states = hidden_states.type(torch.float64)
+        hidden_states_np = hidden_states.cpu().detach().numpy()
+
+        # hidden_states = generations.hidden_states[gen_idx]
+        # hidden_states = [h.type(torch.float16)[0,idx_end,:] for h in hidden_states]
+
+        outputs.append(hidden_states_np)
+        row_metadata = {
+            'context': context,
+            'question': question,
+            'answer': answer,
+            'sentence': sentence,
+            'correct_answer_idx': correct_answer_idx,
+            'decoded': gen_decoded,
+            'correct': correct,
+        }
+        row_metadata.update(labels)
+        row_metadata.update(extra_cols_dict)
+        sample_metadata.append(row_metadata)
+
+        if debug:
+            break
+    
+    outputs = np.stack(outputs, axis=0)
+
+    if debug: # Debug contains an int
+        # Create a dummy output for debugging with that length by multiplying all the outputs
+        outputs = torch.randn((debug, outputs.shape[1], outputs.shape[2], outputs.shape[3]))
+        sample_metadata = sample_metadata * debug 
+
+    # Turn hidden_states from an array to a dict of col_name: array
+    activation_cols = ['correct_answer', 'last_prompt_token'] + extra_columns
+    activations = {col: outputs[:, :, i, :] for i, col in enumerate(activation_cols)}
+    
+    accuracy = correct_count / len(df)
+    global_metadata['accuracy'] = accuracy
+
+    # Create ActivationDataset object
+    dataset = ActivationDataset(
+        global_metadata=global_metadata,
+        activations=activations,
+        sample_metadata=sample_metadata,
+    )
+
+    return dataset
+
+def generate_with_hooks(model, input_ids, max_new_tokens, hook_layer, edit_hook, extract_hook):
+    model.reset_hooks()
+    generated = input_ids.clone()
+
+    for _ in range(max_new_tokens):
+        # Run with hooks only on the current input
+        logits = model.run_with_hooks(
+            generated,
+            fwd_hooks = (
+                            [(f"blocks.{hook_layer}.hook_resid_post", edit_hook)] +
+                            [(f"blocks.{i}.hook_resid_post", extract_hook) for i in range(model.cfg.n_layers)]
+                        )
+        )
+
+        next_token_logits = logits[0, -1, :]
+        next_token = torch.argmax(next_token_logits, dim=-1).unsqueeze(0)
+        generated = torch.cat([generated, next_token.unsqueeze(0)], dim=1)
+
+    return generated
+
+def activate_eval_intervene(df, dataset_name, model, tokenizer, label_columns, smds, intervention_layer, target_column, noise_scale=1, question_column='question', answer_column='answer', context_column='context', 
+                             extra_columns=None, constrained_generation=False, delta_token=0, debug=False, max_new_tokens=8):
+    template = "{context}"
+    model.eval()
+
+    if not isinstance(label_columns, list):
+        label_columns = [label_columns]
+
+    global_metadata = {
+        'dataset_name': dataset_name,
+        'model_name': model.cfg.tokenizer_name, # model_name doesn't have model family
+        'model_type': None,
+        'model_size': None,
+        'question_column': question_column,
+        'answer_column': answer_column,
+        'context_column': context_column,
+        'label_columns': label_columns,
+        'target_column': target_column,
+        'extra_columns': extra_columns,
+        'constrained_generation': constrained_generation,
+        'template': template,
+        'delta_token': delta_token,
+        'intervention_layer': intervention_layer,
+        'noise_scale': noise_scale,
+        'smds': smds,
+        'n_components': smds.n_components,
+    }
+    
+    sample_metadata = []
+    outputs = []
+    logits_processor = None
+    correct_count = 0
+    for _, row in tqdm(df.iterrows(), total=len(df)):
+        extra_cols_dict = {}
+        labels = {}
+        activations_idxs = []
+        hidden_states = []
+        for label_column in label_columns:
+            labels[label_column] = row[label_column] if label_column in row else None
+
+        context = row[context_column] if context_column in row else row['sentence']
+        question = row[question_column] if question_column in row else None
+        answer = str(row[answer_column]) if answer_column in row else None
+        sentence = template.format(context=context, question=question, answer=answer)
+        target_string = row[target_column]
+        
+        input_ids = tokenizer(sentence, return_tensors="pt").to("cuda")
+
+        if constrained_generation:
+            if 'alternatives' not in row:
+                raise ValueError("Alternatives column not found in dataset.")
+            logits_processor = LogitsProcessorList()
+            logits_processor.append(ConstrainedPrefixLogitsProcessor(
+                allowed_seqs=row['alternatives'],
+                tokenizer=tokenizer
+            ))
+        
+        target_index = find_token_idx(tokenizer, sentence, target_string)
+        last_prompt_idx = len(input_ids['input_ids'][0]) - 1 
+
+        def edit_hook(value, hook):
+            activation = value[:, target_index, :].float().detach().cpu().numpy()
+            subspace = smds.transform(activation)
+            # Summing and subtracting subspace is necessary to cancel out mean
+            noise = subspace + noise_scale * np.random.normal(0, 1, subspace.shape)  # Add noise
+            patch = activation - smds.inverse_transform(subspace) + smds.inverse_transform(noise)
+            value[:, target_index, :] = torch.tensor(patch, device=value.device, dtype=value.dtype)
+            return value
+        
+        def extract_hook(value, hook):
+            nonlocal hidden_states # Uses variable defined in eval loop
+            if value.shape[1] == len(input_ids['input_ids'][0]) + max_new_tokens - 1:
+                hidden_states.append(value)
+            
+
+        generations = generate_with_hooks(
+            model,
+            input_ids['input_ids'],
+            max_new_tokens=max_new_tokens,
+            hook_layer=intervention_layer,
+            edit_hook=edit_hook,
+            extract_hook=extract_hook
+        )
+        
+        # Decode the generated answer
+        gen_decoded = tokenizer.decode(generations[0], skip_special_tokens=True)
+
+        correct_answer_idx = find_token_idx(tokenizer, gen_decoded, answer, start=len(sentence))
+        # If it's the last token, consider it incorrect as no hidden state is produced
+        if correct_answer_idx == len(generations[0]) - 1:
+            correct_answer_idx = -1
+        
+        correct = correct_answer_idx != -1
+        correct_count += correct
+        if not correct:
+            # Defaults to the first generated token
+            correct_answer_idx = 0
+        correct_answer_idx + delta_token
+        activations_idxs.append(correct_answer_idx)
+
+        last_prompt_idx = len(input_ids['input_ids'][0]) - 1 
+        activations_idxs.append(last_prompt_idx)
+
+        if extra_columns is not None:
+            for extra_column in extra_columns:
+                if extra_column in row:
+                    extra_cols_dict[extra_column] = row[extra_column]
+                    extra_col_idx = find_token_idx(tokenizer, gen_decoded, extra_cols_dict[extra_column])
+                    if extra_col_idx == -1:
+                        raise ValueError(f"Token '{extra_cols_dict[extra_column]}' from extra column '{extra_column}' not found in generation.")
+                    # extra_col_idx = extra_col_idx + len(input_ids['input_ids'][0])
+                    activations_idxs.append(extra_col_idx)
+                else:
+                    raise ValueError(f"Extra column '{extra_column}' not found in dataset.")
+
+        # The full length of tokens is = prompt size + n_generated_tokens + n_system_tokens
+        hidden_states = torch.cat(hidden_states, dim=0)
         hidden_states = hidden_states[:,activations_idxs]
         hidden_states = hidden_states.type(torch.float64)
         hidden_states_np = hidden_states.cpu().detach().numpy()
@@ -904,3 +1162,117 @@ def plot_activations(ad: ActivationDataset, label_col: str, reduction_method, ta
     else:
         plt.savefig(save_path, bbox_inches='tight')
         plt.close(fig)
+
+def plot_activations_single(ad: ActivationDataset, label_col: str, reduction_method, layer, ax, target_col='correct_answer',  components=(0,1),
+                     label_col_str=None, n_components=2, manifold='discrete_circular', palette='viridis', title=None, save_path=None, plots_per_row=4,
+                     annotations='random',  filter_incorrect=True, orthonormal=False,
+                     preprocess_func=None, annotation_preprocess_func=None, postprocess_func=None,
+                     return_fig=False):
+
+    normalizer = Normalizer()
+
+    if reduction_method == 'PCA':
+        rmodel = PCA(n_components=n_components)
+    elif reduction_method == 'tSNE':
+        rmodel = TSNE(n_components=n_components)
+    elif reduction_method == 'Isomap':
+        rmodel = Isomap(n_components=n_components)
+    elif reduction_method == 'PLS':
+        rmodel = PLSRegression(n_components=n_components)
+    elif reduction_method == 'LDA':
+        rmodel = LinearDiscriminantAnalysis(n_components=n_components)
+    elif reduction_method == 'SMDS':
+        rmodel = SupervisedMDS(n_components=n_components, manifold=manifold, orthonormal=orthonormal)
+    elif reduction_method == 'UMAP':
+        rmodel = UMAP(n_components=n_components)
+    elif reduction_method == 'MDS':
+        rmodel = MDS(n_components=n_components)
+
+    activations, labels = ad.get_slice(target_name=target_col, columns=label_col, preprocess_funcs=preprocess_func, filter_incorrect=filter_incorrect)
+    labels = np.squeeze(labels)
+
+    if postprocess_func is not None:
+        labels = postprocess_func(labels)
+
+    df = ad.get_metadata_df(filter_incorrect=filter_incorrect)
+
+    max_samples = min(500, len(activations)) # Limit to 500 samples  
+    activations = activations[:max_samples]
+    labels = labels[:max_samples]
+    df = df.iloc[:max_samples].reset_index(drop=True)
+
+    split = 0.5
+    idx_split = int(len(activations) * split)
+    activations_train = activations[:idx_split]
+    activations_test = activations[idx_split:]
+    labels_train = labels[:idx_split]
+    labels_test = labels[idx_split:]
+    df_train = df.iloc[:idx_split].reset_index(drop=True)
+    df_test = df.iloc[idx_split:].reset_index(drop=True)
+
+    if reduction_method in ['PLS']:
+        min_label = labels_train.min()
+        max_label = labels_train.max()
+        labels_train = (labels_train - min_label) / (max_label - min_label)
+        labels_test = (labels_test - min_label) / (max_label - min_label)
+
+    # fig, axs = plt.subplots(int(np.ceil(len(layers) / plots_per_row)), plots_per_row,
+    #                         figsize=(scaling_factor * plots_per_row, scaling_factor * len(layers) // plots_per_row),
+    #                         constrained_layout=True)
+
+    act_train = activations_train[:, layer]
+    act_test = activations_test[:, layer]
+
+    if reduction_method in ['PCA']:
+        act_train = normalizer.fit_transform(act_train)
+        act_test = normalizer.transform(act_test)
+
+    rmodel.fit(act_train, labels_train)
+
+    act_train_red = rmodel.transform(act_train)
+    act_test_red = rmodel.transform(act_test)
+
+    if labels.ndim > 1:
+        raise NotImplementedError("Multi-dimensional labels not supported in this version.")
+
+    palette = palette if len(np.unique(labels)) > 2 else ['#3A4CC0', '#B40426']
+
+    # Plot training data (lighter)
+    # sns.scatterplot(
+    #     x=act_train_red[:, components[0]], 
+    #     y=act_train_red[:, components[1]],
+    #     hue=labels_train,
+    #     ax=ax,
+    #     palette=palette,
+    #     alpha=0.5,
+    #     marker='o'
+    # )
+
+    # Plot test data (full opacity)
+    sns.scatterplot(
+        x=act_test_red[:, components[0]], 
+        y=act_test_red[:, components[1]],
+        hue=labels_test,
+        ax=ax,
+        palette=palette,
+        alpha=1.0,
+        # marker='X',
+        s=60
+    )
+
+
+    # ax.set_title(f"Layer {layer}")
+    ax.get_legend().set_visible(False)
+
+    # if title is not None:
+    #     fig.suptitle(title, fontsize=20)
+    # else:
+    #     fig.suptitle(f"{reduction_method} - {ad.model_name} - {ad.dataset_name}", fontsize=20)
+
+    # if return_fig:
+    #     return fig, axs
+    # if not save_path:
+    #     plt.show()
+    # else:
+    #     plt.savefig(save_path, bbox_inches='tight')
+    #     plt.close(fig)
