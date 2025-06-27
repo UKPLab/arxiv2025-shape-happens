@@ -90,9 +90,10 @@ configs = [
 ]
 
 explode_settings = {
+    'noise_scale': [0, 0.5, 1, 5, 10, 50],
     'n_components': [2, 5, 10, 50, 100, 500],
     # 'n_components': [2],
-    'noise_scale': [0, 0.5, 1, 5, 10, 50],
+    'intervention_type': ['full', 'rand', 'replace'],
     # 'noise_scale': [10],
 }
 
@@ -105,6 +106,7 @@ settings = {
 def run_model(config):
     model_name = config['model_name']
     intervention_layer = config['intervention_layer']
+    intervention_type = config['intervention_type']
     noise_scale = config.get('noise_scale', 1)  # Default to 0 if not specified
     dataset = config['dataset']
     label_column = config['label_column']
@@ -118,13 +120,15 @@ def run_model(config):
     delta_token = config['delta_token']
 
     frac = settings.get('frac', 1)
-
-    save_path = f"results/intervention_replace/{model_name.split('/')[-1]}/{dataset_name}/{dataset_name}_n{n_components}_s{noise_scale}.pt"
+    if intervention_type == 'replace':
+        save_path = f"results/intervention_{intervention_type}/{model_name.split('/')[-1]}/{dataset_name}/{dataset_name}_n{n_components}_s{noise_scale}.pt"
+    else:
+        save_path = f"results/intervention_{intervention_type}/{model_name.split('/')[-1]}/{dataset_name}/{dataset_name}_s{noise_scale}.pt"
     if os.path.exists(save_path):
-        print(f"Results already exist for {model_name} on {dataset_name} (n={n_components}, s={noise_scale}). Skipping.")
+        print(f"Results already exist for {save_path}. Skipping.")
         return
 
-    print(f"Running model: {model_name}")
+    print(f"Running model={model_name} dataset={dataset_name} int_type={intervention_type} noise_scale={noise_scale} n_components={n_components}")
     tokenizer = AutoTokenizer.from_pretrained(model_name)
     model = HookedTransformer.from_pretrained_no_processing(
         model_name,
@@ -152,42 +156,27 @@ def run_model(config):
         df_train = df[:int(len(df) * 0.5)]
         df_test = df[int(len(df) * 0.5):]
 
-        # Train a specific SMDS on the activations
-        smds = train_smds(
-            activations_train,
-            labels_train,
-            n_components=n_components,
-            manifold=manifold,
-        )
-        
+        if intervention_type == 'replace':
+            # Train a specific SMDS on the activations
+            smds = train_smds(
+                activations_train,
+                labels_train,
+                n_components=n_components,
+                manifold=manifold,
+            )
+        else:
+            smds = None  # No SMDS needed for 'full' intervention type
         # Re-run the model on the dataset using SMDS to intervene
-        try:
-            adf = activate_eval_intervene(df_test, dataset_name, model, tokenizer,
-                                smds=smds,
-                                intervention_layer=intervention_layer,
-                                noise_scale=noise_scale,
-                                target_column=target_column,
-                                label_columns=label_column,
-                                extra_columns=[target_column],
-                                delta_token=delta_token,)
-        except ValueError as e:
-            # If ValueError: need at least one array to stack, repeat the process forcing constrained generation
-            if not e.args[0].startswith("need at least one array to stack"):
-                raise e
-            print(f"ValueError: model {model_name} on dataset {dataset_name} achieved zero accuracy. Retrying with constrained generation.")
-            try:
-                adf = activate_eval_intervene(df_test, dataset_name, model, tokenizer,
-                                smds=smds,
-                                intervention_layer=intervention_layer,
-                                noise_scale=noise_scale,
-                                delta_token=delta_token,
-                                target_column=target_column,
-                                label_columns=label_column,
-                                extra_columns=[target_column],
-                                constrained_generation=True)
-            except ValueError as e:
-                if e.args[0].startswith("Alternatives column not found in dataset."):
-                    print(f"Alternatives column not found in dataset. Skipping {dataset_name}.")
+        adf = activate_eval_intervene(df_test, dataset_name, model, tokenizer,
+                            smds=smds,
+                            intervention_layer=intervention_layer,
+                            intervention_type=intervention_type,
+                            noise_scale=noise_scale,
+                            n_components=n_components,
+                            target_column=target_column,
+                            label_columns=label_column,
+                            extra_columns=[target_column],
+                            delta_token=delta_token,)
 
         # Print accuracy
         print(f"Model: {model_name}, Dataset: {dataset_name}, Accuracy: {adf.get_accuracy()}")
@@ -224,4 +213,4 @@ if __name__ == "__main__":
         p = Process(target=run_model, args=(c,))
         p.start()
         p.join()  # Wait for one model to finish before starting next
-        time.sleep(2)
+        time.sleep(1)

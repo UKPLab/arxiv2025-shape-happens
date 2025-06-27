@@ -790,7 +790,7 @@ def generate_with_hooks(model, input_ids, max_new_tokens, hook_layer, edit_hook,
 
     return generated
 
-def activate_eval_intervene(df, dataset_name, model, tokenizer, label_columns, smds, intervention_layer, target_column, noise_scale=1, question_column='question', answer_column='answer', context_column='context', 
+def activate_eval_intervene(df, dataset_name, model, tokenizer, label_columns, intervention_layer, target_column, smds=None, intervention_type='replace', noise_scale=1, n_components=None, question_column='question', answer_column='answer', context_column='context', 
                              extra_columns=None, constrained_generation=False, delta_token=0, debug=False, max_new_tokens=8):
     template = "{context}"
     model.eval()
@@ -815,7 +815,8 @@ def activate_eval_intervene(df, dataset_name, model, tokenizer, label_columns, s
         'intervention_layer': intervention_layer,
         'noise_scale': noise_scale,
         'smds': smds,
-        'n_components': smds.n_components,
+        'n_components': n_components,
+        'intervention_type': intervention_type,
     }
     
     sample_metadata = []
@@ -850,15 +851,41 @@ def activate_eval_intervene(df, dataset_name, model, tokenizer, label_columns, s
         target_index = find_token_idx(tokenizer, sentence, target_string)
         last_prompt_idx = len(input_ids['input_ids'][0]) - 1 
 
-        def edit_hook(value, hook):
-            activation = value[:, target_index, :].float().detach().cpu().numpy()
-            subspace = smds.transform(activation)
-            # Summing and subtracting subspace is necessary to cancel out mean
-            noise = subspace + noise_scale * np.random.normal(0, 1, subspace.shape)  # Add noise
-            patch = activation - smds.inverse_transform(subspace) + smds.inverse_transform(noise)
-            value[:, target_index, :] = torch.tensor(patch, device=value.device, dtype=value.dtype)
-            return value
-        
+        if intervention_type == 'replace':
+            def edit_hook(value, hook):
+                activation = value[:, target_index, :].float().detach().cpu().numpy()
+                subspace = smds.transform(activation)
+                # Summing and subtracting subspace is necessary to cancel out mean
+                noise = subspace + noise_scale * np.random.normal(0, 1, subspace.shape)  # Add noise
+                patch = activation - smds.inverse_transform(subspace) + smds.inverse_transform(noise)
+                value[:, target_index, :] = torch.tensor(patch, device=value.device, dtype=value.dtype)
+                return value
+        elif intervention_type == 'rand':
+            def edit_hook(value, hook):
+                activation = value[:, target_index, :]  # (batch, d_model)
+
+                dtype = activation.dtype
+                activation_f32 = activation.to(torch.float32)
+
+                subspace_mapper = torch.randn(activation.shape[-1], n_components, device=value.device, dtype=torch.float32)
+                subspace_inv_mapper = torch.linalg.pinv(subspace_mapper)  # safe with float32
+                subspace = activation_f32 @ subspace_mapper
+                noise = subspace + noise_scale * torch.randn_like(subspace)
+
+                patch = activation_f32 - (subspace @ subspace_inv_mapper) + (noise @ subspace_inv_mapper)
+                patch = patch.to(dtype)  # cast back to original dtype (e.g., bfloat16)
+
+                value[:, target_index, :] = patch
+                return value
+
+
+        elif intervention_type == 'full':
+            def edit_hook(value, hook):
+                activation = value[:, target_index, :]
+                noise = noise_scale * torch.randn(activation.shape, device=value.device, dtype=value.dtype)
+                value[:, target_index, :] = activation + noise
+                return value
+
         def extract_hook(value, hook):
             nonlocal hidden_states # Uses variable defined in eval loop
             if value.shape[1] == len(input_ids['input_ids'][0]) + max_new_tokens - 1:
@@ -1015,7 +1042,7 @@ def plot_activations(ad: ActivationDataset, label_col: str, reduction_method, ta
     fig, axs = plt.subplots(int(np.ceil(len(layers)/plots_per_row)), plots_per_row, figsize=(scaling_factor*plots_per_row, scaling_factor*len(layers)//plots_per_row), constrained_layout=True)
 
     for i, layer in tqdm(enumerate(layers)):
-        if plots_per_row > 1:
+        if plots_per_row > 1 and len(layers) > plots_per_row:
             ax = axs[i//plots_per_row][i%plots_per_row]
         elif len(layers) > 1:
             ax = axs[i]
