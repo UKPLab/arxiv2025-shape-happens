@@ -1,6 +1,7 @@
-from .utils import prompt_ollama, find_token_idx, activate_eval, clean, plot_activations, plot_activations_single, activate_eval_intervene
+from .utils import prompt_ollama, find_token_idx, activate_eval, clean, activate_eval_intervene
 from .utils import SupervisedMDS
 from .utils import ActivationDataset
+from .plot import plot_activations, plot_activations_single
 
 
 __all__ = [
