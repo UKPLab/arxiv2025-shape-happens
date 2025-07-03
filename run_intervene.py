@@ -93,7 +93,7 @@ explode_settings = {
     'noise_scale': [0, 0.5, 1, 5, 10, 50],
     'n_components': [2, 5, 10, 50, 100, 500],
     # 'n_components': [2],
-    'intervention_type': ['full', 'rand', 'replace'],
+    'intervention_type': ['full', 'rand' 'replace'],
     # 'noise_scale': [10],
 }
 
@@ -120,7 +120,7 @@ def run_model(config):
     delta_token = config['delta_token']
 
     frac = settings.get('frac', 1)
-    if intervention_type == 'replace':
+    if intervention_type in ['replace', 'rand']:
         save_path = f"results/intervention_{intervention_type}/{model_name.split('/')[-1]}/{dataset_name}/{dataset_name}_n{n_components}_s{noise_scale}.pt"
     else:
         save_path = f"results/intervention_{intervention_type}/{model_name.split('/')[-1]}/{dataset_name}/{dataset_name}_s{noise_scale}.pt"
