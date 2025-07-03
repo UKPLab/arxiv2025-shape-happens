@@ -28,7 +28,6 @@ import matplotlib.pyplot as plt
 import seaborn as sns
 import numpy as np
 import matplotlib.patheffects as pe
-from pycolormap_2d import ColorMap2DZiegler
 from sklearn.model_selection import KFold
 
 
@@ -560,8 +559,22 @@ class ConstrainedPrefixLogitsProcessor(LogitsProcessor):
         return mask
 
 
-def farthest_point_sampling(X, k, noise=0.1):
+def farthest_point_sampling(X, k, noise=0.1, center_bias=0.2):
+    """
+    Select k points from X using farthest point sampling, 
+    biased toward the center of the distribution.
+    
+    Parameters:
+    - X: np.ndarray of shape (n_points, n_dims)
+    - k: number of points to sample
+    - noise: level of random noise added
+    - center_bias: how much to penalize distance from the center (0 = no bias)
+    
+    Returns:
+    - selected_indices: list of selected indices
+    """
     n_points = X.shape[0]
+    center = X.mean(axis=0)  # geometric center
     selected_indices = [np.random.randint(n_points)]
     distances = np.full(n_points, np.inf)
 
@@ -569,8 +582,14 @@ def farthest_point_sampling(X, k, noise=0.1):
         last_selected = X[selected_indices[-1]]
         dist_to_last = np.linalg.norm(X - last_selected, axis=1)
         distances = np.minimum(distances, dist_to_last)
-        # Add noise to distances proportional to their magnitude
+        
+        # Add noise
         distances += noise * np.abs(distances) * np.random.rand(n_points)
+
+        # Penalize points far from the center
+        dist_from_center = np.linalg.norm(X - center, axis=1)
+        distances -= center_bias * dist_from_center
+
         next_index = np.argmax(distances)
         selected_indices.append(next_index)
 
