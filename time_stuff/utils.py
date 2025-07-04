@@ -1,6 +1,7 @@
 import ast
 import os
 import pickle
+import re
 import requests
 
 import numpy as np
@@ -84,60 +85,95 @@ class ActivationDataset:
         self._tokenizer = AutoTokenizer.from_pretrained(self.model_name) # Necessary for slicing
         self._df = pd.DataFrame(sample_metadata)
 
-    def save(self, path: str):
-        """
-        Saves the ActivationDataset to a file.
+    @staticmethod
+    def _is_pt_file(path: str) -> bool:
+        return path.endswith('.pt')
 
-        Parameters:
-            path (str): The path to save the dataset.
-        """
-        # If path does not exist, create it
-        os.makedirs(os.path.dirname(path), exist_ok=True)
-        print(f"Saving ActivationDataset to {path}...")
-        activations_names = list(self.activations.keys())
-        activations = list(self.activations.values())
-        # Convert activations to a tensor
-        activations = np.stack(activations, axis=1)  # Shape: (n_samples, n_tokens, n_layers, embedding_size)
-        activations = torch.from_numpy(activations)
-        print(f"Activations shape: {activations.shape}, names: {activations_names}")
-        torch.save({
-            'global_metadata': self.global_metadata,
-            'activations': activations,
-            'activations_names': activations_names,
-            'sample_metadata': self.get_metadata_df()
-        }, path)
+    @staticmethod
+    def _format_part_filename(base: str, idx: int) -> str:
+        return f"{base}_part{idx:02d}.pt"
+
+    @staticmethod
+    def _extract_idx(filename: str) -> int:
+        match = re.search(r'_part(\d+)\.pt$', filename)
+        return int(match.group(1)) if match else -1
+
+    def save(self, path: str):
+        if self._is_pt_file(path):
+            # Original single-file save
+            os.makedirs(os.path.dirname(path), exist_ok=True)
+            print(f"Saving ActivationDataset to {path}...")
+            activations_names = list(self.activations.keys())
+            activations = list(self.activations.values())
+            activations = np.stack(activations, axis=1)
+            activations = torch.from_numpy(activations)
+            torch.save({
+                'global_metadata': self.global_metadata,
+                'activations': activations,
+                'activations_names': activations_names,
+                'sample_metadata': self.get_metadata_df()
+            }, path)
+        else:
+            # New directory-based save
+            os.makedirs(path, exist_ok=True)
+            print(f"Saving ActivationDataset in directory {path}...")
+
+            activations_names = list(self.activations.keys())
+            for idx, name in enumerate(activations_names):
+                tensor = self.activations[name]
+                torch.save(tensor, os.path.join(path, self._format_part_filename("activations", idx)))
+
+            torch.save({
+                'global_metadata': self.global_metadata,
+                'activations_names': activations_names,
+                'sample_metadata': self.get_metadata_df()
+            }, os.path.join(path, 'metadata.pt'))
+
+            print(f"Saved {len(activations_names)} tensors in parts.")
+
 
     @classmethod
     def load(cls, path: str):
-        """
-        Loads the ActivationDataset from a file.
+        if cls._is_pt_file(path):
+            # Original single-file load
+            data = torch.load(path, weights_only=False)
+            activations_tensor = data['activations']
+            activations_names = data['activations_names']
+            activations = {
+                name: activations_tensor[:, i].detach().cpu().numpy()
+                for i, name in enumerate(activations_names)
+            }
+            global_metadata = data['global_metadata']
+            sample_metadata = data['sample_metadata']
+        else:
+            # Directory-based multi-part load
+            metadata_path = os.path.join(path, 'metadata.pt')
+            if not os.path.exists(metadata_path):
+                raise FileNotFoundError(f"No metadata.pt found in directory {path}")
 
-        Parameters:
-            path (str): The path to load the dataset from.
+            data = torch.load(metadata_path, weights_only=False)
+            activations_names = data['activations_names']
+            global_metadata = data['global_metadata']
+            sample_metadata = data['sample_metadata']
 
-        Returns:
-            ActivationDataset: The loaded ActivationDataset.
-        """
-        data = torch.load(path, weights_only=False)
+            activations = {}
+            for idx, name in enumerate(activations_names):
+                part_path = os.path.join(path, cls._format_part_filename("activations", idx))
+                tensor = torch.load(part_path, map_location='cpu')
+                activations[name] = tensor.detach().cpu().numpy()
 
-        # Unstack activations along axis 1 and map them back to names
-        activations_tensor = data['activations']  # Shape: (n_samples, n_tokens, n_layers, embedding_size)
-        activations_names = data['activations_names']
-        activations = {name: activations_tensor[:, i].detach().cpu().numpy()
-                    for i, name in enumerate(activations_names)}
-        
-        if 'model_name' not in data['global_metadata']:
-            # Get it from the path as the last folder
-            data['global_metadata']['model_name'] = os.path.basename(os.path.dirname(path))
-        if 'dataset_name' not in data['global_metadata']:
-            # Get it from the path as the filename without extension
-            data['global_metadata']['dataset_name'] = os.path.splitext(os.path.basename(path))[0]
+        # Fallback metadata population
+        if 'model_name' not in global_metadata:
+            global_metadata['model_name'] = os.path.basename(os.path.dirname(path))
+        if 'dataset_name' not in global_metadata:
+            global_metadata['dataset_name'] = os.path.splitext(os.path.basename(path))[0] if cls._is_pt_file(path) else os.path.basename(path)
 
         return cls(
-            global_metadata=data['global_metadata'],
+            global_metadata=global_metadata,
             activations=activations,
-            sample_metadata=data['sample_metadata'].to_dict(orient='records')
+            sample_metadata=sample_metadata.to_dict(orient='records')
         )
+
 
     
     def get_metadata_df(self, filter_incorrect=False) -> pd.DataFrame:

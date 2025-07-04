@@ -132,12 +132,18 @@ def run_model_on_datasets(model_name, datasets, delta_token=0, frac=1, debug=Fal
             gc.collect()
             torch.cuda.empty_cache()
 
+            # If adf activations are too large, set extension to '' to shard file
+            extension = '.pt'
+            if next(iter(adf.activations.values())).nbytes > 2e9:  # 2 GB threshold
+                print(f"Activations for {model_name} on {dataset_name} are too large, sharding file.")
+                extension = ''
+
             if debug:
-                adf.save("results/debug.pt")
+                adf.save(f"results/debug{extension}")
             elif frac < 1:
-                adf.save(f"results/test_check/{model_name.split('/')[-1]}/{dataset_name}.pt")
+                adf.save(f"results/test_check/{model_name.split('/')[-1]}/{dataset_name}{extension}")
             else:
-                adf.save(f"results/{model_name.split('/')[-1]}/{dataset_name}.pt")
+                adf.save(f"results/{model_name.split('/')[-1]}/{dataset_name}{extension}")
             del adf
 
             print(f"Saved results for {model_name} on {dataset_name}")
