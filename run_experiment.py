@@ -108,6 +108,25 @@ def run_model_on_datasets(model_name, datasets, delta_token=0, frac=1, debug=Fal
             df = pd.read_csv(dataset['filename'])
             df = df.sample(frac=frac, random_state=42)
             dataset_name = os.path.splitext(os.path.basename(dataset['filename']))[0]
+            if debug:
+                save_path = f"results/debug"
+            elif frac < 1:
+                save_path = f"results/test_check/{model_name.split('/')[-1]}/{dataset_name}"
+            else:
+                save_path = f"results/{model_name.split('/')[-1]}/{dataset_name}"
+
+            # Try to load existing results, if succeeds, skip evaluation
+            try:
+                if os.path.exists(save_path + '.pt'):
+                    adf = ActivationDataset.load(save_path + '.pt')
+                elif os.path.exists(save_path):
+                    adf = ActivationDataset.load(save_path)
+                else:
+                    raise FileNotFoundError(f"No existing results found for {model_name} on {dataset_name}")
+                print(f"Found existing results for {model_name} on {dataset_name}, skipping evaluation.")
+                continue
+            except FileNotFoundError:
+                print(f"No existing results found for {model_name} on {dataset_name}, proceeding with evaluation.")
 
             try:
                 adf = activate_eval(df, dataset_name, model, tokenizer, delta_token=delta_token,
@@ -138,12 +157,7 @@ def run_model_on_datasets(model_name, datasets, delta_token=0, frac=1, debug=Fal
                 print(f"Activations for {model_name} on {dataset_name} are too large, sharding file.")
                 extension = ''
 
-            if debug:
-                adf.save(f"results/debug{extension}")
-            elif frac < 1:
-                adf.save(f"results/test_check/{model_name.split('/')[-1]}/{dataset_name}{extension}")
-            else:
-                adf.save(f"results/{model_name.split('/')[-1]}/{dataset_name}{extension}")
+            adf.save(save_path + extension)
             del adf
 
             print(f"Saved results for {model_name} on {dataset_name}")
