@@ -85,6 +85,7 @@ class ActivationDataset:
         self._tokenizer = AutoTokenizer.from_pretrained(self.model_name) # Necessary for slicing
         self._df = pd.DataFrame(sample_metadata)
 
+
     @staticmethod
     def _is_pt_file(path: str) -> bool:
         return path.endswith('.pt')
@@ -98,7 +99,7 @@ class ActivationDataset:
         match = re.search(r'_part(\d+)\.pt$', filename)
         return int(match.group(1)) if match else -1
 
-    def save(self, path: str):
+    def save(self, path: str, samples_per_shard: int = 1000):
         if self._is_pt_file(path):
             # Original single-file save
             os.makedirs(os.path.dirname(path), exist_ok=True)
@@ -119,18 +120,28 @@ class ActivationDataset:
             print(f"Saving ActivationDataset in directory {path}...")
 
             activations_names = list(self.activations.keys())
-            for idx, name in enumerate(activations_names):
-                tensor = self.activations[name]
-                torch.save(tensor, os.path.join(path, self._format_part_filename("activations", idx)))
+            n_samples = next(iter(self.activations.values())).shape[0]
+            num_shards = (n_samples + samples_per_shard - 1) // samples_per_shard
 
+            for shard_idx in range(num_shards):
+                shard_data = {}
+                start_idx = shard_idx * samples_per_shard
+                end_idx = min((shard_idx + 1) * samples_per_shard, n_samples)
+
+                for name in activations_names:
+                    shard_data[name] = torch.from_numpy(self.activations[name][start_idx:end_idx])
+
+                part_path = os.path.join(path, self._format_part_filename("activations", shard_idx))
+                torch.save(shard_data, part_path)
+
+            # Save metadata separately
             torch.save({
                 'global_metadata': self.global_metadata,
                 'activations_names': activations_names,
                 'sample_metadata': self.get_metadata_df()
             }, os.path.join(path, 'metadata.pt'))
 
-            print(f"Saved {len(activations_names)} tensors in parts.")
-
+            print(f"Saved {num_shards} shards of activations.")
 
     @classmethod
     def load(cls, path: str):
@@ -146,7 +157,7 @@ class ActivationDataset:
             global_metadata = data['global_metadata']
             sample_metadata = data['sample_metadata']
         else:
-            # Directory-based multi-part load
+            # Directory-based load
             metadata_path = os.path.join(path, 'metadata.pt')
             if not os.path.exists(metadata_path):
                 raise FileNotFoundError(f"No metadata.pt found in directory {path}")
@@ -156,13 +167,25 @@ class ActivationDataset:
             global_metadata = data['global_metadata']
             sample_metadata = data['sample_metadata']
 
-            activations = {}
-            for idx, name in enumerate(activations_names):
-                part_path = os.path.join(path, cls._format_part_filename("activations", idx))
-                tensor = torch.load(part_path, map_location='cpu')
-                activations[name] = tensor.detach().cpu().numpy()
+            # Load and concatenate parts
+            shard_files = sorted([
+                f for f in os.listdir(path) if re.match(r'activations_part\d+\.pt', f)
+            ], key=lambda f: cls._extract_idx(f))
 
-        # Fallback metadata population
+            shards = []
+            for part_file in shard_files:
+                shard = torch.load(os.path.join(path, part_file), map_location='cpu')
+                shards.append(shard)
+
+            activations = {name: [] for name in activations_names}
+            for shard in shards:
+                for name in activations_names:
+                    activations[name].append(shard[name])
+
+            for name in activations_names:
+                activations[name] = torch.cat(activations[name], dim=0).detach().cpu().numpy()
+
+        # Fallback metadata
         if 'model_name' not in global_metadata:
             global_metadata['model_name'] = os.path.basename(os.path.dirname(path))
         if 'dataset_name' not in global_metadata:
@@ -806,7 +829,8 @@ def activate_eval(df, dataset_name, model, tokenizer, label_columns, question_co
 
     if debug: # Debug contains an int
         # Create a dummy output for debugging with that length by multiplying all the outputs
-        outputs = torch.randn((debug, outputs.shape[1], outputs.shape[2], outputs.shape[3]))
+        outputs = np.random.randn(debug, outputs.shape[1], outputs.shape[2], outputs.shape[3])
+        # Also create a dummy sample_metadata
         sample_metadata = sample_metadata * debug 
 
     # Turn hidden_states from an array to a dict of col_name: array
