@@ -124,6 +124,9 @@ def run_model_on_datasets(model_name, datasets, delta_token=0, frac=1, debug=Fal
                 else:
                     raise FileNotFoundError(f"No existing results found for {model_name} on {dataset_name}")
                 print(f"Found existing results for {model_name} on {dataset_name}, skipping evaluation.")
+                del adf  # Free memory
+                gc.collect()
+                torch.cuda.empty_cache()
                 continue
             except FileNotFoundError:
                 print(f"No existing results found for {model_name} on {dataset_name}, proceeding with evaluation.")
