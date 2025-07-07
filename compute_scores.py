@@ -116,7 +116,8 @@ def process_layer(args):
             'layer': layer,
             'target_col': target_col,
             'reduction_method': reduction_method,
-            'score': float(np.mean(fold_scores)),
+            'score': float(np.mean(fold_scores)), # TODO: log all fold scores to get error bars
+            'fold_scores': fold_scores,
             'label_col': label_col,
             **global_metadata
         }
@@ -132,13 +133,14 @@ def process_layer(args):
             'target_col': target_col,
             'reduction_method': reduction_method,
             'score': None,
+            'fold_scores': None,
             **global_metadata
         }
 
-def score_activations(path: str, label_col: str, reduction_method: str, k=5, target_columns=None, layers=None,
+def score_activations(path: str, label_col: str, reduction_method: str, model_name=None, k=5, target_columns=None, layers=None,
                       n_components=2, manifold=None, preprocess_func=None, label_shift=0, max_samples=None, max_workers=1):
 
-    ad = ActivationDataset.load(path)
+    ad = ActivationDataset.load(path, model_name=model_name)
 
     if layers is None:
         layers = range(1, ad.activations['correct_answer'].shape[1])
@@ -217,10 +219,12 @@ if __name__ == "__main__":
         'target_columns': None,  # Use all columns
         'layers': None,  # Use all layers
         'n_components': [2, 3, 4],
-        'manifold': ['euclidean', 'discrete_circular', 'trivial', 'circular', 'semicircular', 'log_linear', 'log_semicircular'],
+        'manifold': ['euclidean', 'discrete_circular', 'cluster', 'circular', 'semicircular', 'log_linear', 'log_semicircular'],
         'max_samples': 500
     }
     scoring_settings = [
+        # {'path': 'results/8B-Instruct/date_3way', 'model_name': 'meta-llama/Llama-3.1-8B-Instruct', 'label_col': 'correct_date', 'preprocess_func': 'datetime_to_dayofyear', },
+
         {'path': 'results/gemma-2-2b-it/duration_3way.pt', 'label_col': ['correct_duration_length', 'correct_date'], 'preprocess_func':['log', 'datetime_to_dayofyear'], },
         {'path': 'results/gemma-2-2b-it/duration_3way.pt', 'label_col': 'correct_duration_length', },
         {'path': 'results/gemma-2-2b-it/date_3way.pt', 'label_col': 'correct_date', 'preprocess_func': 'datetime_to_dayofyear', },
@@ -291,5 +295,5 @@ if __name__ == "__main__":
         scores_df = pd.DataFrame()
             
     # Save the scores to a CSV file
-    print("Saving scores to results/scores.csv")
+    print("Saving all scores to csv")
     scores_df.to_csv("results/scores/all_scores.csv", header=True, index=False)

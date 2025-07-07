@@ -144,7 +144,7 @@ class ActivationDataset:
             print(f"Saved {num_shards} shards of activations.")
 
     @classmethod
-    def load(cls, path: str):
+    def load(cls, path: str, model_name: str = None):
         if cls._is_pt_file(path):
             # Original single-file load
             data = torch.load(path, weights_only=False)
@@ -186,6 +186,8 @@ class ActivationDataset:
                 activations[name] = torch.cat(activations[name], dim=0).detach().cpu().numpy()
 
         # Fallback metadata
+        if model_name is not None:
+            global_metadata['model_name'] = model_name
         if 'model_name' not in global_metadata:
             global_metadata['model_name'] = os.path.basename(os.path.dirname(path))
         if 'dataset_name' not in global_metadata:
