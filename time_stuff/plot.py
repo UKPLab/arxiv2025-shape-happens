@@ -18,225 +18,75 @@ import tempfile
 from typing import Tuple
 from skimage.color import rgb2lab, lab2rgb
 
-
 def plot_activations(ad: ActivationDataset, label_col: str, reduction_method, target_col='correct_answer', layers=None, components=(0,1),
                      label_col_str=None, n_components=2, manifold='discrete_circular', title=None, save_path=None, plots_per_row=4,
                      annotations='random',  filter_incorrect=True, orthonormal=False,
                      preprocess_func=None, annotation_preprocess_func=None, postprocess_func=None,
                      return_fig=False):
-    if len(layers) < plots_per_row:
-        plots_per_row = len(layers)
-
-    normalizer = Normalizer()
-
-    if reduction_method == 'PCA':
-        rmodel = PCA(n_components=n_components)
-    elif reduction_method == 'tSNE':
-        rmodel = TSNE(n_components=n_components)
-    elif reduction_method == 'Isomap':
-        rmodel = Isomap(n_components=n_components)
-    elif reduction_method == 'PLS':
-        rmodel = PLSRegression(n_components=n_components)
-    elif reduction_method == 'LDA':
-        rmodel = LinearDiscriminantAnalysis(n_components=n_components)
-    elif reduction_method == 'SMDS':
-        rmodel = SupervisedMDS(n_components=n_components, manifold=manifold, orthonormal=orthonormal)
-    elif reduction_method == 'UMAP':
-        rmodel = UMAP(n_components=n_components)
-    elif reduction_method == 'MDS':
-        rmodel = MDS(n_components=n_components)
     
-    activations, labels = ad.get_slice(target_name=target_col, columns=label_col, preprocess_funcs=preprocess_func, filter_incorrect=filter_incorrect)
-    labels = np.squeeze(labels)
-
-    df = ad.get_metadata_df(filter_incorrect=filter_incorrect)
-
-    # Split train and test sets
-    split = 0.5
-    activations_train = activations[:int(len(activations)*split)]
-    activations_dev = activations[int(len(activations)*split):]
-
-    labels_train = labels[:int(len(labels)*split)]
-    labels_dev = labels[int(len(labels)*split):]
-
-    df_train = df.iloc[:int(len(df)*split)].reset_index(drop=True)
-    df_dev = df.iloc[int(len(df)*split):].reset_index(drop=True)
-
-    # Standardize labels to 0-1 range
-    if reduction_method in ['PLS']:
-        min_label = labels_train.min()
-        max_label = labels_train.max()
-        labels_train = (labels_train-min_label)/(max_label-min_label)
-        labels_dev = (labels_dev-min_label)/(max_label-min_label)
-
     if layers is None:
+        # Get number of layers from activation shape
+        activations, labels = ad.get_slice(target_name=target_col, columns=label_col, preprocess_funcs=preprocess_func, filter_incorrect=filter_incorrect)
         layers = range(activations.shape[1])
 
-    # Plot the data
-    scaling_factor = 6 if len(layers) > 1 else 8
-    fig, axs = plt.subplots(int(np.ceil(len(layers)/plots_per_row)), plots_per_row, figsize=(scaling_factor*plots_per_row, scaling_factor*len(layers)//plots_per_row), constrained_layout=True)
+    num_layers = len(layers)
+    if num_layers < plots_per_row:
+        plots_per_row = num_layers
 
-    for i, layer in tqdm(enumerate(layers)):
-        if plots_per_row > 1 and len(layers) > plots_per_row:
-            ax = axs[i//plots_per_row][i%plots_per_row]
-        elif len(layers) > 1:
-            ax = axs[i]
-        else:
-            ax = axs
+    if manifold in ['discrete_circular', 'circular']:
+        palette = 'twilight'
+    elif manifold in ['log_linear', 'linear', 'semicircular', 'log_semicircular']:
+        palette = 'flare'
+    elif manifold in ['cluster']:
+        palette = 'tab10'
+    elif len(np.unique(labels)) < 3:
+        palette = ['#3A4CC0', '#B40426']
+    else:
+        palette = 'viridis'
 
-        activations_layer_train = activations_train[:, layer]
-        activations_layer_dev = activations_dev[:, layer]
+    rows = int(np.ceil(num_layers / plots_per_row))
+    scaling_factor = 6 if num_layers > 1 else 8
+    fig, axs = plt.subplots(rows, plots_per_row, figsize=(scaling_factor * plots_per_row, scaling_factor * rows), constrained_layout=True)
 
-        if reduction_method in ['PCA']:
-            activations_layer_train = normalizer.fit_transform(activations_layer_train)
-            activations_layer_dev = normalizer.transform(activations_layer_dev)
-        
-        if reduction_method in ['MDS']:
-            activations_reduced_dev = rmodel.fit_transform(activations_layer_dev)
-        else:
-            # Fit the model
-            rmodel.fit(activations_layer_train, labels_train)
-            # Transform the data
-            activations_reduced_train = rmodel.transform(activations_layer_train)
-            activations_reduced_dev = rmodel.transform(activations_layer_dev)
-        
-        if reduction_method == 'LDA' and activations_reduced_dev.shape[1] <= 1:
-            print(f"Layer {layer} has collinear centroids. Skipping.")
-            continue
-        
-        if postprocess_func is not None:
-            plotted_labels = postprocess_func(labels_dev)
-        else:
-            plotted_labels = labels_dev
+    axs = np.atleast_1d(axs).flatten()  # Flatten to make indexing easier
 
-        if labels_dev.ndim > 1:
-            # If labels are multi-dimensional, map them to 0-1 range
-            cmap_labels_dev = (plotted_labels - plotted_labels.min(axis=0)) / (plotted_labels.max(axis=0) - plotted_labels.min(axis=0))
-            # Use ColorMap2DZiegler to get bidimensional colors
-            # cmap = ColorMap2DZiegler()
-            cmap = ColorMap2DSet1()
-            hues = [cmap(l1,l2) / 255.0 for l1, l2 in cmap_labels_dev]
+    for i, layer in enumerate(layers):
+        ax = axs[i]
 
-            # Plot the data
-            if len(components) == 2:
-                ax.scatter(activations_reduced_dev[:, components[0]], activations_reduced_dev[:, components[1]], c=hues, s=20)
-            elif len(components) == 3:
-                ax.scatter(activations_reduced_dev[:, components[0]], activations_reduced_dev[:, components[1]], 
-                           activations_reduced_dev[:, components[2]], c=hues, s=20)
+        plot_activations_single(
+            ad=ad,
+            label_col=label_col,
+            reduction_method=reduction_method,
+            layer=layer,
+            ax=ax,
+            target_col=target_col,
+            components=components,
+            label_col_str=label_col_str,
+            n_components=n_components,
+            manifold=manifold,
+            annotations=annotations,
+            filter_incorrect=filter_incorrect,
+            orthonormal=orthonormal,
+            preprocess_func=preprocess_func,
+            annotation_preprocess_func=annotation_preprocess_func,
+            postprocess_func=postprocess_func,
+            palette=palette,
+            title=title,
+        )
 
-        else:
-            hues = plotted_labels
-            # Plot the data
-            if manifold in ['discrete_circular', 'circular']:
-                palette = 'twilight'
-            elif manifold in ['log_linear', 'linear', 'euclidean', 'semicircular', 'log_semicircular']:
-                # Use a continuous colormap for linear manifolds
-                palette = 'flare'
-            elif manifold in ['cluster']:
-                palette = 'tab10'
-            elif len(np.unique(hues)) < 3:
-                palette = ['#3A4CC0', '#B40426']#['blue', 'red']
-
-            if len(components) == 2:
-                sns.scatterplot(x=activations_reduced_dev[:, components[0]], y=activations_reduced_dev[:, components[1]], 
-                                hue=hues, ax=ax, palette=palette, alpha=1.0)
-            elif len(components) == 3:
-                ax.scatter(activations_reduced_dev[:, components[0]], activations_reduced_dev[:, components[1]],
-                           activations_reduced_dev[:, components[2]], c=hues, s=20, cmap=palette)
-            # ax.get_legend().set_visible(False)
-
-        # Set title
         ax.set_title(f"Layer {layer}")
 
-        if reduction_method not in ['UMAP', 'MDS']:
-            print(f"Layer: {layer} Score: {rmodel.score(activations_layer_dev, labels_dev)}")
-
-        if label_col_str is not None:
-            if annotations == 'random':
-                # Select a few random sentences
-                indices = np.random.choice(len(activations_layer_dev), size=10, replace=False)
-                rnd_activations = activations_reduced_dev[indices]
-                txt = df_dev.iloc[indices][label_col_str].values
-
-                points = rnd_activations
-
-            elif annotations == 'uniform':
-                indices = farthest_point_sampling(activations_reduced_dev, 15)
-                rnd_activations = activations_reduced_dev[indices]
-                txt = df_dev.iloc[indices][label_col_str].values
-
-                points = rnd_activations
-
-            elif annotations == 'class':
-                # Select sentences so that they represent one item per class in label_col_str
-                unique_labels = df_dev[label_col_str].unique()
-                indices = []
-                for label in unique_labels:
-                    # Get the index of the first occurrence of the label
-                    idx = df_dev[df_dev[label_col_str] == label].index[0]
-                    indices.append(idx)
-                
-                # Get the activations and sentences for the selected indices
-                rnd_activations = activations_reduced_dev[indices]
-                txt = df_dev.iloc[indices][label_col_str].values
-
-                points = rnd_activations
-
-
-            elif annotations=='centroids':
-                # Compute the centroids of each class
-                centroids = []
-                unique_labels = np.unique(labels_dev)
-                
-                # Cap the number of centroids to 12
-                if unique_labels.shape[0] > 16:
-                    unique_labels = np.random.choice(unique_labels, size=16, replace=False)
-
-                for label in unique_labels:
-                    # Get the indices of the samples with the current label
-                    indices = np.where(labels_dev == label)[0]
-                    # Compute the centroid of the samples with the current label
-                    centroid = np.mean(activations_reduced_dev[indices], axis=0)
-                    centroids.append(centroid)
-                centroids = np.array(centroids)
-
-                # Compute the corresponding txt
-                txt = []
-                for label in unique_labels:
-                    # Get the indices of the samples with the current label
-                    indices = np.where(labels_dev == label)[0]
-                    # Get the first sample with the current label
-                    txt.append(df_dev.iloc[indices[0]][label_col_str])
-                points = centroids
-
-            else:
-                raise ValueError("Invalid annotations value. Use 'random', 'class' or 'centroids'.")
-
-            # Plot the points
-            ax.scatter(points[:, components[0]], points[:, components[1]], color='red', edgecolor='k', s=20)
-
-            if annotation_preprocess_func is not None:
-                # Preprocess the text
-                txt = [annotation_preprocess_func(t) for t in txt]
-
-            # Annotate the points
-            for j, txt in enumerate(txt):
-                ax.annotate(txt, (points[j, components[0]], points[j, components[1]]), fontsize=16,  path_effects=[pe.withStroke(linewidth=2, foreground="white")])
-
-
-    # Set the title
+    # Set the super title
     if title is not None:
         fig.suptitle(title, fontsize=20)
     else:
         fig.suptitle(f"{reduction_method} - {ad.model_name} - {ad.dataset_name}", fontsize=20)
 
-    
-    # plt.tight_layout()
-    if return_fig:
-        return fig, axs
     if save_path:
         plt.savefig(save_path, bbox_inches='tight')
-    plt.show()        
+    if return_fig:
+        return fig, axs
+    plt.show()
     plt.close(fig)
 
 def plot_activations_single(ad: ActivationDataset, label_col: str, reduction_method, layer, ax, target_col='correct_answer',  components=(0,1),
@@ -308,6 +158,9 @@ def plot_activations_single(ad: ActivationDataset, label_col: str, reduction_met
     act_train_red = rmodel.transform(act_train)
     act_test_red = rmodel.transform(act_test)
 
+    if reduction_method not in ['UMAP', 'MDS']:
+        print(f"Layer: {layer} - Score: {rmodel.score(act_test, labels_test):.4f}")
+
     if postprocess_func is not None:
         plotted_labels = postprocess_func(labels_test)
     else:
@@ -359,7 +212,9 @@ def plot_activations_single(ad: ActivationDataset, label_col: str, reduction_met
             if unique_labels.shape[0] > 16:
                 # unique_labels = np.random.choice(unique_labels, size=16, replace=False)
                 indices = np.linspace(0, len(unique_labels)-1, 16, dtype=int)
-                unique_labels = unique_labels[indices]
+            else:
+                indices = np.arange(len(unique_labels))
+            unique_labels = unique_labels[indices]
             points = act_test_red[indices]
             txt = preprocessed_labels[indices]
 
