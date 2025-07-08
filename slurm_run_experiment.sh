@@ -8,7 +8,7 @@
 #SBATCH --cpus-per-task=16
 #SBATCH -q gpu
 #SBATCH -p gpu
-#SBATCH --mem=32GB
+#SBATCH --mem=256GB
 #SBATCH --gres=gpu:1
 #SBATCH --constraint=gpu_model:a180
 
