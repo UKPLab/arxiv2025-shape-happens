@@ -33,4 +33,4 @@ export HF_MODULES_CACHE=$SCRATCH/hf_modules
 
 source /ukp-storage-1/tiblias/miniconda/bin/activate td
 
-python run_experiment.py
+python record_activations.py --config configs/activations_slurm.yaml

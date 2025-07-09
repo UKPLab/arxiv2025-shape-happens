@@ -1,3 +1,4 @@
+import argparse
 from concurrent.futures import ProcessPoolExecutor, as_completed
 import hashlib
 import itertools
@@ -15,51 +16,8 @@ import numpy as np
 import pandas as pd
 from tqdm import tqdm
 from sklearn.model_selection import KFold
+from time_stuff import Runner
 
-
-# General script for plotting activations
-def datetime_to_dayofyear(x):
-    # Convert to datetime
-    x = pd.to_datetime(x)
-    # Get the day of the year
-    return x.day_of_year
-
-def datetime_to_month(x):
-    # Convert to datetime
-    x = pd.to_datetime(x)
-    # Get the month
-    return x.month
-
-def stable_hash(setting: dict) -> str:
-    # Convert the dict to a sorted JSON string
-    setting_str = json.dumps(setting, sort_keys=True)
-    # Compute MD5 hash (or SHA256 if you prefer)
-    return hashlib.md5(setting_str.encode()).hexdigest()
-
-def farthest_point_sampling(X, k, noise=0.1):
-    n_points = X.shape[0]
-    selected_indices = [np.random.randint(n_points)]
-    distances = np.full(n_points, np.inf)
-
-    for _ in range(1, k):
-        last_selected = X[selected_indices[-1]]
-        dist_to_last = np.linalg.norm(X - last_selected, axis=1)
-        distances = np.minimum(distances, dist_to_last)
-        # Add noise to distances proportional to their magnitude
-        distances += noise * np.abs(distances) * np.random.rand(n_points)
-        next_index = np.argmax(distances)
-        selected_indices.append(next_index)
-
-    return selected_indices
-
-def explode_dict(d):
-    # Turn every value in the dictionary into a list if it is not already
-    d = {k: v if isinstance(v, list) else [v] for k, v in d.items()}
-    # Create combinations
-    keys = d.keys()
-    values = d.values()
-    combinations = [dict(zip(keys, combination)) for combination in itertools.product(*values)]
-    return combinations
 
 def process_layer(args):
     (layer, label_col, target_col, activations, labels, reduction_method, n_components,
@@ -137,163 +95,124 @@ def process_layer(args):
             **global_metadata
         }
 
-def score_activations(path: str, label_col: str, reduction_method: str, model_name=None, k=5, target_columns=None, layers=None,
-                      n_components=2, manifold=None, preprocess_func=None, label_shift=0, max_samples=None, max_workers=1):
 
-    ad = ActivationDataset.load(path, model_name=model_name)
+class ScoreRunner(Runner):
+    def score_activations(self, **kwargs):
+        id = self.hash_args(kwargs)
 
-    if layers is None:
-        layers = range(1, ad.activations['correct_answer'].shape[1])
+        path = kwargs["path"]
+        label_col = kwargs["label_col"]
+        reduction_method = kwargs["reduction_method"]
 
-    if target_columns is None:
-        target_columns = ['correct_answer', 'last_prompt_token'] + ad.global_metadata['extra_columns']
-    if isinstance(target_columns, str):
-        target_columns = [target_columns]
+        model_name = kwargs.get("model_name", None)
+        k = kwargs.get("k", 5)
+        target_columns = kwargs.get("target_columns", None)
+        layers = kwargs.get("layers", None)
+        n_components = kwargs.get("n_components", 2)
+        manifold = kwargs.get("manifold", None)
+        preprocess_func = kwargs.get("preprocess_func", None)
+        label_shift = kwargs.get("label_shift", 0)
+        max_samples = kwargs.get("max_samples", None)
+        
+        ad = ActivationDataset.load(path, model_name=model_name)
 
-    if isinstance(preprocess_func, str):
-        preprocess_func = [preprocess_func]
+        if layers is None:
+            layers = range(1, ad.activations['correct_answer'].shape[1])
 
-    if preprocess_func is None:
-        preprocess_func_lambdas = None
-    else:
-        preprocess_func_lambdas = []
-        for func in preprocess_func or []:
-            if func == 'datetime_to_dayofyear':
-                preprocess_func_lambdas.append(lambda x: pd.to_datetime(x).day_of_year)
-            elif func == 'datetime_to_month':
-                preprocess_func_lambdas.append(lambda x: pd.to_datetime(x).month)
-            elif func == 'datetime_to_year':
-                preprocess_func_lambdas.append(lambda x: np.abs(pd.to_datetime(x).year + label_shift))
-            elif func == 'datetime_to_hour':
-                preprocess_func_lambdas.append(lambda x: pd.to_datetime(x).hour)
-            elif func == 'log':
-                preprocess_func_lambdas.append(lambda x: np.log(x + 1))
+        if target_columns is None:
+            target_columns = ['correct_answer', 'last_prompt_token'] + ad.global_metadata['extra_columns']
+        if isinstance(target_columns, str):
+            target_columns = [target_columns]
 
-    all_scores = []
+        if isinstance(preprocess_func, str):
+            preprocess_func = [preprocess_func]
 
-    for target_col in target_columns:
-        activations, labels = ad.get_slice(
-            target_name=target_col,
-            columns=label_col,
-            preprocess_funcs=preprocess_func_lambdas,
-            filter_incorrect=True
-        )
-        labels = np.squeeze(labels)
+        if preprocess_func is None:
+            preprocess_func_lambdas = None
+        else:
+            preprocess_func_lambdas = []
+            for func in preprocess_func or []:
+                if func == 'datetime_to_dayofyear':
+                    preprocess_func_lambdas.append(lambda x: pd.to_datetime(x).day_of_year)
+                elif func == 'datetime_to_month':
+                    preprocess_func_lambdas.append(lambda x: pd.to_datetime(x).month)
+                elif func == 'datetime_to_year':
+                    preprocess_func_lambdas.append(lambda x: np.abs(pd.to_datetime(x).year + label_shift))
+                elif func == 'datetime_to_hour':
+                    preprocess_func_lambdas.append(lambda x: pd.to_datetime(x).hour)
+                elif func == 'log':
+                    preprocess_func_lambdas.append(lambda x: np.log(x + 1))
 
-        if max_samples is not None and activations.shape[0] > max_samples:
-            activations = activations[:max_samples]
-            labels = labels[:max_samples]
+        print(f"Scoring activations for {kwargs}")
 
-        # Prepare args list
-        args_list = [
-            (
-                layer,
-                label_col,
-                target_col,
-                activations,
-                labels,
-                reduction_method,
-                n_components,
-                manifold,
-                k,
-                preprocess_func,
-                ad.global_metadata
+        all_scores = []
+        for target_col in target_columns:
+            activations, labels = ad.get_slice(
+                target_name=target_col,
+                columns=label_col,
+                preprocess_funcs=preprocess_func_lambdas,
+                filter_incorrect=True
             )
-            for layer in layers
-        ]
+            labels = np.squeeze(labels)
 
-        # Parallel execution
-        with ProcessPoolExecutor(max_workers=max_workers) as executor:
-            results = executor.map(process_layer, args_list)
+            if max_samples is not None and activations.shape[0] > max_samples:
+                activations = activations[:max_samples]
+                labels = labels[:max_samples]
 
-            for result in tqdm(results, total=len(args_list), desc=f"Target: {target_col}"):
-                if result is not None:
-                    all_scores.append(result)
+            # Prepare args list
+            args_list = [
+                (
+                    layer,
+                    label_col,
+                    target_col,
+                    activations,
+                    labels,
+                    reduction_method,
+                    n_components,
+                    manifold,
+                    k,
+                    preprocess_func,
+                    ad.global_metadata
+                )
+                for layer in layers
+            ]
+            for args in tqdm(args_list, total=len(args_list), desc=f"Target: {target_col}"):
+                results = process_layer(args)
 
-    return pd.DataFrame(all_scores)
+                for result in results:
+                    if result is not None:
+                        all_scores.append(result)
+
+        return pd.DataFrame(all_scores).to_csv(f"results/scores/{id}.csv", header=True, index=False)
+
+    def run_experiment(self, args):
+        return self.score_activations(**args)
+
+    def combine_results(self, results_args):
+        # Combine results from multiple experiments (e.g., aggregate metrics)
+        print("Combining results...")
+        ids = [self.hash_args(args) for args in results_args]
+        combined_df = pd.concat([pd.read_csv(f"results/scores/{id}.csv") for id in ids], ignore_index=True)
+        combined_df.to_csv("results/scores/combined_scores.csv", index=False)
+        print("Results combined and saved to results/scores/combined_scores.csv")
+
+    def results_exist(self, args):
+        # Check if the results for the given args already exist
+        id = self.hash_args(args)
+        return os.path.exists(f"results/scores/{id}.csv")
+    
+    def validate_args(self, args):
+        if 'duration' in args['path'] and args['manifold'] != 'euclidean' and isinstance(args['label_col'], list):
+            print(f"Skipping {args['path']} with manifold {args['manifold']} and label_col {args['label_col']}")
+            return False
+        return super().validate_args(args)
+
 
 if __name__ == "__main__":
-    global_scoring_settings = {
-        'reduction_method': 'SMDS',
-        'k': 5,
-        'target_columns': None,  # Use all columns
-        'layers': None,  # Use all layers
-        'n_components': [2, 3, 4],
-        'manifold': ['euclidean', 'discrete_circular', 'cluster', 'circular', 'semicircular', 'log_linear', 'log_semicircular'],
-        'max_samples': 500
-    }
-    scoring_settings = [
-        # {'path': 'results/8B-Instruct/date_3way', 'model_name': 'meta-llama/Llama-3.1-8B-Instruct', 'label_col': 'correct_date', 'preprocess_func': 'datetime_to_dayofyear', },
+    parser = argparse.ArgumentParser()
+    parser.add_argument("--config", type=str, default=None,
+                        help="Path to a YAML config file containing global, grid, and local configs.")
+    args = parser.parse_args()
 
-        {'path': 'results/gemma-2-2b-it/duration_3way.pt', 'label_col': ['correct_duration_length', 'correct_date'], 'preprocess_func':['log', 'datetime_to_dayofyear'], },
-        {'path': 'results/gemma-2-2b-it/duration_3way.pt', 'label_col': 'correct_duration_length', },
-        {'path': 'results/gemma-2-2b-it/date_3way.pt', 'label_col': 'correct_date', 'preprocess_func': 'datetime_to_dayofyear', },
-        {'path': 'results/gemma-2-2b-it/date_3way_season.pt', 'label_col': 'correct_season_label',},
-        {'path': 'results/gemma-2-2b-it/date_3way_temperature.pt', 'label_col': 'correct_temperature_label',},
-        {'path': 'results/gemma-2-2b-it/time_of_day_3way.pt', 'label_col': 'correct_time', 'preprocess_func': 'datetime_to_hour', },
-        {'path': 'results/gemma-2-2b-it/time_of_day_3way_phase.pt', 'label_col': 'correct_phase_label'},
-        {'path': 'results/gemma-2-2b-it/periodic_3way.pt', 'label_col': 'correct_period_length', },
-        {'path': 'results/gemma-2-2b-it/notable_3way.pt', 'label_col': 'correct_date', 'preprocess_func': 'datetime_to_year', 'label_shift': -2023},
-
-        {'path': 'results/Llama-3.2-3B-Instruct/duration_3way.pt', 'label_col': ['correct_duration_length', 'correct_date'], 'preprocess_func':['log', 'datetime_to_dayofyear'], },
-        {'path': 'results/Llama-3.2-3B-Instruct/duration_3way.pt', 'label_col': 'correct_duration_length', },
-        {'path': 'results/Llama-3.2-3B-Instruct/date_3way.pt', 'label_col': 'correct_date', 'preprocess_func': 'datetime_to_dayofyear', },
-        {'path': 'results/Llama-3.2-3B-Instruct/date_3way_season.pt', 'label_col': 'correct_season_label'},
-        {'path': 'results/Llama-3.2-3B-Instruct/date_3way_temperature.pt', 'label_col': 'correct_temperature_label',},
-        {'path': 'results/Llama-3.2-3B-Instruct/time_of_day_3way.pt', 'label_col': 'correct_time', 'preprocess_func': 'datetime_to_hour', },
-        {'path': 'results/Llama-3.2-3B-Instruct/time_of_day_3way_phase.pt', 'label_col': 'correct_phase_label'},
-        {'path': 'results/Llama-3.2-3B-Instruct/periodic_3way.pt', 'label_col': 'correct_period_length', },
-        {'path': 'results/Llama-3.2-3B-Instruct/notable_3way.pt', 'label_col': 'correct_date', 'preprocess_func': 'datetime_to_year', 'label_shift': -2023},
-
-        {'path': 'results/Qwen2.5-3B-Instruct/duration_3way.pt', 'label_col': ['correct_duration_length', 'correct_date'], 'preprocess_func':['log', 'datetime_to_dayofyear'], },
-        {'path': 'results/Qwen2.5-3B-Instruct/duration_3way.pt', 'label_col': 'correct_duration_length', },
-        {'path': 'results/Qwen2.5-3B-Instruct/date_3way.pt', 'label_col': 'correct_date', 'preprocess_func': 'datetime_to_dayofyear', },
-        {'path': 'results/Qwen2.5-3B-Instruct/date_3way_season.pt', 'label_col': 'correct_season_label'},
-        {'path': 'results/Qwen2.5-3B-Instruct/date_3way_temperature.pt', 'label_col': 'correct_temperature_label',},
-        {'path': 'results/Qwen2.5-3B-Instruct/time_of_day_3way.pt', 'label_col': 'correct_time', 'preprocess_func': 'datetime_to_hour', },
-        {'path': 'results/Qwen2.5-3B-Instruct/time_of_day_3way_phase.pt', 'label_col': 'correct_phase_label'},
-        {'path': 'results/Qwen2.5-3B-Instruct/periodic_3way.pt', 'label_col': 'correct_period_length', },
-        {'path': 'results/Qwen2.5-3B-Instruct/notable_3way.pt', 'label_col': 'correct_date', 'preprocess_func': 'datetime_to_year', 'label_shift': -2023},
-    ]
-
-    # Explode the global settings
-    global_scoring_settings_exploded = explode_dict(global_scoring_settings)
-    # Make all pairs of global and scoring settings
-    all_settings = []
-    for global_settings in global_scoring_settings_exploded:
-        for scoring_setting in scoring_settings:
-            combined_settings = {**global_settings, **scoring_setting}
-            if 'duration' in combined_settings['path'] and combined_settings['manifold'] != 'euclidean' and isinstance(combined_settings['label_col'], list):
-                continue
-            all_settings.append(combined_settings)
-
-    # Run the scoring
-    all_scores = []
-    for setting in all_settings:
-        id = stable_hash(setting)
-        # If the setting already exists, load it instead of scoring again
-        if os.path.exists(f"results/scores/{id}.csv"):
-            print(f"Loading existing scores for settings: {setting}")
-            scores_df = pd.read_csv(f"results/scores/{id}.csv")
-            all_scores.append(scores_df)
-            continue
-
-        # Otherwise, score the activations
-        print(f"Scoring with settings: {setting}")
-        scores_df = score_activations(**setting)
-        
-        # Save scores_df to results/scores
-        # Get a unique id from the combined settings via hashing
-        scores_df['id'] = id
-        if not scores_df.empty:
-            scores_df.to_csv(f"results/scores/{id}.csv", header=True, index=False)
-        all_scores.append(scores_df)
-    # Concatenate all scores into a single DataFrame
-    if all_scores:
-        scores_df = pd.concat(all_scores, ignore_index=True)
-    else:
-        scores_df = pd.DataFrame()
-            
-    # Save the scores to a CSV file
-    print("Saving all scores to csv")
-    scores_df.to_csv("results/scores/all_scores.csv", header=True, index=False)
+    runner = ScoreRunner(config_path=args.config)
+    runner.run_all(multiprocessing=False)

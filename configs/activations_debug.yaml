@@ -1,0 +1,18 @@
+global:
+  delta_token: 0
+  debug: false
+  frac: 1
+  use_quantization: false
+
+grid:
+  model_name:
+    - gpt2
+
+local:
+  - datasets:
+    - filename: datasets/templates/date_3way.csv
+      label_columns: [correct_date]
+      extra_columns: [correct_date_str]
+
+    - filename: datasets/templates/notable_3way.csv
+      label_columns: [correct_date]

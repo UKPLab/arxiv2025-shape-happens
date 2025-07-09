@@ -2,6 +2,7 @@ from .utils import prompt_ollama, find_token_idx, activate_eval, clean, activate
 from .utils import SupervisedMDS
 from .utils import ActivationDataset
 from .plot import plot_activations, plot_activations_single
+from .config import Runner
 
 
 __all__ = [
@@ -15,4 +16,5 @@ __all__ = [
     "ActivationDataset",
     "plot_activations",
     "plot_activations_single",
+    "Runner"
     ]

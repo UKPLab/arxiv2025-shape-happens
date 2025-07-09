@@ -25,4 +25,4 @@ export HOME=/ukp-storage-1/tiblias
 cd /ukp-storage-1/tiblias/time-stuff
 source /ukp-storage-1/tiblias/miniconda/bin/activate td
 
-python compute_scores.py
+python compute_scores.py --config configs/scoring_slurm.yaml
