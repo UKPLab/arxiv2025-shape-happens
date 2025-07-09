@@ -8,7 +8,7 @@
 #SBATCH --cpus-per-task=16
 #SBATCH -q yolo
 #SBATCH -p yolo
-#SBATCH --mem=256GB
+#SBATCH --mem=512GB
 
 
 # export PATH=$PATH:/ukp-storage-1/tiblias/miniconda/envs/td/bin
@@ -21,6 +21,7 @@
 # export NCCL_IB_GID_INDEX=3
 # export NCCL_P2P_DISABLE=0
 # export NCCL_DEBUG=INFO
+export HOME=/ukp-storage-1/tiblias
 cd /ukp-storage-1/tiblias/time-stuff
 source /ukp-storage-1/tiblias/miniconda/bin/activate td
 
