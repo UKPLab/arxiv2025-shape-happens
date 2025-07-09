@@ -20,7 +20,7 @@ from skimage.color import rgb2lab, lab2rgb
 
 def plot_activations(ad: ActivationDataset, label_col: str, reduction_method, target_col='correct_answer', layers=None, components=(0,1),
                      label_col_str=None, n_components=2, manifold='discrete_circular', title=None, save_path=None, plots_per_row=4,
-                     annotations='random',  filter_incorrect=True, orthonormal=False,
+                     annotations='random',  filter_incorrect=True, orthonormal=False, max_samples=500,
                      preprocess_func=None, annotation_preprocess_func=None, postprocess_func=None,
                      return_fig=False):
     
@@ -35,7 +35,7 @@ def plot_activations(ad: ActivationDataset, label_col: str, reduction_method, ta
 
     if manifold in ['discrete_circular', 'circular']:
         palette = 'twilight'
-    elif manifold in ['log_linear', 'linear', 'semicircular', 'log_semicircular']:
+    elif manifold in ['log_linear', 'euclidean', 'semicircular', 'log_semicircular']:
         palette = 'flare'
     elif manifold in ['cluster']:
         palette = 'tab10'
@@ -72,6 +72,7 @@ def plot_activations(ad: ActivationDataset, label_col: str, reduction_method, ta
             postprocess_func=postprocess_func,
             palette=palette,
             title=title,
+            max_samples=max_samples,
         )
 
         ax.set_title(f"Layer {layer}")
