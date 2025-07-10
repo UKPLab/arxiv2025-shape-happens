@@ -6,7 +6,7 @@ global:
   max_samples: 500
 
 grid:
-  n_components: [2, 3, 4]
+  n_components: [3,4,2]
   manifold: 
     - euclidean
     - discrete_circular
@@ -52,85 +52,95 @@ local:
     label_shift: -2023
 
   #### Llama-3.1-8B-Instruct ####
-  - path: results/8B-Instruct/duration_3way.pt
+  - path: results/8B-Instruct/duration_3way
     model_name: meta-llama/Llama-3.1-8B-Instruct
     label_col: [correct_duration_length, correct_date]
     preprocess_func: [log, datetime_to_dayofyear]
 
-  - path: results/8B-Instruct/duration_3way.pt
+  - path: results/8B-Instruct/duration_3way
     model_name: meta-llama/Llama-3.1-8B-Instruct
     label_col: correct_duration_length
 
-  - path: results/8B-Instruct/date_3way.pt
+  - path: results/8B-Instruct/date_3way
     model_name: meta-llama/Llama-3.1-8B-Instruct
     label_col: correct_date
     preprocess_func: datetime_to_dayofyear
 
-  - path: results/8B-Instruct/date_3way_season.pt
+  - path: results/8B-Instruct/date_3way_season
     model_name: meta-llama/Llama-3.1-8B-Instruct
     label_col: correct_season_label
 
-  - path: results/8B-Instruct/date_3way_temperature.pt
+  - path: results/8B-Instruct/date_3way_temperature
     model_name: meta-llama/Llama-3.1-8B-Instruct
     label_col: correct_temperature_label
 
-  - path: results/8B-Instruct/time_of_day_3way.pt
+  - path: results/8B-Instruct/time_of_day_3way
     model_name: meta-llama/Llama-3.1-8B-Instruct
     label_col: correct_time
     preprocess_func: datetime_to_hour
 
-  - path: results/8B-Instruct/time_of_day_3way_phase.pt
+  - path: results/8B-Instruct/time_of_day_3way_phase
     model_name: meta-llama/Llama-3.1-8B-Instruct
     label_col: correct_phase_label
 
-  - path: results/8B-Instruct/periodic_3way.pt
+  - path: results/8B-Instruct/periodic_3way
     model_name: meta-llama/Llama-3.1-8B-Instruct
     label_col: correct_period_length
 
-  - path: results/8B-Instruct/notable_3way.pt
+  - path: results/8B-Instruct/notable_3way
     model_name: meta-llama/Llama-3.1-8B-Instruct
     label_col: correct_date
     preprocess_func: datetime_to_year
     label_shift: -2023
 
   #### Llama-3.1-70B-Instruct ####
-  - path: results/70B-Instruct/duration_3way.pt
+  - path: results/70B-Instruct/duration_3way
     model_name: meta-llama/Llama-3.1-70B-Instruct
     label_col: [correct_duration_length, correct_date]
     preprocess_func: [log, datetime_to_dayofyear]
+    layers: [0,1,5,10,15,20,25,30,35,40,45,50,55,60,65,70,75,80]
 
-  - path: results/70B-Instruct/duration_3way.pt
+  - path: results/70B-Instruct/duration_3way
     model_name: meta-llama/Llama-3.1-70B-Instruct
     label_col: correct_duration_length
+    layers: [0,1,5,10,15,20,25,30,35,40,45,50,55,60,65,70,75,80]
 
-  - path: results/70B-Instruct/date_3way.pt
+
+  - path: results/70B-Instruct/date_3way
     model_name: meta-llama/Llama-3.1-70B-Instruct
     label_col: correct_date
     preprocess_func: datetime_to_dayofyear
+    layers: [0,1,5,10,15,20,25,30,35,40,45,50,55,60,65,70,75,80]
 
-  - path: results/70B-Instruct/date_3way_season.pt
+  - path: results/70B-Instruct/date_3way_season
     model_name: meta-llama/Llama-3.1-70B-Instruct
     label_col: correct_season_label
+    layers: [0,1,5,10,15,20,25,30,35,40,45,50,55,60,65,70,75,80]
 
-  - path: results/70B-Instruct/date_3way_temperature.pt
+  - path: results/70B-Instruct/date_3way_temperature
     model_name: meta-llama/Llama-3.1-70B-Instruct
     label_col: correct_temperature_label
+    layers: [0,1,5,10,15,20,25,30,35,40,45,50,55,60,65,70,75,80]
 
-  - path: results/70B-Instruct/time_of_day_3way.pt
+  - path: results/70B-Instruct/time_of_day_3way
     model_name: meta-llama/Llama-3.1-70B-Instruct
     label_col: correct_time
     preprocess_func: datetime_to_hour
+    layers: [0,1,5,10,15,20,25,30,35,40,45,50,55,60,65,70,75,80]
 
-  - path: results/70B-Instruct/time_of_day_3way_phase.pt
+  - path: results/70B-Instruct/time_of_day_3way_phase
     model_name: meta-llama/Llama-3.1-70B-Instruct
     label_col: correct_phase_label
+    layers: [0,1,5,10,15,20,25,30,35,40,45,50,55,60,65,70,75,80]
 
-  - path: results/70B-Instruct/periodic_3way.pt
+  - path: results/70B-Instruct/periodic_3way
     model_name: meta-llama/Llama-3.1-70B-Instruct
     label_col: correct_period_length
+    layers: [0,1,5,10,15,20,25,30,35,40,45,50,55,60,65,70,75,80]
 
-  - path: results/70B-Instruct/notable_3way.pt
+  - path: results/70B-Instruct/notable_3way
     model_name: meta-llama/Llama-3.1-70B-Instruct
     label_col: correct_date
     preprocess_func: datetime_to_year
     label_shift: -2023
+    layers: [0,1,5,10,15,20,25,30,35,40,45,50,55,60,65,70,75,80]
