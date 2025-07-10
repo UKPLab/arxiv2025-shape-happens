@@ -114,6 +114,8 @@ class ScoreRunner(Runner):
         label_shift = kwargs.get("label_shift", 0)
         max_samples = kwargs.get("max_samples", None)
         
+        print(f"Scoring activations for {kwargs}")
+
         ad = ActivationDataset.load(path, model_name=model_name)
 
         if layers is None:
@@ -142,8 +144,6 @@ class ScoreRunner(Runner):
                     preprocess_func_lambdas.append(lambda x: pd.to_datetime(x).hour)
                 elif func == 'log':
                     preprocess_func_lambdas.append(lambda x: np.log(x + 1))
-
-        print(f"Scoring activations for {kwargs}")
 
         all_scores = []
         for target_col in target_columns:
