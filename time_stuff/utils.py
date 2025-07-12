@@ -811,7 +811,8 @@ def activate_eval(df, dataset_name, model, tokenizer, label_columns, question_co
         # hidden_states = [h.type(torch.float16)[0,idx_end,:] for h in hidden_states]
 
         outputs.append(hidden_states_np)
-        row_metadata = {
+        row_metadata = row.to_dict()
+        row_metadata.update({
             'context': context,
             'question': question,
             'answer': answer,
@@ -819,8 +820,7 @@ def activate_eval(df, dataset_name, model, tokenizer, label_columns, question_co
             'correct_answer_idx': correct_answer_idx,
             'decoded': gen_decoded,
             'correct': correct,
-        }
-        row_metadata.update(labels)
+        })
         row_metadata.update(extra_cols_dict)
         sample_metadata.append(row_metadata)
 
