@@ -178,12 +178,9 @@ class ScoreRunner(Runner):
             ]
             for args in tqdm(args_list, total=len(args_list), desc=f"Target: {target_col}"):
                 results = process_layer(args)
+                all_scores.append(results)
 
-                for result in results:
-                    if result is not None:
-                        all_scores.append(result)
-
-        return pd.DataFrame(all_scores).to_csv(f"results/scores/{id}.csv", header=True, index=False)
+        return pd.DataFrame(all_scores).to_csv(f"{self.save_path}/{id}.csv", header=True, index=False)
 
     def run_experiment(self, args):
         return self.score_activations(**args)
