@@ -180,7 +180,7 @@ class ScoreRunner(Runner):
                 results = process_layer(args)
                 all_scores.append(results)
 
-        return pd.DataFrame(all_scores).to_csv(f"{self.save_path}/{id}.csv", header=True, index=False)
+        return pd.DataFrame(all_scores).to_csv(f"results/scores/{id}.csv", header=True, index=False)
 
     def run_experiment(self, args):
         return self.score_activations(**args)
