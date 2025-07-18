@@ -195,6 +195,7 @@ df = df[np.isinf(df['score']) == False]  # Remove inf scores
 
 # Rename manifold trivial to cluster
 df['manifold'] = df['manifold'].replace({'trivial': 'cluster', 'euclidean': 'linear'})
+df['']
 
 # df = df[df['dataset_name'].isin(['date_3way', 'date_3way_season', 'periodic_3way', 'notable_3way'])] 
 # df = df[df['dataset_name'].isin(['date_3way_temperature', 'duration_3way', 'time_of_day_3way', 'time_of_day_3way_phase'])]
@@ -287,6 +288,10 @@ def plot_activation_manifold(model_name, dataset_name, layer, manifold, manifold
                              label_col=None, preprocess_func=None, postprocess_func=None):
     # Load the activation dataset
     model_name = model_name.split('/')[-1]  # Extract the model name from the full path
+    if model_name == 'Llama-3.1-70B-Instruct':
+        model_name = '70B-Instruct'
+    elif model_name == 'Llama-3.1-8B-Instruct':
+        model_name = '8B-Instruct'
     try:
         ad_path = f'results/{model_name}/{dataset_name}.pt'
         ad = ActivationDataset.load(ad_path)
