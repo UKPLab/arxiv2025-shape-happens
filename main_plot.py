@@ -147,7 +147,7 @@ def clean_barplot(ax, subset, order=None):
     
     for i, manifold in enumerate(manifolds_to_process):
         # Get the value for this manifold
-        value = subset[subset['manifold'] == manifold]['norm_score'].iloc[0]
+        value = subset[subset['manifold'] == manifold]['norm_score'].iloc[0] if len(subset[subset['manifold'] == manifold]) > 0 else 0
         midpoint = subset['norm_score'].clip(lower=0).mean()
         maximum = subset['norm_score'].max()
 
@@ -194,7 +194,7 @@ df = df[np.isinf(df['score']) == False]  # Remove inf scores
 # df = df[~df['manifold'].isin(['log_semicircular'])]
 
 # Rename manifold trivial to cluster
-df['manifold'] = df['manifold'].replace({'trivial': 'cluster'})
+df['manifold'] = df['manifold'].replace({'trivial': 'cluster', 'euclidean': 'linear'})
 
 # df = df[df['dataset_name'].isin(['date_3way', 'date_3way_season', 'periodic_3way', 'notable_3way'])] 
 # df = df[df['dataset_name'].isin(['date_3way_temperature', 'duration_3way', 'time_of_day_3way', 'time_of_day_3way_phase'])]
