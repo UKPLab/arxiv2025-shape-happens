@@ -130,7 +130,7 @@ class ActivationRunner(Runner):
                 print(f"Model: {model_name}, Dataset: {dataset_name}, Accuracy: {adf.get_accuracy()}")
 
                 extension = '.pt'
-                if next(iter(adf.activations.values())).nbytes > 2e9:
+                if next(iter(adf.activations.values())).nbytes > 1e9:
                     print("Activations too large, sharding result.")
                     extension = ''
 
