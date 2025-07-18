@@ -287,9 +287,12 @@ def plot_activation_manifold(model_name, dataset_name, layer, manifold, manifold
                              label_col=None, preprocess_func=None, postprocess_func=None):
     # Load the activation dataset
     model_name = model_name.split('/')[-1]  # Extract the model name from the full path
-    ad_path = f'results/{model_name}/{dataset_name}.pt'
-    ad = ActivationDataset.load(ad_path)
-    # TODO: define other palette
+    try:
+        ad_path = f'results/{model_name}/{dataset_name}.pt'
+        ad = ActivationDataset.load(ad_path)
+    except FileNotFoundError:
+        ad_path = f'results/{model_name}/{dataset_name}'
+        ad = ActivationDataset.load(ad_path)
     if manifold_type == 'circular':
         palette = 'twilight'
     elif manifold_type == 'linear':
