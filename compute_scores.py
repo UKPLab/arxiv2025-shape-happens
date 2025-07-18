@@ -97,6 +97,10 @@ def process_layer(args):
 
 
 class ScoreRunner(Runner):
+    def __init__(self, config_path=None, save_path="results/scores/combined_scores.csv"):
+        self.save_path = save_path
+        super().__init__(config_path=config_path)
+
     def score_activations(self, **kwargs):
         id = self.hash_args(kwargs)
 
@@ -190,8 +194,8 @@ class ScoreRunner(Runner):
         print("Combining results...")
         ids = [self.hash_args(args) for args in results_args]
         combined_df = pd.concat([pd.read_csv(f"results/scores/{id}.csv") for id in ids], ignore_index=True)
-        combined_df.to_csv("results/scores/combined_scores.csv", index=False)
-        print("Results combined and saved to results/scores/combined_scores.csv")
+        combined_df.to_csv(self.save_path, index=False)
+        print(f"Results combined and saved to {self.save_path}")
 
     def results_exist(self, args):
         # Check if the results for the given args already exist
@@ -209,7 +213,9 @@ if __name__ == "__main__":
     parser = argparse.ArgumentParser()
     parser.add_argument("--config", type=str, default=None,
                         help="Path to a YAML config file containing global, grid, and local configs.")
+    parser.add_argument("--save_path", type=str, default="results/scores/combined_scores.csv",
+                        help="Path to save the results.")
     args = parser.parse_args()
 
-    runner = ScoreRunner(config_path=args.config)
+    runner = ScoreRunner(config_path=args.config, save_path=args.save_path)
     runner.run_all(multiprocessing=False)
