@@ -195,7 +195,6 @@ df = df[np.isinf(df['score']) == False]  # Remove inf scores
 
 # Rename manifold trivial to cluster
 df['manifold'] = df['manifold'].replace({'trivial': 'cluster', 'euclidean': 'linear'})
-df['']
 
 # df = df[df['dataset_name'].isin(['date_3way', 'date_3way_season', 'periodic_3way', 'notable_3way'])] 
 # df = df[df['dataset_name'].isin(['date_3way_temperature', 'duration_3way', 'time_of_day_3way', 'time_of_day_3way_phase'])]
