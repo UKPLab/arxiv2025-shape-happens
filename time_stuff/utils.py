@@ -337,7 +337,7 @@ class SupervisedMDS(BaseEstimator, TransformerMixin):
             for i in range(n):
                 for j in range(n):
                     D[i, j] = 0.0 if y[i] == y[j] else 1.0
-        elif self.manifold == 'euclidean':
+        elif self.manifold in ['euclidean', 'linear']:
             for i in range(n):
                 for j in range(n):
                     D[i, j] = np.linalg.norm(y[i] - y[j])
