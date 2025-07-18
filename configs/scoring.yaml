@@ -32,8 +32,16 @@ local:
   - path: results/gemma-2-2b-it/date_3way_season.pt
     label_col: correct_season_label
 
+  - path: results/gemma-2-2b-it/date_3way_season.pt
+    label_col: correct_date
+    preprocess_func: datetime_to_dayofyear
+
   - path: results/gemma-2-2b-it/date_3way_temperature.pt
     label_col: correct_temperature_label
+
+  - path: results/gemma-2-2b-it/date_3way_temperature.pt
+    label_col: correct_date
+    preprocess_func: datetime_to_dayofyear
 
   - path: results/gemma-2-2b-it/time_of_day_3way.pt
     label_col: correct_time
@@ -65,8 +73,16 @@ local:
   - path: results/Llama-3.2-3B-Instruct/date_3way_season.pt
     label_col: correct_season_label
 
+  - path: results/Llama-3.2-3B-Instruct/date_3way_season.pt
+    label_col: correct_date
+    preprocess_func: datetime_to_dayofyear
+
   - path: results/Llama-3.2-3B-Instruct/date_3way_temperature.pt
     label_col: correct_temperature_label
+
+  - path: results/Llama-3.2-3B-Instruct/date_3way_temperature.pt
+    label_col: correct_date
+    preprocess_func: datetime_to_dayofyear
 
   - path: results/Llama-3.2-3B-Instruct/time_of_day_3way.pt
     label_col: correct_time
@@ -98,8 +114,16 @@ local:
   - path: results/Qwen2.5-3B-Instruct/date_3way_season.pt
     label_col: correct_season_label
 
+  - path: results/Qwen2.5-3B-Instruct/date_3way_season.pt
+    label_col: correct_date
+    preprocess_func: datetime_to_dayofyear
+
   - path: results/Qwen2.5-3B-Instruct/date_3way_temperature.pt
     label_col: correct_temperature_label
+
+  - path: results/Qwen2.5-3B-Instruct/date_3way_temperature.pt
+    label_col: correct_date
+    preprocess_func: datetime_to_dayofyear
 
   - path: results/Qwen2.5-3B-Instruct/time_of_day_3way.pt
     label_col: correct_time
