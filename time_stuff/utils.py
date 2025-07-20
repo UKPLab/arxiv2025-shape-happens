@@ -310,7 +310,7 @@ class ActivationDataset:
 
 
 class SupervisedMDS(BaseEstimator, TransformerMixin):
-    def __init__(self, n_components=2, manifold='trivial', alpha=0.1, orthonormal=False):
+    def __init__(self, n_components=2, manifold='trivial', alpha=0.1, orthonormal=False, radius=6371):
         """
         Parameters:
             n_components: int
@@ -324,6 +324,7 @@ class SupervisedMDS(BaseEstimator, TransformerMixin):
         self.W_ = None
         self.alpha = alpha
         self.orthonormal = orthonormal
+        self.radius = radius  # Only used for spherical manifolds
         self._X_mean = None
         self._Y_mean = None
         if orthonormal and alpha != 0:
@@ -333,14 +334,11 @@ class SupervisedMDS(BaseEstimator, TransformerMixin):
         n = len(y)
         D = np.zeros((n, n))
 
-        if self.manifold in ['trivial', 'cluster']: # Retrocompatibility
-            for i in range(n):
-                for j in range(n):
-                    D[i, j] = 0.0 if y[i] == y[j] else 1.0
+        if self.manifold in ['trivial', 'cluster']:  # Retrocompatibility
+            D = (y[:, None] != y[None, :]).astype(float)
         elif self.manifold in ['euclidean', 'linear']:
-            for i in range(n):
-                for j in range(n):
-                    D[i, j] = np.linalg.norm(y[i] - y[j])
+            diff = y[:, np.newaxis, :] - y[np.newaxis, :, :]
+            D = np.linalg.norm(diff, axis=-1)
         elif self.manifold == 'log_linear':
             log_y = np.log(y + 1)
             D = np.abs(log_y[:, None] - log_y[None, :])
@@ -384,19 +382,76 @@ class SupervisedMDS(BaseEstimator, TransformerMixin):
         elif self.manifold == 'semicircular':
             max_y = np.max(y)
             min_y = np.min(y)
-            for i in range(n):
-                for j in range(n):
-                    y_i_norm = (y[i] - min_y) / (max_y - min_y)
-                    y_j_norm = (y[j] - min_y) / (max_y - min_y)
-                    D[i, j] = 2 * np.sin(np.pi/2 * np.abs(y_i_norm - y_j_norm)) 
+
+            # Normalize y to [0, 1]
+            y_norm = (y - min_y) / (max_y - min_y)
+
+            # Pairwise absolute differences
+            delta = np.abs(y_norm[:, None] - y_norm[None, :])
+            D = 2 * np.sin((np.pi / 2) * delta)
         elif self.manifold == 'log_semicircular':
             max_y = np.max(y)
             min_y = np.min(y)
-            for i in range(n):
-                for j in range(n):
-                    y_i_norm = (y[i] - min_y) / (max_y - min_y)
-                    y_j_norm = (y[j] - min_y) / (max_y - min_y)
-                    D[i, j] = 2 * np.sin(np.pi/2 * np.abs(np.log(y_i_norm + 1) - np.log(y_j_norm + 1)))
+
+            # Normalize y to [0, 1]
+            y_norm = (y - min_y) / (max_y - min_y)
+
+            # Log transform (add 1 to avoid log(0))
+            y_log = np.log(y_norm + 1)
+
+            # Pairwise absolute differences
+            delta = np.abs(y_log[:, None] - y_log[None, :])
+            D = 2 * np.sin((np.pi / 2) * delta)
+        elif self.manifold == 'sphere_chord':
+            if len(y.shape) != 2 or y.shape[1] != 2:
+                raise ValueError("For 'sphere_chord', labels must be a 2D array with shape (n_samples, 2).")
+            lat_rad = np.radians(y[:, 0])
+            lon_rad = np.radians(y[:, 1])
+            radius = self.radius
+
+            x = radius * np.cos(lat_rad) * np.cos(lon_rad)
+            y_ = radius * np.cos(lat_rad) * np.sin(lon_rad)
+            z = radius * np.sin(lat_rad)
+
+            coords = np.stack([x, y_, z], axis=1)
+            diffs = coords[:, np.newaxis, :] - coords[np.newaxis, :, :]
+            D = np.linalg.norm(diffs, axis=2)
+
+        elif self.manifold == 'geodesic':
+            if len(y.shape) != 2 or y.shape[1] != 2:
+                raise ValueError("For 'geodesic', labels must be a 2D array with shape (n_samples, 2).")
+            radius = self.radius
+            lat = np.radians(y[:, 0])[:, np.newaxis]
+            lon = np.radians(y[:, 1])[:, np.newaxis]
+
+            dlat = lat - lat.T
+            dlon = lon - lon.T
+
+            lat1 = lat
+            lat2 = lat.T
+
+            a = np.sin(dlat / 2)**2 + np.cos(lat1) * np.cos(lat2) * np.sin(dlon / 2)**2
+            c = 2 * np.arcsin(np.sqrt(a))
+            D = radius * c
+
+        elif self.manifold == 'cylinder_chord':
+            if len(y.shape) != 2 or y.shape[1] != 2:
+                raise ValueError("For 'cylinder_chord', labels must be a 2D array with shape (n_samples, 2).")
+
+            lat_rad = np.radians(y[:, 0])  # latitude as height
+            lon_rad = np.radians(y[:, 1])  # longitude as angle
+
+            radius = self.radius  # cylinder radius
+            
+            x = radius * np.cos(lon_rad)
+            y_ = radius * np.sin(lon_rad)
+            z = lat_rad  # treat lat as height
+
+            coords = np.stack([x, y_, z], axis=1)
+            diffs = coords[:, np.newaxis, :] - coords[np.newaxis, :, :]
+            D = np.linalg.norm(diffs, axis=2)
+
+
 
         elif callable(self.manifold):
             D = self.manifold(y)

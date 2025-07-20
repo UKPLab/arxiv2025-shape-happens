@@ -1,0 +1,17 @@
+global:
+  delta_token: 0
+  debug: false
+  frac: 1
+  use_quantization: false
+
+grid:
+  model_name:
+    - google/gemma-2-2b-it
+    - meta-llama/Llama-3.2-3B-Instruct
+    - Qwen/Qwen2.5-3B-Instruct
+
+local:
+  - datasets:
+    - filename: datasets/templates/cities_3way.csv
+      label_columns: [correct_lat,correct_lon,correct_geodesic_dist,correct_through_earth_dist,correct_euclidean_dist,reference_lat,reference_lon]
+      extra_columns: [correct_city, reference_city, reference_name]
