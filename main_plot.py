@@ -114,8 +114,8 @@ def add_shared_title(text, ax1, ax2, fig=None, y_pad=0.02, fontsize=14, **kwargs
 
 def clean_scatterplot(ax):
     # 1. Remove ticks and labels
-    # ax.set_xticks([])
-    # ax.set_yticks([])
+    ax.set_xticks([])
+    ax.set_yticks([])
     ax.set_yticklabels([])
     ax.set_xticklabels([])
 
@@ -147,9 +147,10 @@ def clean_barplot(ax, subset, order=None):
     
     for i, manifold in enumerate(manifolds_to_process):
         # Get the value for this manifold
-        value = subset[subset['manifold'] == manifold]['norm_score'].iloc[0] if len(subset[subset['manifold'] == manifold]) > 0 else 0
+        value = subset[subset['manifold'] == manifold]
+        value = value['norm_score'].iloc[0] if not value.empty else 0
         midpoint = subset['norm_score'].clip(lower=0).mean()
-        maximum = subset['norm_score'].max()
+        maximum = subset['norm_score'].max() if not subset['norm_score'].empty else 0
 
         if value > 0:
             if value == maximum:
@@ -204,6 +205,7 @@ df = df[~((df['dataset_name'] == 'date_3way_season') & (df['preprocess_func'] ==
 
 ### DEBUG ### 
 # df = df[df['dataset_name'].isin(['date_3way',])]
+# df = df[df['dataset_name'].isin(['date_3way', 'date_3way_season', 'periodic_3way', 'notable_3way'])] 
 
 
 # Step 1: For each (model, dataset), get the best (layer, score)
@@ -237,7 +239,8 @@ best_scores['norm_fold_score'] = best_scores.groupby(['model_name', 'dataset_nam
 
 
 best_scores['manifold_type'] = best_scores['manifold'].map({
-    'euclidean': 'linear', 
+    'euclidean': 'linear',
+    'linear': 'linear',
     'discrete_circular': 'circular', 
     'cluster': 'cluster',
     'circular': 'circular',
@@ -414,11 +417,12 @@ for i, (index, row) in enumerate(best_manifolds.drop(columns=['norm_fold_score',
     preprocess_func = row['preprocess_func'] if pd.notna(row['preprocess_func']) else None
     label_col = row.get('label_col', None) if pd.notna(row['label_col']) else None  # Use .get() to avoid KeyError if 'label_col' is not present
     postprocess_func = row.get('postprocess_func', None) if pd.notna(row['postprocess_func']) else None  # Use .get() to avoid KeyError if 'postprocess_func' is not present
-    clean_scatterplot(axs[ax_r][ax_c])
 
     print(f"Plotting {model_name} - {dataset_name} - {layer} - {manifold}")
     plot_activation_manifold(model_name, dataset_name, layer, manifold, manifold_type, axs[ax_r][ax_c], target_col=target_col,
                              label_col=label_col, preprocess_func=preprocess_func, postprocess_func=postprocess_func)
+    clean_scatterplot(axs[ax_r][ax_c])
+    
     if ax_r == 0:
         # axs[ax_r][ax_c].set_title(model_name, fontsize=14)
         add_shared_title(model_name, axs[ax_r][ax_c], axs[ax_r][ax_c + 1], fig=fig, y_pad=0.02, fontsize=18)
