@@ -372,6 +372,9 @@ def plot_activations_plotly(
     plotted_labels = labels_test if plot_test else labels_train
     df_plot = df_test if plot_test else df_train
 
+    score = rmodel.score(act_test, labels_test) if plot_test else rmodel.score(act_train, labels_train)
+    print(f"Layer: {layer} - Score: {score:.4f}")
+ 
     if postprocess_func:
         plotted_labels = postprocess_func(plotted_labels)
 
