@@ -1,0 +1,36 @@
+global:
+  reduction_method: SMDS
+  k: 5
+  target_columns: null
+  layers: null
+  max_samples: 500
+  n_components: 3
+
+grid:
+  manifold: 
+    - euclidean
+    - sphere_chord
+    - geodesic
+    - cylinder_chord
+
+local:
+  # On reference city
+  - path: results/gemma-2-2b-it/cities_3way.pt
+    label_col: [reference_lat, reference_lon]
+
+  - path: results/Llama-3.2-3B-Instruct/cities_3way
+    label_col: [reference_lat, reference_lon]
+
+  - path: results/Qwen2.5-3B-Instruct/cities_3way
+    label_col: [reference_lat, reference_lon]
+  
+  # On correct city  
+  - path: results/gemma-2-2b-it/cities_3way.pt
+    label_col: [correct_lat,correct_lon]
+
+  - path: results/Llama-3.2-3B-Instruct/cities_3way
+    label_col: [correct_lat,correct_lon]
+
+  - path: results/Qwen2.5-3B-Instruct/cities_3way
+    label_col: [correct_lat,correct_lon]
+    
