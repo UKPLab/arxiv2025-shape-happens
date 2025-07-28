@@ -147,10 +147,6 @@ def plot_activations_single(ad: ActivationDataset, label_col: str, reduction_met
         labels_train = (labels_train - min_label) / (max_label - min_label)
         labels_test = (labels_test - min_label) / (max_label - min_label)
 
-    # fig, axs = plt.subplots(int(np.ceil(len(layers) / plots_per_row)), plots_per_row,
-    #                         figsize=(scaling_factor * plots_per_row, scaling_factor * len(layers) // plots_per_row),
-    #                         constrained_layout=True)
-
     act_train = activations_train[:, layer]
     act_test = activations_test[:, layer]
 
@@ -181,9 +177,7 @@ def plot_activations_single(ad: ActivationDataset, label_col: str, reduction_met
         return rmodel, act_plot_red, plotted_labels
 
     if labels.ndim > 1 and palette_column is None:
-        # If labels are multi-dimensional, map them to 0-1 range
-        # cmap_labels_test = (plotted_labels - plotted_labels.min(axis=0)) / (plotted_labels.max(axis=0) - plotted_labels.min(axis=0))
-        # Instead of 0-1 mapping, standardize them
+        # Standardize the labels for coloring
         cmap_labels_test = (plotted_labels - plotted_labels.mean(axis=0)) / (plotted_labels.std(axis=0) + 1e-8)
         
         # Use ColorMap2DZiegler to get bidimensional colors
@@ -191,7 +185,6 @@ def plot_activations_single(ad: ActivationDataset, label_col: str, reduction_met
         hues = [cmap(l1, l2) / 255.0 for l1, l2 in cmap_labels_test]
 
         # Plot the data
-        # sns.set_style("whitegrid")
         if len(components) == 2:
             ax.scatter(act_plot_red[:, components[0]], act_plot_red[:, components[1]], c=hues, s=25)
         elif len(components) == 3:
@@ -226,10 +219,8 @@ def plot_activations_single(ad: ActivationDataset, label_col: str, reduction_met
             txt = preprocessed_labels[indices]
 
         elif annotations == 'uniform':
-            # indices = farthest_point_sampling(act_test_red, 10, center_bias=annotation_center_bias)
             unique_labels = np.unique(preprocessed_labels)
             if unique_labels.shape[0] > n_annotations:
-                # unique_labels = np.random.choice(unique_labels, size=16, replace=False)
                 indices = np.linspace(0, len(unique_labels)-1, n_annotations, dtype=int)
             else:
                 indices = np.arange(len(unique_labels))
@@ -246,7 +237,6 @@ def plot_activations_single(ad: ActivationDataset, label_col: str, reduction_met
         elif annotations == 'centroids':
             unique_labels = np.unique(plotted_labels)
             if unique_labels.shape[0] > n_annotations:
-                # unique_labels = np.random.choice(unique_labels, size=16, replace=False)
                 indices = np.linspace(0, len(unique_labels)-1, n_annotations, dtype=int)
                 unique_labels = unique_labels[indices]
 
@@ -268,14 +258,6 @@ def plot_activations_single(ad: ActivationDataset, label_col: str, reduction_met
         # Plot and annotate
         ax.scatter(points[:, components[0]], points[:, components[1]], color='red', edgecolor='k', s=20)
 
-        # for j, label in enumerate(txt):
-        #     ax.annotate(
-        #         label,
-        #         (points[j, components[0]] + annotation_offset[0],
-        #          points[j, components[1]] + annotation_offset[1]),
-        #         fontsize=annotation_fontsize,
-        #         path_effects=[pe.withStroke(linewidth=2, foreground="white")]
-        #     )
         texts = []
         for j, label in enumerate(txt):
             x = points[j, components[0]] + annotation_offset[0]
@@ -289,22 +271,9 @@ def plot_activations_single(ad: ActivationDataset, label_col: str, reduction_met
         # After all texts are added:
         adjust_text(texts, ax=ax, expand_points=(1.2, 1.2), arrowprops=dict(arrowstyle='-', color='gray', lw=0.5))
 
-    # ax.set_title(f"Layer {layer}")
     if ax.get_legend() is not None:
         ax.get_legend().set_visible(False)
 
-    # if title is not None:
-    #     fig.suptitle(title, fontsize=20)
-    # else:
-    #     fig.suptitle(f"{reduction_method} - {ad.model_name} - {ad.dataset_name}", fontsize=20)
-
-    # if return_fig:
-    #     return fig, axs
-    # if not save_path:
-    #     plt.show()
-    # else:
-    #     plt.savefig(save_path, bbox_inches='tight')
-    #     plt.close(fig)
     return rmodel, act_plot_red, plotted_labels
 
 def plot_activations_plotly(
@@ -422,26 +391,6 @@ def plot_activations_plotly(
         legend_title_text='City',
     )
     return fig, rmodel, act_plot_red, plotted_labels
-
-# sunset_continuous = ['#41476BFF', '#675478FF', '#9E6374FF', '#C67B6FFF', '#DE9B71FF', '#EFBC82FF', '#FBDFA2FF']
-# base_colors = [
-#     '#41476BFF', '#675478FF', '#9E6374FF',
-#     '#C67B6FFF', '#DE9B71FF', '#EFBC82FF', '#FBDFA2FF'
-# ]
-# looping_colors = base_colors + base_colors[-2::-1]  # exclude the last to avoid a hard repeat
-
-# sunset_base = LinearSegmentedColormap.from_list("sunset_base", base_colors)
-# sunset_looping = LinearSegmentedColormap.from_list("sunset_looping", looping_colors)
-# sunset_categorical = sns.color_palette([
-#     '#41476B',  # Deep indigo (base anchor)
-#     '#FBDFA2',  # Pale gold (base anchor)
-#     '#008080',  # Teal
-#     '#D81B60',  # Vivid magenta
-#     '#1E88E5',  # Vivid blue
-#     '#FFC107',  # Bright amber
-#     '#43A047',  # Emerald green
-#     '#E53935',  # Vivid red
-# ])
 
 class ColorMap2DSet1(BaseColorMap2D):
     """

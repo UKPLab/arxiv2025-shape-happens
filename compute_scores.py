@@ -70,7 +70,7 @@ def process_layer(args):
             'layer': layer,
             'target_col': target_col,
             'reduction_method': reduction_method,
-            'score': float(np.mean(fold_scores)), # TODO: log all fold scores to get error bars
+            'score': float(np.mean(fold_scores)),
             'fold_scores': fold_scores,
             'label_col': label_col,
             'control': control,

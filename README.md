@@ -14,11 +14,7 @@ This is the official repository of the paper "_Shape Happens: Automatic Feature 
 >The linear representation hypothesis states that language models (LMs) encode concepts as directions in their latent space, forming organized, multidimensional manifolds. Prior efforts focused on discovering ad-hoc geometries and numerical features, and thus lack generalization for manifold structure discovery. We introduce Supervised Multi-Dimensional Scaling (SMDS), a model-agnostic method to automatically discover feature manifolds. In this paper, we apply it to temporal reasoning as a case study, and find that features form geometric structures such as circles, lines, and clusters. This reveals many insights on these structures: they consistently reflect the properties of the concepts they represent; are stable across model families and sizes; actively support reasoning in models; dynamically reshape in response to context changes. Together, our findings shed light on the functional role of feature manifolds, supporting a model of entity-based reasoning in which LMs encode and transform structured representations.
 ></details></p>
 
-Contact person: [Federico Tiblias](mailto:federico.tiblias@tu-darmstadt.de) 
-
-[UKP Lab](https://www.ukp.tu-darmstadt.de/) | [TU Darmstadt](https://www.tu-darmstadt.de/
-)
-
+Contact person: REDACTED
 Don't hesitate to send us an e-mail or report an issue, if something is broken or if you have further questions.
 
 
