@@ -98,7 +98,6 @@ class ActivationDataset:
                 'sample_metadata': self.get_metadata_df()
             }, path)
         else:
-            # New directory-based save
             os.makedirs(path, exist_ok=True)
             print(f"Saving ActivationDataset in directory {path}...")
 
@@ -129,7 +128,6 @@ class ActivationDataset:
     @classmethod
     def load(cls, path: str, model_name: str = None):
         if cls._is_pt_file(path):
-            # Original single-file load
             data = torch.load(path, weights_only=False)
             activations_tensor = data['activations']
             activations_names = data['activations_names']
@@ -140,7 +138,6 @@ class ActivationDataset:
             global_metadata = data['global_metadata']
             sample_metadata = data['sample_metadata']
         else:
-            # Directory-based load
             metadata_path = os.path.join(path, 'metadata.pt')
             if not os.path.exists(metadata_path):
                 raise FileNotFoundError(f"No metadata.pt found in directory {path}")
@@ -207,29 +204,6 @@ class ActivationDataset:
             np.ndarray: The activations at the target token. Shape: (n_samples, n_layers, embedding_size).
         """
         return self.activations[target_column]
-        # n_samples, n_tokens, n_layers, embedding_size = self.activations[target_column].shape
-
-        # # First check if the first item in sample_metadata is a string
-        # # if it is, use find_token_idx to get the index int
-        # # then, use the int to get the activations
-        # if isinstance(self.sample_metadata[0][target_column], str):
-        #     target_indices = [find_token_idx(self._tokenizer, meta['decoded'], meta[target_column])
-        #                       + len(self._tokenizer.encode(meta['sentence']))
-        #                       for meta in self.sample_metadata]
-        # elif isinstance(self.sample_metadata[0][target_column], int):
-        #     target_indices = [meta[target_column] for meta in self.sample_metadata]
-        
-        # if len(target_indices) != self.n_samples:
-        #     # Log warning if not all samples have the target column
-        #     print(f"Warning: Not all samples have the target column '{target_column}'.")
-        
-        # # Create batch indices (0, 1, ..., n_samples-1)
-        # batch_indices = np.arange(n_samples)
-
-        # # Select the target activations
-        # target_activations = self.activations[batch_indices, :, target_indices, :]
-        
-        # return target_activations
 
     def get_metadata_column(self, column_name: str):
         """
@@ -259,7 +233,6 @@ class ActivationDataset:
         target_activations = self.get_target_activations(target_name)
         metadata_df = self.get_metadata_df(filter_incorrect=False) # Need all metadata to filter later
 
-        # Filter out incorrect samples if specified
         if filter_incorrect:
             correct_mask = metadata_df['correct'] == True
             target_activations = target_activations[correct_mask]
@@ -335,7 +308,7 @@ class SupervisedMDS(BaseEstimator, TransformerMixin):
             # Compute pairwise circular distances
             delta = np.abs(y_norm[:, None] - y_norm[None, :])
             delta = np.minimum(delta, 1 - delta)  # Wrap around the circle
-            D = 2 * np.sin(np.pi * delta)  # Full circle version
+            D = 2 * np.sin(np.pi * delta)
         elif self.manifold == 'helix':
             y_norm = (y - np.min(y)) / (np.max(y) - np.min(y))  # shape: (n,)
 
@@ -495,7 +468,6 @@ class SupervisedMDS(BaseEstimator, TransformerMixin):
             )
             self.W_ = result.x.reshape((self.n_components, X.shape[1]))
         else:
-            # Use classical MDS + closed-form least squares
             Y = self._classical_mds(D)
 
             self._X_mean = X.mean(axis=0)  # Centering
@@ -558,10 +530,7 @@ class SupervisedMDS(BaseEstimator, TransformerMixin):
         
         X_proj = np.asarray(X_proj)
 
-        # Use pseudo-inverse in case W_ is not square or full-rank
-        # W_pinv = np.linalg.pinv(self.W_)
-        # Use regularized pseudo-inverse to avoid numerical issues
-        # W_pinv = self._regularized_pinv(self.W_)
+        # Use truncated pseudo-inverse to avoid numerical issues
         W_pinv = self._truncated_pinv(self.W_)
 
         X_centered = (W_pinv @ X_proj.T).T
@@ -733,25 +702,6 @@ def find_token_idx(tokenizer, text, target, start=0):
         return -1
 
     return matched_token_idxs[-1]  # Return the last matching token index
-
-
-
-
-# def find_token_idx(tokenizer, text, target):
-#     """
-#     Find the index of a target token in a text using the tokenizer.
-#     """
-#     # Find the token in the text
-#     start_token_idx = text.find(target)
-
-#     # If the token is not found or if it is at the end of the text, return -1 
-#     if start_token_idx == -1 or start_token_idx + len(target) >= len(text):
-#         return -1
-#     end_token_idx = start_token_idx + len(target)
-#     # Tokenize the text to compute the token index
-#     tokenized_text = tokenizer(text[:end_token_idx], add_special_tokens=False)
-#     return len(tokenized_text['input_ids']) - 1
-    
 
 # Does both the evaluation and storing of activations
 def activate_eval(df, dataset_name, model, tokenizer, label_columns, question_column='question', answer_column='correct_answer', context_column='context', 
