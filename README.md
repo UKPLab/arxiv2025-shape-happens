@@ -5,99 +5,62 @@
 # shape_happens
 [![Arxiv](https://img.shields.io/badge/Arxiv-YYMM.NNNNN-red?style=flat-square&logo=arxiv&logoColor=white)](https://put-here-your-paper.com)
 [![License](https://img.shields.io/github/license/akatief/time-stuff)](https://opensource.org/licenses/Apache-2.0)
-[![Python Versions](https://img.shields.io/badge/Python-3.9-blue.svg?style=flat&logo=python&logoColor=white)](https://www.python.org/)
-[![CI](https://github.com/akatief/time-stuff/actions/workflows/main.yml/badge.svg)](https://github.com/akatief/time-stuff/actions/workflows/main.yml)
+[![Python Versions](https://img.shields.io/badge/Python-3.12-blue.svg?style=flat&logo=python&logoColor=white)](https://www.python.org/)
 
-This is the official template for new Python projects at UKP Lab. It was adapted for the needs of UKP Lab from the excellent [python-project-template](https://github.com/rochacbruno/python-project-template/) by [rochacbruno](https://github.com/rochacbruno).
+This is the official repository of the paper "_Shape Happens: Automatic Feature Manifold Discovery in LLMs_". It contains our implementation of Supervised Multidimensional Scaling (SMDS), as well as the scripts necessary to record activations, score different manifolds, and some utilities to plot the results.
 
-It should help you start your project and give you continuous status updates on the development through [GitHub Actions](https://docs.github.com/en/actions).
-
-> **Abstract:** The study of natural language processing (NLP) has gained increasing importance in recent years, with applications ranging from machine translation to sentiment analysis. Properly managing Python projects in this domain is of paramount importance to ensure reproducibility and facilitate collaboration. The template provides a structured starting point for projects and offers continuous status updates on development through GitHub Actions. Key features include a basic setup.py file for installation, packaging, and distribution, documentation structure using mkdocs, testing structure using pytest, code linting with pylint, and entry points for executing the program with basic CLI argument parsing. Additionally, the template incorporates continuous integration using GitHub Actions with jobs to check, lint, and test the project, ensuring robustness and reliability throughout the development process.
+><details>
+><summary> <b>Abstract</b> </summary>
+>The linear representation hypothesis states that language models (LMs) encode concepts as directions in their latent space, forming organized, multidimensional manifolds. Prior efforts focused on discovering ad-hoc geometries and numerical features, and thus lack generalization for manifold structure discovery. We introduce Supervised Multi-Dimensional Scaling (SMDS), a model-agnostic method to automatically discover feature manifolds. In this paper, we apply it to temporal reasoning as a case study, and find that features form geometric structures such as circles, lines, and clusters. This reveals many insights on these structures: they consistently reflect the properties of the concepts they represent; are stable across model families and sizes; actively support reasoning in models; dynamically reshape in response to context changes. Together, our findings shed light on the functional role of feature manifolds, supporting a model of entity-based reasoning in which LMs encode and transform structured representations.
+></details></p>
 
 Contact person: [Federico Tiblias](mailto:federico.tiblias@tu-darmstadt.de) 
 
 [UKP Lab](https://www.ukp.tu-darmstadt.de/) | [TU Darmstadt](https://www.tu-darmstadt.de/
 )
 
-Don't hesitate to send us an e-mail or report an issue, if something is broken (and it shouldn't be) or if you have further questions.
+Don't hesitate to send us an e-mail or report an issue, if something is broken or if you have further questions.
 
 
 ## Getting Started
 
-> **DO NOT CLONE OR FORK**
+Simply create a conda environment and install dependencies:
 
-If you want to set up this template:
-
-1. Request a repository on UKP Lab's GitHub by following the standard procedure on the wiki. It will install the template directly. Alternatively, set it up in your personal GitHub account by clicking **[Use this template](https://github.com/rochacbruno/python-project-template/generate)**.
-2. Wait until the first run of CI finishes. Github Actions will commit to your new repo with a "✅ Ready to clone and code" message.
-3. Delete optional files: 
-    - If you don't need automatic documentation generation, you can delete folder `docs`, file `.github\workflows\docs.yml` and `mkdocs.yml`
-    - If you don't want automatic testing, you can delete folder `tests` and file `.github\workflows\tests.yml`
-4. Prepare a virtual environment:
-```bash
-python -m venv .venv
-source .venv/bin/activate
-pip install .
-pip install -r requirements-dev.txt # Only needed for development
-```
-5. Adapt anything else (for example this file) to your project. 
-
-6. Read the file [ABOUT_THIS_TEMPLATE.md](ABOUT_THIS_TEMPLATE.md)  for more information about development.
+  ```bash
+  conda env create -f environment.yml
+  conda activate shape-happens
+  ```
 
 ## Usage
 
-### Using the classes
-
-To import classes/methods of `shape_happens` from inside the package itself you can use relative imports: 
-
-```py
-from .base import BaseClass # Notice how I omit the package name
-
-BaseClass().something()
-```
-
-To import classes/methods from outside the package (e.g. when you want to use the package in some other project) you can instead refer to the package name:
-
-```py
-from shape_happens import BaseClass # Notice how I omit the file name
-from shape_happens.subpackage import SubPackageClass # Here it's necessary because it's a subpackage
-
-BaseClass().something()
-SubPackageClass().something()
-```
-
-### Using scripts
-
-This is how you can use `shape_happens` from command line:
+We offer scripts to automatically record activations, score different hypothesis manifolds, and run interventions. First, activations for a given model on a given dataset should be recorded. Then, after the activations have been stored on disk, scores and interventions can be performed.
 
 ```bash
-$ python -m shape_happens
+python record_activations.py --config <filename> 
 ```
 
-### Expected results
+- `--config <filename>`: specifies the location of a config file listing all configurations to evaluate and record. See `configs/activations.yaml` for an example;
 
-After running the experiments, you should expect the following results:
+```bash
+python compute_scores.py --config <filename> 
+```
 
-(Feel free to describe your expected results here...)
+- `--config <filename>`: specifies the location of a config file listing all manifold configurations to score. See `configs/scoring.yaml` for an example;
+- `--save_path <filename>`: Optional. Specifies a filename where the summary scores are stored. The default path is `results/scores/combined_scores.csv`;
+- `--overwrite`: Optional. If passed, overwrites existing scoring results. All manifold scores are stored in `results/scores`;
 
-### Parameter description
+```bash
+python record_interventions.py --config <filename> 
+```
 
-* `x, --xxxx`: This parameter does something nice
-
-* ...
-
-* `z, --zzzz`: This parameter does something even nicer
-
-## Development
-
-Read the FAQs in [ABOUT_THIS_TEMPLATE.md](ABOUT_THIS_TEMPLATE.md) to learn more about how this template works and where you should put your classes & methods. Make sure you've correctly installed `requirements-dev.txt` dependencies
+- `--config <filename>`: specifies the location of a config file listing all configurations to evaluate and record. See `configs/interventions.yaml` for an example;
 
 ## Cite
 
 Please use the following citation:
 
 ```
-@InProceedings{smith:20xx:CONFERENCE_TITLE,
+@InProceedings{TODO:ARR2025,
   author    = {Smith, John},
   title     = {My Paper Title},
   booktitle = {Proceedings of the 20XX Conference on XXXX},
