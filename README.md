@@ -2,7 +2,7 @@
   <img src='logo.png' width='200'>
 </p>
 
-# time_stuff
+# shape_happens
 [![Arxiv](https://img.shields.io/badge/Arxiv-YYMM.NNNNN-red?style=flat-square&logo=arxiv&logoColor=white)](https://put-here-your-paper.com)
 [![License](https://img.shields.io/github/license/akatief/time-stuff)](https://opensource.org/licenses/Apache-2.0)
 [![Python Versions](https://img.shields.io/badge/Python-3.9-blue.svg?style=flat&logo=python&logoColor=white)](https://www.python.org/)
@@ -48,7 +48,7 @@ pip install -r requirements-dev.txt # Only needed for development
 
 ### Using the classes
 
-To import classes/methods of `time_stuff` from inside the package itself you can use relative imports: 
+To import classes/methods of `shape_happens` from inside the package itself you can use relative imports: 
 
 ```py
 from .base import BaseClass # Notice how I omit the package name
@@ -59,8 +59,8 @@ BaseClass().something()
 To import classes/methods from outside the package (e.g. when you want to use the package in some other project) you can instead refer to the package name:
 
 ```py
-from time_stuff import BaseClass # Notice how I omit the file name
-from time_stuff.subpackage import SubPackageClass # Here it's necessary because it's a subpackage
+from shape_happens import BaseClass # Notice how I omit the file name
+from shape_happens.subpackage import SubPackageClass # Here it's necessary because it's a subpackage
 
 BaseClass().something()
 SubPackageClass().something()
@@ -68,10 +68,10 @@ SubPackageClass().something()
 
 ### Using scripts
 
-This is how you can use `time_stuff` from command line:
+This is how you can use `shape_happens` from command line:
 
 ```bash
-$ python -m time_stuff
+$ python -m shape_happens
 ```
 
 ### Expected results

@@ -1,4 +1,4 @@
-"""Entry point for time_stuff."""
+"""Entry point for shape_happens."""
 
 from .cli import main  # pragma: no cover
 

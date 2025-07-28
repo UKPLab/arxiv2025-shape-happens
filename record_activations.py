@@ -20,9 +20,9 @@ from transformers import LogitsProcessor, LogitsProcessorList
 from transformers import LlamaConfig, AutoModelForCausalLM, AutoTokenizer
 from tqdm import tqdm
 import ast
-from time_stuff import clean, activate_eval, ActivationDataset
+from shape_happens import clean, activate_eval, ActivationDataset
 import gc
-from time_stuff.config import Runner
+from shape_happens.config import Runner
 
 
 import os
@@ -38,8 +38,8 @@ from copy import deepcopy
 from transformers import AutoModelForCausalLM, AutoTokenizer, BitsAndBytesConfig
 
 from multiprocessing import set_start_method
-from time_stuff.config import Runner
-from time_stuff.utils import activate_eval
+from shape_happens.config import Runner
+from shape_happens.utils import activate_eval
 import argparse
 
 

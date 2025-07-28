@@ -23,10 +23,10 @@ from transformers import LlamaConfig, AutoModelForCausalLM, AutoTokenizer
 from transformer_lens import HookedTransformer
 from tqdm import tqdm
 import ast
-from time_stuff import clean, activate_eval, ActivationDataset, activate_eval_intervene
+from shape_happens import clean, activate_eval, ActivationDataset, activate_eval_intervene
 import gc
-from time_stuff.utils import SupervisedMDS
-from time_stuff.config import Runner
+from shape_happens.utils import SupervisedMDS
+from shape_happens.config import Runner
 
 
 def datetime_to_dayofyear(x):

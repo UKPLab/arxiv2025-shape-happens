@@ -1,4 +1,4 @@
-"""CLI interface for time_stuff project.
+"""CLI interface for shape_happens project.
 
 Be creative! do whatever you want!
 
@@ -13,7 +13,7 @@ from .subpackage import SubPackageClass
 def main():  # pragma: no cover
     """
     The main function executes on commands:
-    `python -m time_stuff` and `$ time_stuff `.
+    `python -m shape_happens` and `$ shape_happens `.
 
     This is your program's entry point.
 

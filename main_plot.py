@@ -5,8 +5,8 @@ import numpy as np
 import pandas as pd
 import matplotlib.pyplot as plt
 import seaborn as sns
-from time_stuff.utils import ActivationDataset
-from time_stuff.plot import  plot_activations, plot_activations_single
+from shape_happens.utils import ActivationDataset
+from shape_happens.plot import  plot_activations, plot_activations_single
 import matplotlib.patheffects as path_effects
 from matplotlib.lines import Line2D
 

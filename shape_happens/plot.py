@@ -11,9 +11,9 @@ from sklearn.discriminant_analysis import LinearDiscriminantAnalysis
 from umap import UMAP
 from tqdm import tqdm
 from sklearn.preprocessing import Normalizer
-from time_stuff.utils import SupervisedMDS
-from time_stuff.utils import ActivationDataset
-from time_stuff.utils import farthest_point_sampling
+from shape_happens.utils import SupervisedMDS
+from shape_happens.utils import ActivationDataset
+from shape_happens.utils import farthest_point_sampling
 from pycolormap_2d import ColorMap2DBremm, ColorMap2DSteiger, ColorMap2DZiegler, BaseColorMap2D, ColorMap2DCubeDiagonal
 from matplotlib import patheffects as pe
 import tempfile

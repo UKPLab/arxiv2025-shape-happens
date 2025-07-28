@@ -4,7 +4,7 @@ import hashlib
 import itertools
 import json
 import os
-from time_stuff.utils import ActivationDataset, SupervisedMDS
+from shape_happens.utils import ActivationDataset, SupervisedMDS
 from sklearn.discriminant_analysis import LinearDiscriminantAnalysis
 from sklearn.decomposition import PCA
 from sklearn.manifold import TSNE, Isomap
@@ -16,7 +16,7 @@ import numpy as np
 import pandas as pd
 from tqdm import tqdm
 from sklearn.model_selection import KFold
-from time_stuff import Runner
+from shape_happens import Runner
 
 
 def process_layer(args):
