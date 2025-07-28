@@ -136,7 +136,7 @@ dmypy.json
 
 # Project files
 sketch*
-time_stuff/sketch*
+shape_happens/sketch*
 results/*
 datasets/generated/*
 datasets/old_templates/*
