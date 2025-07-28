@@ -138,4 +138,5 @@ dmypy.json
 sketch*
 time_stuff/sketch*
 results/*
+datasets/generated/*
 datasets/old_templates/*
