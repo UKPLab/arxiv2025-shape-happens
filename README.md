@@ -2,9 +2,9 @@
   <img src='logo.png' width='200'>
 </p>
 
-# shape_happens
+# Automatic Feature Manifold Discovery in LLMs
 [![Arxiv](https://img.shields.io/badge/Arxiv-YYMM.NNNNN-red?style=flat-square&logo=arxiv&logoColor=white)](https://put-here-your-paper.com)
-[![License](https://img.shields.io/github/license/akatief/time-stuff)](https://opensource.org/licenses/Apache-2.0)
+[![License](https://img.shields.io/github/license/???/time-stuff)](https://opensource.org/licenses/Apache-2.0)
 [![Python Versions](https://img.shields.io/badge/Python-3.12-blue.svg?style=flat&logo=python&logoColor=white)](https://www.python.org/)
 
 This is the official repository of the paper "_Shape Happens: Automatic Feature Manifold Discovery in LLMs_". It contains our implementation of Supervised Multidimensional Scaling (SMDS), as well as the scripts necessary to record activations, score different manifolds, and some utilities to plot the results.
@@ -15,6 +15,7 @@ This is the official repository of the paper "_Shape Happens: Automatic Feature 
 ></details></p>
 
 Contact person: REDACTED
+
 Don't hesitate to send us an e-mail or report an issue, if something is broken or if you have further questions.
 
 
