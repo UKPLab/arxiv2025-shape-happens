@@ -20,7 +20,7 @@ from time_stuff import Runner
 
 
 def process_layer(args):
-    (layer, label_col, target_col, activations, labels, reduction_method, n_components,
+    (control, layer, label_col, target_col, activations, labels, reduction_method, n_components,
      manifold, k, preprocess_func, global_metadata) = args
     
     if preprocess_func is not None and isinstance(preprocess_func, list) and len(preprocess_func) == 1:
@@ -77,6 +77,7 @@ def process_layer(args):
             'score': float(np.mean(fold_scores)), # TODO: log all fold scores to get error bars
             'fold_scores': fold_scores,
             'label_col': label_col,
+            'control': control,
             **global_metadata
         }
 
@@ -92,13 +93,18 @@ def process_layer(args):
             'reduction_method': reduction_method,
             'score': None,
             'fold_scores': None,
+            'label_col': label_col,
+            'control': control,
+            'error': str(e),
             **global_metadata
         }
 
 
 class ScoreRunner(Runner):
-    def __init__(self, config_path=None, save_path="results/scores/combined_scores.csv"):
+    def __init__(self, config_path=None, save_path="results/scores/combined_scores.csv",
+                 overwrite=False):
         self.save_path = save_path
+        self.overwrite = overwrite
         super().__init__(config_path=config_path)
 
     def score_activations(self, **kwargs):
@@ -117,6 +123,7 @@ class ScoreRunner(Runner):
         preprocess_func = kwargs.get("preprocess_func", None)
         label_shift = kwargs.get("label_shift", 0)
         max_samples = kwargs.get("max_samples", None)
+        control = kwargs.get("control", False)
         
         print(f"Scoring activations for {kwargs}")
 
@@ -163,9 +170,13 @@ class ScoreRunner(Runner):
                 activations = activations[:max_samples]
                 labels = labels[:max_samples]
 
+            if control: # If this is a control task, shuffle the labels
+                labels = np.random.permutation(labels)
+
             # Prepare args list
             args_list = [
                 (
+                    control,
                     layer,
                     label_col,
                     target_col,
@@ -199,6 +210,8 @@ class ScoreRunner(Runner):
 
     def results_exist(self, args):
         # Check if the results for the given args already exist
+        if self.overwrite:
+            return False
         id = self.hash_args(args)
         return os.path.exists(f"results/scores/{id}.csv")
     
@@ -215,7 +228,9 @@ if __name__ == "__main__":
                         help="Path to a YAML config file containing global, grid, and local configs.")
     parser.add_argument("--save_path", type=str, default="results/scores/combined_scores.csv",
                         help="Path to save the results.")
+    parser.add_argument("--overwrite", action='store_true',
+                        help="Overwrite existing results.")
     args = parser.parse_args()
 
-    runner = ScoreRunner(config_path=args.config, save_path=args.save_path)
+    runner = ScoreRunner(config_path=args.config, save_path=args.save_path, overwrite=args.overwrite)
     runner.run_all(multiprocessing=False)
