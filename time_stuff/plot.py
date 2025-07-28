@@ -95,9 +95,9 @@ def plot_activations(ad: ActivationDataset, label_col: str, reduction_method, ta
 
 def plot_activations_single(ad: ActivationDataset, label_col: str, reduction_method, layer, ax, target_col='correct_answer',  components=(0,1),
                      label_col_str=None, n_components=2, manifold='discrete_circular', filter_incorrect=True, orthonormal=False, 
-                     palette='viridis', title=None, save_path=None, plots_per_row=4, s=40, linewidth=0.8,
+                     palette='viridis', title=None, save_path=None, plots_per_row=4, s=40, linewidth=0.8, flip_axes=False,
                      annotations=None, plot_test=True, annotation_offset=(0,0), annotation_fontsize=14, n_annotations=10,
-                     preprocess_func=None, annotation_preprocess_func=None, postprocess_func=None,
+                     preprocess_func=None, annotation_preprocess_func=None, postprocess_func=None, palette_column=None,
                      max_samples=500):
 
     normalizer = Normalizer()
@@ -122,8 +122,9 @@ def plot_activations_single(ad: ActivationDataset, label_col: str, reduction_met
     activations, labels = ad.get_slice(target_name=target_col, columns=label_col, preprocess_funcs=preprocess_func, filter_incorrect=filter_incorrect)
     labels = np.squeeze(labels)
 
-    # if postprocess_func is not None:
-    #     labels = postprocess_func(labels)
+    if len(labels[0]) > 1:
+        # If labels are multi-dimensional, vstack to a 2D array
+        labels = np.vstack(labels)
 
     df = ad.get_metadata_df(filter_incorrect=filter_incorrect)
 
@@ -141,7 +142,7 @@ def plot_activations_single(ad: ActivationDataset, label_col: str, reduction_met
     df_train = df.iloc[:idx_split].reset_index(drop=True)
     df_test = df.iloc[idx_split:].reset_index(drop=True)
 
-    if reduction_method in ['PLS']:
+    if reduction_method in ['PLS'] and labels_train.ndim == 1:
         min_label = labels_train.min()
         max_label = labels_train.max()
         labels_train = (labels_train - min_label) / (max_label - min_label)
@@ -166,6 +167,11 @@ def plot_activations_single(ad: ActivationDataset, label_col: str, reduction_met
         act_plot_red = rmodel.transform(act_train)
         plotted_labels = labels_train
 
+    if flip_axes:
+        # flip_axes is a tuple of length n_components
+        for i, flip in enumerate(flip_axes):
+            act_plot_red[:, i] = act_plot_red[:, i] * flip
+
     if reduction_method not in ['UMAP', 'MDS']:
         print(f"Layer: {layer} - Score: {rmodel.score(act_test, labels_test):.4f}")
 
@@ -175,7 +181,7 @@ def plot_activations_single(ad: ActivationDataset, label_col: str, reduction_met
     if ax == None: # Early return
         return rmodel, act_plot_red, plotted_labels
 
-    if labels.ndim > 1:
+    if labels.ndim > 1 and palette_column is None:
         # If labels are multi-dimensional, map them to 0-1 range
         # cmap_labels_test = (plotted_labels - plotted_labels.min(axis=0)) / (plotted_labels.max(axis=0) - plotted_labels.min(axis=0))
         # Instead of 0-1 mapping, standardize them
@@ -193,7 +199,11 @@ def plot_activations_single(ad: ActivationDataset, label_col: str, reduction_met
             ax.scatter(act_plot_red[:, components[0]], act_plot_red[:, components[1]],
                        act_plot_red[:, components[2]])
     else:
-        palette = palette if len(np.unique(labels)) > 2 else ['#3A4CC0', '#B40426']
+        if palette_column is not None:
+            # Use the specified column for coloring
+            plotted_labels = df_test[palette_column].values if plot_test else df_train[palette_column].values
+        else:
+            palette = palette if len(np.unique(labels)) > 2 else ['#3A4CC0', '#B40426']
         sns.scatterplot(
             x=act_plot_red[:, components[0]], 
             y=act_plot_red[:, components[1]],
