@@ -10,6 +10,7 @@ Be creative! do whatever you want!
 from .base import BaseClass
 from .subpackage import SubPackageClass
 
+
 def main():  # pragma: no cover
     """
     The main function executes on commands:

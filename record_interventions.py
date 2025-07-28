@@ -1,32 +1,16 @@
 import argparse
-import itertools
-import pandas as pd
-from transformers import AutoTokenizer, AutoModelForCausalLM
-from tqdm import tqdm
-from multiprocessing import Process, set_start_method
-import os
-import time
-import pandas as pd
-from sklearn.discriminant_analysis import LinearDiscriminantAnalysis
-import matplotlib.pyplot as plt
-import seaborn as sns
-import numpy as np
-from transformers import AutoModel, AutoTokenizer, GPT2Config
-import torch
-import transformers
-from matplotlib import cm
-import datetime
-from tqdm import tqdm
-import numpy as np
-from transformers import LogitsProcessor, LogitsProcessorList
-from transformers import LlamaConfig, AutoModelForCausalLM, AutoTokenizer
-from transformer_lens import HookedTransformer
-from tqdm import tqdm
-import ast
-from shape_happens import clean, activate_eval, ActivationDataset, activate_eval_intervene
 import gc
-from shape_happens.utils import SupervisedMDS
+import os
+from multiprocessing import set_start_method
+
+import pandas as pd
+import torch
+from transformer_lens import HookedTransformer
+from transformers import AutoTokenizer
+
+from shape_happens import (ActivationDataset, activate_eval_intervene)
 from shape_happens.config import Runner
+from shape_happens.utils import SupervisedMDS
 
 
 def datetime_to_dayofyear(x):

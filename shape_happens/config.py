@@ -1,11 +1,12 @@
-import json
-import yaml
 import hashlib
 import itertools
+import json
 import multiprocessing as mp
+from abc import ABC, abstractmethod
 from copy import deepcopy
 from pathlib import Path
-from abc import ABC, abstractmethod
+
+import yaml
 
 
 class Runner(ABC):
@@ -68,14 +69,11 @@ class Runner(ABC):
     @abstractmethod
     def combine_results(self, results_args):
         """Combine results from multiple experiments (e.g., aggregate metrics)"""
-        pass
 
     @abstractmethod
     def results_exist(self, args):
         """Return True if the experiment result for `args` already exists"""
-        pass
 
     @abstractmethod
     def run_experiment(self, args):
         """Run the actual experiment with the given arguments"""
-        pass

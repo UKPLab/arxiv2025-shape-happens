@@ -1,22 +1,18 @@
 import argparse
-from concurrent.futures import ProcessPoolExecutor, as_completed
-import hashlib
-import itertools
-import json
 import os
-from shape_happens.utils import ActivationDataset, SupervisedMDS
-from sklearn.discriminant_analysis import LinearDiscriminantAnalysis
-from sklearn.decomposition import PCA
-from sklearn.manifold import TSNE, Isomap
-from sklearn.preprocessing import Normalizer
-from sklearn.cross_decomposition import PLSRegression
-from sklearn.discriminant_analysis import LinearDiscriminantAnalysis as LDA
-from sklearn.preprocessing import Normalizer
+
 import numpy as np
 import pandas as pd
-from tqdm import tqdm
+from sklearn.cross_decomposition import PLSRegression
+from sklearn.decomposition import PCA
+from sklearn.discriminant_analysis import LinearDiscriminantAnalysis
+from sklearn.manifold import TSNE, Isomap
 from sklearn.model_selection import KFold
+from sklearn.preprocessing import Normalizer
+from tqdm import tqdm
+
 from shape_happens import Runner
+from shape_happens.utils import ActivationDataset, SupervisedMDS
 
 
 def process_layer(args):

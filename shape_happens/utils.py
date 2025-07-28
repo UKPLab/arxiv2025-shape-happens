@@ -2,34 +2,17 @@ import ast
 import os
 import pickle
 import re
-import requests
+from typing import Callable, Union
 
 import numpy as np
-from sklearn.base import BaseEstimator, TransformerMixin
-from sklearn.preprocessing import StandardScaler
-from scipy.optimize import minimize
-from scipy.spatial.distance import squareform
-from scipy.linalg import eigh
-import torch
-from tqdm import tqdm
-from transformers import LogitsProcessor, LogitsProcessorList
-from typing import Callable, Union
 import pandas as pd
-from transformers import AutoTokenizer
-from sklearn.discriminant_analysis import LinearDiscriminantAnalysis
-from sklearn.decomposition import PCA
-from sklearn.manifold import TSNE, Isomap
-from sklearn.preprocessing import Normalizer
-from sklearn.cross_decomposition import PLSRegression
-from sklearn.discriminant_analysis import LinearDiscriminantAnalysis as LDA
-from sklearn.manifold import MDS
-from umap import UMAP
-from sklearn.preprocessing import Normalizer
-import matplotlib.pyplot as plt
-import seaborn as sns
-import numpy as np
-import matplotlib.patheffects as pe
-from sklearn.model_selection import KFold
+import requests
+import torch
+from scipy.linalg import eigh
+from scipy.optimize import minimize
+from sklearn.base import BaseEstimator, TransformerMixin
+from tqdm import tqdm
+from transformers import AutoTokenizer, LogitsProcessor, LogitsProcessorList
 
 
 def prompt_ollama(prompt, model="llama3.1:latest", api_url="http://10.167.31.201:11434/api/generate"):

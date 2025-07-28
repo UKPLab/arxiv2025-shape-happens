@@ -1,7 +1,8 @@
-from datetime import datetime
 import re
-import wikipedia
+from datetime import datetime
+
 import pandas as pd
+import wikipedia
 
 
 def scrape_with_api():

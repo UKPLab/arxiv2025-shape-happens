@@ -1,46 +1,17 @@
-import pandas as pd
-from transformers import AutoTokenizer, AutoModelForCausalLM, BitsAndBytesConfig
-from tqdm import tqdm
-from multiprocessing import Process
-import os
-import time
-import pandas as pd
-from sklearn.discriminant_analysis import LinearDiscriminantAnalysis
-import matplotlib.pyplot as plt
-import seaborn as sns
-import numpy as np
-from transformers import AutoModel, AutoTokenizer, GPT2Config
-import torch
-import transformers
-from matplotlib import cm
-import datetime
-from tqdm import tqdm
-import numpy as np
-from transformers import LogitsProcessor, LogitsProcessorList
-from transformers import LlamaConfig, AutoModelForCausalLM, AutoTokenizer
-from tqdm import tqdm
-import ast
-from shape_happens import clean, activate_eval, ActivationDataset
+import argparse
 import gc
-from shape_happens.config import Runner
-
-
 import os
-import gc
-import time
-import torch
-import json
-import pandas as pd
-from pathlib import Path
-from abc import ABC
-from tqdm import tqdm
-from copy import deepcopy
-from transformers import AutoModelForCausalLM, AutoTokenizer, BitsAndBytesConfig
-
 from multiprocessing import set_start_method
+from pathlib import Path
+
+import pandas as pd
+import torch
+from tqdm import tqdm
+from transformers import (AutoModelForCausalLM, AutoTokenizer, BitsAndBytesConfig)
+
+from shape_happens import ActivationDataset, activate_eval
 from shape_happens.config import Runner
 from shape_happens.utils import activate_eval
-import argparse
 
 
 class ActivationRunner(Runner):

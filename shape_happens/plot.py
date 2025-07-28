@@ -1,24 +1,23 @@
-from matplotlib.colors import LinearSegmentedColormap, ListedColormap
-import numpy as np
-import matplotlib.pyplot as plt
-import seaborn as sns
-import plotly.express as px
-from adjustText import adjust_text
-from sklearn.decomposition import PCA
-from sklearn.manifold import TSNE, Isomap, MDS
-from sklearn.cross_decomposition import PLSRegression
-from sklearn.discriminant_analysis import LinearDiscriminantAnalysis
-from umap import UMAP
-from tqdm import tqdm
-from sklearn.preprocessing import Normalizer
-from shape_happens.utils import SupervisedMDS
-from shape_happens.utils import ActivationDataset
-from shape_happens.utils import farthest_point_sampling
-from pycolormap_2d import ColorMap2DBremm, ColorMap2DSteiger, ColorMap2DZiegler, BaseColorMap2D, ColorMap2DCubeDiagonal
-from matplotlib import patheffects as pe
 import tempfile
 from typing import Tuple
-from skimage.color import rgb2lab, lab2rgb
+
+import matplotlib.pyplot as plt
+import numpy as np
+import plotly.express as px
+import seaborn as sns
+from adjustText import adjust_text
+from matplotlib import patheffects as pe
+from pycolormap_2d import BaseColorMap2D
+from skimage.color import lab2rgb, rgb2lab
+from sklearn.cross_decomposition import PLSRegression
+from sklearn.decomposition import PCA
+from sklearn.discriminant_analysis import LinearDiscriminantAnalysis
+from sklearn.manifold import MDS, TSNE, Isomap
+from sklearn.preprocessing import Normalizer
+from umap import UMAP
+
+from shape_happens.utils import (ActivationDataset, SupervisedMDS)
+
 
 def plot_activations(ad: ActivationDataset, label_col: str, reduction_method, target_col='correct_answer', layers=None, components=(0,1),
                      label_col_str=None, n_components=2, manifold='discrete_circular', title=None, save_path=None, plots_per_row=4,
