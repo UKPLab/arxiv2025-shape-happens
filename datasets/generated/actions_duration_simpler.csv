@@ -1,0 +1,51 @@
+action,days,weeks,months,years,activity
+{name}'s subscription starts on the {date} and lasts for {duration}.,false,true,true,true,subscription
+{name}'s treatment starts on the {date} and lasts for {duration}.,false,true,true,false,treatment
+{name}'s exchange starts on the {date} and lasts for {duration}.,false,true,true,false,exchange
+{name}'s research fellowship starts on the {date} and lasts for {duration}.,false,false,true,true,fellowship
+{name}'s language course starts on the {date} and lasts for {duration}.,false,true,true,true,language course
+{name}'s internship starts on the {date} and lasts for {duration}.,false,true,true,false,internship
+{name}'s workshop starts on the {date} and lasts for {duration}.,true,false,false,false,workshop
+{name}'s first aid course starts on the {date} and lasts for {duration}.,true,true,false,false,first aid course
+{name}'s cooking class starts on the {date} and lasts for {duration}.,true,true,false,false,cooking class
+{name}'s coding sprint starts on the {date} and lasts for {duration}.,true,false,false,false,coding sprint
+{name}'s residency starts on the {date} and lasts for {duration}.,false,false,true,true,residency
+{name}'s writing retreat starts on the {date} and lasts for {duration}.,true,false,false,false,writing retreat
+{name}'s photography bootcamp starts on the {date} and lasts for {duration}.,true,false,false,false,photography bootcamp
+{name}'s data science course starts on the {date} and lasts for {duration}.,false,true,true,true,data science course
+{name}'s seminar starts on the {date} and lasts for {duration}.,true,false,false,false,seminar
+{name}'s short course starts on the {date} and lasts for {duration}.,true,true,false,false,course
+{name}'s mentorship starts on the {date} and lasts for {duration}.,false,true,true,false,mentorship
+{name}'s doctoral research starts on the {date} and lasts for {duration}.,false,false,false,true,doctoral research
+{name}'s postdoctoral fellowship starts on the {date} and lasts for {duration}.,false,false,true,true,fellowship
+{name}'s professional training program starts on the {date} and lasts for {duration}.,false,false,true,true,training program
+{name}'s employment contract starts on the {date} and lasts for {duration}.,false,false,true,true,employment contract
+{name}'s renovation project starts on the {date} and lasts for {duration}.,false,false,true,true,renovation project
+{name}'s sabbatical starts on the {date} and lasts for {duration}.,false,false,true,true,sabbatical
+{name}'s sailing trip starts on the {date} and lasts for {duration}.,true,true,true,false,sailing trip
+{name}'s hiking expedition starts on the {date} and lasts for {duration}.,true,true,false,false,expedition
+{name}'s remote assignment starts on the {date} and lasts for {duration}.,false,false,true,true,remote work
+{name}'s relocation starts on the {date} and lasts for {duration}.,false,false,true,true,relocation
+{name}'s writing project starts on the {date} and lasts for {duration}.,false,false,true,true,writing project
+{name}'s parenting leave starts on the {date} and lasts for {duration}.,false,true,true,false,parenting leave
+{name}'s physical therapy plan starts on the {date} and lasts for {duration}.,false,true,false,false,therapy plan
+{name}'s consultancy role starts on the {date} and lasts for {duration}.,false,false,true,true,consultancy
+{name}'s community service project starts on the {date} and lasts for {duration}.,false,true,true,false,community service
+{name}'s volunteer program starts on the {date} and lasts for {duration}.,false,true,true,false,volunteer program
+{name}'s mentorship program starts on the {date} and lasts for {duration}.,false,true,true,false,mentorship program
+{name}'s probation period starts on the {date} and lasts for {duration}.,false,true,true,true,probation period
+{name}'s conference starts on the {date} and lasts for {duration}.,true,true,false,false,conference
+{name}'s trial period starts on the {date} and lasts for {duration}.,true,true,false,false,trial period
+{name}'s intensive course starts on the {date} and lasts for {duration}.,true,true,false,false,intensive course
+{name}'s project kickoff starts on the {date} and lasts for {duration}.,true,true,false,false,project
+{name}'s music tour starts on the {date} and lasts for {duration}.,true,true,false,false,music tour
+{name}'s photography exhibit starts on the {date} and lasts for {duration}.,true,false,false,false,exhibit
+{name}'s guided hike starts on the {date} and lasts for {duration}.,true,false,false,false,hike
+{name}'s festival booth starts on the {date} and lasts for {duration}.,true,true,false,false,festival booth
+{name}'s vacation starts on the {date} and lasts for {duration}.,false,true,true,false,vacation
+{name}'s business trip starts on the {date} and lasts for {duration}.,true,true,false,false,business trip
+{name}'s road trip starts on the {date} and lasts for {duration}.,true,true,false,false,road trip
+{name}'s camping trip starts on the {date} and lasts for {duration}.,true,true,false,false,camping
+{name}'s cruise starts on the {date} and lasts for {duration}.,true,true,false,false,cruise
+{name}'s retreat starts on the {date} and lasts for {duration}.,true,true,false,false,retreat
+{name}'s pilgrimage starts on the {date} and lasts for {duration}.,true,true,false,false,pilgrimage

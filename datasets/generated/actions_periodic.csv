@@ -1,0 +1,51 @@
+action,days,weeks,months,years,activity
+{name} visits the doctor {frequency}.,false,true,true,false,visits the doctor
+{name} goes to the dentist {frequency}.,false,true,true,true,goes to the dentist
+{name} has a therapy session {frequency}.,false,true,false,false,has a therapy session
+{name} attends the yoga class {frequency}.,false,true,false,false,attends th yoga class
+{name} goes to the gym {frequency}.,true,true,false,false,goes to the gym
+{name} takes the dance class {frequency}.,false,true,false,false,takes the dance class
+{name} participates in the meditation group {frequency}.,false,true,false,false,participates in the meditation group
+{name} goes for a run {frequency}.,true,true,false,false,goes for a run
+{name} goes for a swim {frequency}.,true,true,false,false,goes for a swim
+{name} plays tennis {frequency}.,true,true,false,false,plays tennis
+{name} plays basketball {frequency}.,true,true,false,false,plays basketball
+{name} plays soccer {frequency}.,true,true,false,false,plays soccer
+{name} plays volleyball {frequency}.,true,true,false,false,plays volleyball
+{name} visits Italy {frequency}.,false,true,true,true,visits Italy
+{name} visits France {frequency}.,false,true,true,true,visits France
+{name} visits Europe {frequency}.,false,false,true,true,visits Europe
+{name} visits the US {frequency}.,false,false,true,true,visits the US
+{name} visits India {frequency}.,false,false,true,true,visits India
+{name} goes on a business trip {frequency}.,false,true,true,false,goes on a business trip
+{name} goes on a vacation {frequency}.,false,true,true,true,goes on a vacation
+{name} reads the newspaper {frequency}.,true,false,false,false,reads the newspaper
+{name} votes in the elections {frequency}.,false,false,true,true,votes in the elections
+{name} attends a concert {frequency}.,false,true,true,true,attends a concert
+{name} attends a festival {frequency}.,false,true,true,true,attends a festival
+{name} attends a conference {frequency}.,false,false,true,true,attends a conference
+{name} attends a workshop {frequency}.,false,false,true,false,attends a workshop
+{name} buys groceries {frequency}.,true,false,false,false,buy groceries
+{name} goes shopping {frequency}.,true,false,false,false,goes shopping
+{name} has friends over {frequency}.,false,true,false,false,has friends over
+{name} has a family gathering {frequency}.,false,true,false,false,has a family gathering
+{name} throws a party {frequency}.,false,true,true,false,throws a party
+{name} goes to a wedding {frequency}.,false,false,false,true,goes to a wedding
+{name} goes to a funeral {frequency}.,false,false,false,true,goes to a funeral
+{name} watches a movie {frequency}.,true,true,true,false,watches a movie
+{name} walks the dog {frequency}.,true,true,false,false,walks the dog
+{name} bakes a cake {frequency}.,true,true,true,false,bakes a cake
+{name} visits their grandparents {frequency}.,true,true,true,false,visits their grandparents
+{name} donates to charity {frequency}.,false,true,true,true,donates to charity
+{name} waters the plants {frequency}.,true,true,false,false,waters the plants
+{name} renews their passport {frequency}.,false,false,false,true,renews their passport
+{name} renews their driver's license {frequency}.,false,false,false,true,renews their driver's license
+{name} goes hiking {frequency}.,false,true,true,false,goes hiking
+{name} mows the lawn {frequency}.,false,true,true,false,mows the lawn
+{name} takes out the trash {frequency}.,true,true,false,false,takes out the trash
+{name} refuels the car {frequency}.,true,true,false,false,refuels the car
+{name} cleans the house {frequency}.,true,true,false,false,cleans the house
+{name} does the laundry {frequency}.,true,true,false,false,does the laundry
+{name} changes the bed sheets {frequency}.,true,true,false,false,changes the bed sheets
+{name} cleans the windows {frequency}.,false,true,false,false,cleans the windows
+{name} takes a language class {frequency}.,false,true,false,false,takes a language class
