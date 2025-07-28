@@ -1,4 +1,4 @@
-name: time-stuff
+name: shape-happens
 channels:
   - conda-forge
   - defaults
