@@ -293,8 +293,8 @@ class SupervisedMDS(BaseEstimator, TransformerMixin):
         if self.manifold in ['trivial', 'cluster']:  # Retrocompatibility
             D = (y[:, None] != y[None, :]).astype(float)
         elif self.manifold in ['euclidean', 'linear']:
-            diff = y[:, np.newaxis, :] - y[np.newaxis, :, :]
-            D = np.linalg.norm(diff, axis=-1)
+            diff = y[None,:, None] - y[None, None, :]
+            D = np.linalg.norm(diff, axis=0)
         elif self.manifold == 'log_linear':
             log_y = np.log(y + 1)
             D = np.abs(log_y[:, None] - log_y[None, :])
