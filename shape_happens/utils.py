@@ -320,8 +320,8 @@ class SupervisedMDS(BaseEstimator, TransformerMixin):
         if self.manifold in ['trivial', 'cluster']:  # Retrocompatibility
             D = (y[:, None] != y[None, :]).astype(float)
         elif self.manifold in ['euclidean', 'linear']:
-            diff = y[:, np.newaxis, :] - y[np.newaxis, :, :]
-            D = np.linalg.norm(diff, axis=-1)
+            diff = y[None,:, None] - y[None, None, :]
+            D = np.linalg.norm(diff, axis=0)
         elif self.manifold == 'log_linear':
             log_y = np.log(y + 1)
             D = np.abs(log_y[:, None] - log_y[None, :])
@@ -497,6 +497,7 @@ class SupervisedMDS(BaseEstimator, TransformerMixin):
         else:
             # Use classical MDS + closed-form least squares
             Y = self._classical_mds(D)
+            self.Y_ = Y
 
             self._X_mean = X.mean(axis=0)  # Centering
             self._Y_mean = Y.mean(axis=0)  # Centering Y
@@ -710,6 +711,9 @@ def find_token_idx(tokenizer, text, target, start=0):
         int: Index of the last token corresponding to the target substring in the tokenized input.
              Returns -1 if the target is not found.
     """
+    if not isinstance(target, str):
+        target = str(target)  # Ensure target is a string
+
     # Tokenize with offset mappings
     encoding = tokenizer(text, return_offsets_mapping=True, add_special_tokens=True)
     offsets = encoding['offset_mapping']
@@ -1003,6 +1007,20 @@ def activate_eval_intervene(df, dataset_name, model, tokenizer, label_columns, i
                 activation = value[:, target_index, :]
                 noise = noise_scale * torch.randn(activation.shape, device=value.device, dtype=value.dtype)
                 value[:, target_index, :] = activation + noise
+                return value
+
+        elif intervention_type == 'denoise':
+            def edit_hook(value, hook):
+                activation = value[:, target_index, :].float().detach().cpu().numpy()
+                subspace = smds.transform(activation)
+                
+                # Find the closest point of subspace to smds.Y_
+                closest_point = smds.Y_[np.argmin(np.linalg.norm(smds.Y_ - subspace, axis=1))]
+
+                # Summing and subtracting subspace is necessary to cancel out mean
+                patch = activation - smds.inverse_transform(subspace) + smds.inverse_transform(closest_point)
+
+                value[:, target_index, :] = torch.tensor(patch, device=value.device, dtype=value.dtype)
                 return value
 
         def extract_hook(value, hook):

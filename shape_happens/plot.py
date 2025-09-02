@@ -94,7 +94,7 @@ def plot_activations(ad: ActivationDataset, label_col: str, reduction_method, ta
 
 def plot_activations_single(ad: ActivationDataset, label_col: str, reduction_method, layer, ax, target_col='correct_answer',  components=(0,1),
                      label_col_str=None, n_components=2, manifold='discrete_circular', filter_incorrect=True, orthonormal=False, 
-                     palette='viridis', title=None, save_path=None, plots_per_row=4, s=40, linewidth=0.8, flip_axes=False,
+                     palette='viridis', title=None, save_path=None, plots_per_row=4, s=40, linewidth=0.8, flip_axes=False, control=False,
                      annotations=None, plot_test=True, annotation_offset=(0,0), annotation_fontsize=14, n_annotations=10,
                      preprocess_func=None, annotation_preprocess_func=None, postprocess_func=None, palette_column=None,
                      max_samples=500):
@@ -121,9 +121,8 @@ def plot_activations_single(ad: ActivationDataset, label_col: str, reduction_met
     activations, labels = ad.get_slice(target_name=target_col, columns=label_col, preprocess_funcs=preprocess_func, filter_incorrect=filter_incorrect)
     labels = np.squeeze(labels)
 
-    if len(labels[0]) > 1:
-        # If labels are multi-dimensional, vstack to a 2D array
-        labels = np.vstack(labels)
+    if control:
+        np.random.shuffle(labels)  # Shuffle labels for control
 
     df = ad.get_metadata_df(filter_incorrect=filter_incorrect)
 
@@ -283,11 +282,11 @@ def plot_activations_single(ad: ActivationDataset, label_col: str, reduction_met
             texts.append(ax.text(
                 x, y, label,
                 fontsize=annotation_fontsize,
-                path_effects=[pe.withStroke(linewidth=2, foreground="white")]
+                path_effects=[pe.withStroke(linewidth=4, foreground="white")]
             ))
 
         # After all texts are added:
-        adjust_text(texts, ax=ax, expand_points=(1.2, 1.2), arrowprops=dict(arrowstyle='-', color='gray', lw=0.5))
+        adjust_text(texts, ax=ax, expand_points=(1.2, 1.2), arrowprops=dict(arrowstyle='-', color='gray', lw=0.0))
 
     # ax.set_title(f"Layer {layer}")
     if ax.get_legend() is not None:

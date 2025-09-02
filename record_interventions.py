@@ -3,6 +3,7 @@ import gc
 import os
 from multiprocessing import set_start_method
 
+import numpy as np
 import pandas as pd
 import torch
 from transformer_lens import HookedTransformer
@@ -46,8 +47,10 @@ class InterventionRunner(Runner):
 
         if intervention_type in ['replace', 'rand']:
             save_path = f"results/intervention_{intervention_type}/{model_name.split('/')[-1]}/{dataset_name}/{dataset_name}_n{n_components}_s{noise_scale}.pt"
-        else:
+        elif intervention_type in ['full']:
             save_path = f"results/intervention_{intervention_type}/{model_name.split('/')[-1]}/{dataset_name}/{dataset_name}_s{noise_scale}.pt"
+        elif intervention_type in ['denoise']:
+            save_path = f"results/intervention_{intervention_type}/{model_name.split('/')[-1]}/{dataset_name}/{dataset_name}_n{n_components}.pt"
 
         if os.path.exists(save_path):
             print(f"Results already exist for {save_path}. Skipping.")
@@ -62,6 +65,20 @@ class InterventionRunner(Runner):
         with torch.no_grad():
             ad_base = ActivationDataset.load(f"results/{model_name.split('/')[-1]}/{dataset_name}.pt")
             df = ad_base.get_metadata_df().copy()
+            
+            if preprocess_func == 'datetime_to_dayofyear':
+                preprocess_func = lambda x: pd.to_datetime(x).day_of_year
+            elif preprocess_func == 'datetime_to_month':
+                preprocess_func = lambda x: pd.to_datetime(x).month
+            elif preprocess_func == 'datetime_to_hour':
+                preprocess_func = lambda x: pd.to_datetime(x).hour
+            elif preprocess_func == 'log':
+                preprocess_func = lambda x: np.log(x + 1)
+            elif preprocess_func == None:
+                preprocess_func = None
+            else:
+                raise ValueError(f"Unknown preprocess_func: {preprocess_func}")
+
             activations, labels = ad_base.get_slice(target_name=target_column, columns=label_column, preprocess_funcs=preprocess_func, filter_incorrect=False)
             activations = activations[:, intervention_layer, :]
             mid = int(len(activations) * 0.5)
@@ -69,7 +86,7 @@ class InterventionRunner(Runner):
             labels_train, labels_test = labels[:mid], labels[mid:]
             df_train, df_test = df[:mid], df[mid:]
 
-            smds = train_smds(activations_train, labels_train, n_components, manifold) if intervention_type == 'replace' else None
+            smds = train_smds(activations_train, labels_train, n_components, manifold) if intervention_type in ['replace', 'denoise'] else None
 
             adf = activate_eval_intervene(df_test, dataset_name, model, tokenizer,
                                           smds=smds,
