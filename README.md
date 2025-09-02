@@ -1,11 +1,15 @@
 <p  align="center">
   <img src='logo.png' width='200'>
 </p>
+<h1 align="center">Shape Happens</h1>
 
-# shape_happens
-[![Arxiv](https://img.shields.io/badge/Arxiv-YYMM.NNNNN-red?style=flat-square&logo=arxiv&logoColor=white)](https://put-here-your-paper.com)
-[![License](https://img.shields.io/github/license/akatief/time-stuff)](https://opensource.org/licenses/Apache-2.0)
-[![Python Versions](https://img.shields.io/badge/Python-3.12-blue.svg?style=flat&logo=python&logoColor=white)](https://www.python.org/)
+<div align="center">
+
+  <a href="">[![Arxiv](https://img.shields.io/badge/Arxiv-YYMM.NNNNN-red?style=flat-square&logo=arxiv&logoColor=white)](https://put-here-your-paper.com)</a>
+  <a href="">[![License](https://img.shields.io/github/license/UKPLab/arxiv2025-shape-happens)](https://opensource.org/licenses/Apache-2.0)</a>
+  <a href="">[![Python Versions](https://img.shields.io/badge/Python-3.12-blue.svg?style=flat&logo=python&logoColor=white)](https://www.python.org/)</a>
+  
+</div>
 
 This is the official repository of the paper "_Shape Happens: Automatic Feature Manifold Discovery in LLMs_". It contains our implementation of Supervised Multidimensional Scaling (SMDS), as well as the scripts necessary to record activations, score different manifolds, and some utilities to plot the results.
 
