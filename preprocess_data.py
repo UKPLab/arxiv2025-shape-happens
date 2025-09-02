@@ -1,6 +1,8 @@
-import os
-import pandas as pd
 import argparse
+import os
+
+import pandas as pd
+
 
 def read_csv_robust(file_path):
     try:
