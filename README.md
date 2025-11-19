@@ -5,13 +5,13 @@
 
 <div align="center">
 
-  <a href="">[![Arxiv](https://img.shields.io/badge/Arxiv-YYMM.NNNNN-red?style=flat-square&logo=arxiv&logoColor=white)](https://put-here-your-paper.com)</a>
+  <a href="">[![Arxiv](https://img.shields.io/badge/Arxiv-2510.01025-red?style=flat-square&logo=arxiv&logoColor=white)](https://arxiv.org/abs/2510.01025)</a>
   <a href="">[![License](https://img.shields.io/github/license/UKPLab/arxiv2025-shape-happens)](https://opensource.org/licenses/Apache-2.0)</a>
   <a href="">[![Python Versions](https://img.shields.io/badge/Python-3.12-blue.svg?style=flat&logo=python&logoColor=white)](https://www.python.org/)</a>
   
 </div>
 
-This is the official repository of the paper "_Shape Happens: Automatic Feature Manifold Discovery in LLMs_". It contains our implementation of Supervised Multidimensional Scaling (SMDS), as well as the scripts necessary to record activations, score different manifolds, and some utilities to plot the results.
+This is the official repository of the paper "_Shape Happens: Automatic Feature Manifold Discovery in LLMs via Supervised Multi-Dimensional Scaling_". It contains our implementation of Supervised Multidimensional Scaling (SMDS), as well as the scripts necessary to record activations, score different manifolds, and some utilities to plot the results.
 
 ><details>
 ><summary> <b>Abstract</b> </summary>
@@ -64,16 +64,14 @@ python record_interventions.py --config <filename>
 Please use the following citation:
 
 ```
-@InProceedings{TODO:ARR2025,
-  author    = {Smith, John},
-  title     = {My Paper Title},
-  booktitle = {Proceedings of the 20XX Conference on XXXX},
-  month     = mmm,
-  year      = {20xx},
-  address   = {Gotham City, USA},
-  publisher = {Association for XXX},
-  pages     = {XXXX--XXXX},
-  url       = {http://xxxx.xxx}
+@misc{tiblias2025shapehappensautomaticfeature,
+      title={Shape Happens: Automatic Feature Manifold Discovery in LLMs via Supervised Multi-Dimensional Scaling}, 
+      author={Federico Tiblias and Irina Bigoulaeva and Jingcheng Niu and Simone Balloccu and Iryna Gurevych},
+      year={2025},
+      eprint={2510.01025},
+      archivePrefix={arXiv},
+      primaryClass={cs.AI},
+      url={https://arxiv.org/abs/2510.01025}, 
 }
 ```
 
