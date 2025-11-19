@@ -17,7 +17,7 @@ from shape_happens.utils import ActivationDataset, SupervisedMDS
 
 def process_layer(args):
     (control, layer, label_col, target_col, activations, labels, reduction_method, n_components,
-     manifold, k, preprocess_func, global_metadata) = args
+     manifold, k, repetitions, preprocess_func, global_metadata) = args
     
     if preprocess_func is not None and isinstance(preprocess_func, list) and len(preprocess_func) == 1:
         preprocess_func = preprocess_func[0]
@@ -40,42 +40,47 @@ def process_layer(args):
         raise ValueError(f"Unknown reduction method: {reduction_method}")
 
     try:
-        kf = KFold(n_splits=k, random_state=42, shuffle=True)
-        fold_scores = []
+        rep_results = []
+        for i in range(repetitions):
+            kf = KFold(n_splits=k, random_state=i, shuffle=True)
+            fold_scores = []
 
-        for train_index, test_index in kf.split(activations):
-            train_acts = activations[train_index, layer]
-            test_acts = activations[test_index, layer]
-            train_labels = labels[train_index]
-            test_labels = labels[test_index]
+            for train_index, test_index in kf.split(activations):
+                train_acts = activations[train_index, layer]
+                test_acts = activations[test_index, layer]
+                train_labels = labels[train_index]
+                test_labels = labels[test_index]
 
-            if reduction_method == 'PCA':
-                train_acts = norm.fit_transform(train_acts)
-                test_acts = norm.transform(test_acts)
+                if reduction_method == 'PCA':
+                    train_acts = norm.fit_transform(train_acts)
+                    test_acts = norm.transform(test_acts)
 
-            rmodel.fit(train_acts, train_labels)
-            reduced_test = rmodel.transform(test_acts)
+                rmodel.fit(train_acts, train_labels)
+                reduced_test = rmodel.transform(test_acts)
 
-            if reduction_method == 'LDA' and reduced_test.shape[1] <= 1:
-                return None  # Skip collinear case
+                if reduction_method == 'LDA' and reduced_test.shape[1] <= 1:
+                    return None  # Skip collinear case
 
-            fold_scores.append(rmodel.score(test_acts, test_labels))
+                fold_scores.append(rmodel.score(test_acts, test_labels))
 
-        return {
-            'preprocess_func': preprocess_func,
-            'n_samples': len(labels),
-            'n_components': n_components,
-            'k': k,
-            'manifold': manifold,
-            'layer': layer,
-            'target_col': target_col,
-            'reduction_method': reduction_method,
-            'score': float(np.mean(fold_scores)), # TODO: log all fold scores to get error bars
-            'fold_scores': fold_scores,
-            'label_col': label_col,
-            'control': control,
-            **global_metadata
-        }
+            rep_results.append({
+                'preprocess_func': preprocess_func,
+                'n_samples': len(labels),
+                'n_components': n_components,
+                'k': k,
+                'repetition_id': i,
+                'manifold': manifold,
+                'layer': layer,
+                'target_col': target_col,
+                'reduction_method': reduction_method,
+                'score': float(np.mean(fold_scores)), # TODO: log all fold scores to get error bars
+                'fold_scores': fold_scores,
+                'label_col': label_col,
+                'control': control,
+                **global_metadata
+            })
+
+        return rep_results  
 
     except Exception as e:
         print(f"Error in layer {layer}, target_col {target_col}: {e}")
@@ -83,6 +88,7 @@ def process_layer(args):
             'preprocess_func': preprocess_func,
             'n_components': n_components,
             'k': k,
+            'repetition_id': i,
             'manifold': manifold,
             'layer': layer,
             'target_col': target_col,
@@ -112,6 +118,7 @@ class ScoreRunner(Runner):
 
         model_name = kwargs.get("model_name", None)
         k = kwargs.get("k", 5)
+        repetitions = kwargs.get("repetitions", 1)
         target_columns = kwargs.get("target_columns", None)
         layers = kwargs.get("layers", None)
         n_components = kwargs.get("n_components", 2)
@@ -182,6 +189,7 @@ class ScoreRunner(Runner):
                     n_components,
                     manifold,
                     k,
+                    repetitions,
                     preprocess_func,
                     ad.global_metadata
                 )
@@ -189,7 +197,7 @@ class ScoreRunner(Runner):
             ]
             for args in tqdm(args_list, total=len(args_list), desc=f"Target: {target_col}"):
                 results = process_layer(args)
-                all_scores.append(results)
+                all_scores.extend(results)
 
         return pd.DataFrame(all_scores).to_csv(f"results/scores/{id}.csv", header=True, index=False)
 

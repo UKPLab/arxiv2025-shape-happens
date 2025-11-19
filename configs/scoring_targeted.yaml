@@ -1,0 +1,106 @@
+global:
+  reduction_method: SMDS
+  k: 10
+  repetitions: 5
+  target_columns: last_prompt_token
+  layers: null
+  max_samples: 500
+
+grid:
+  n_components: [3]
+  manifold: 
+    - euclidean
+    - discrete_circular
+    - cluster
+    - circular
+    - semicircular
+    - log_linear
+    - log_semicircular
+
+local:
+  #### gemma-2-2b-it ####
+  - path: results/gemma-2-2b-it/duration_3way.pt
+    label_col: correct_duration_length
+
+  - path: results/gemma-2-2b-it/date_3way.pt
+    label_col: correct_date
+    preprocess_func: datetime_to_dayofyear
+
+  - path: results/gemma-2-2b-it/date_3way_season.pt
+    label_col: correct_season_label
+
+  - path: results/gemma-2-2b-it/date_3way_temperature.pt
+    label_col: correct_temperature_label
+
+  - path: results/gemma-2-2b-it/time_of_day_3way.pt
+    label_col: correct_time
+    preprocess_func: datetime_to_hour
+
+  - path: results/gemma-2-2b-it/time_of_day_3way_phase.pt
+    label_col: correct_phase_label
+
+  - path: results/gemma-2-2b-it/periodic_3way.pt
+    label_col: correct_period_length
+
+  - path: results/gemma-2-2b-it/notable_3way.pt
+    label_col: correct_date
+    preprocess_func: datetime_to_year
+    label_shift: -2023
+
+  #### llama-3.2-3b-instruct ####
+  - path: results/Llama-3.2-3B-Instruct/duration_3way.pt
+    label_col: correct_duration_length
+
+  - path: results/Llama-3.2-3B-Instruct/date_3way.pt
+    label_col: correct_date
+    preprocess_func: datetime_to_dayofyear
+
+  - path: results/Llama-3.2-3B-Instruct/date_3way_season.pt
+    label_col: correct_season_label
+
+  - path: results/Llama-3.2-3B-Instruct/date_3way_temperature.pt
+    label_col: correct_temperature_label
+
+  - path: results/Llama-3.2-3B-Instruct/time_of_day_3way.pt
+    label_col: correct_time
+    preprocess_func: datetime_to_hour
+
+  - path: results/Llama-3.2-3B-Instruct/time_of_day_3way_phase.pt
+    label_col: correct_phase_label
+
+  - path: results/Llama-3.2-3B-Instruct/periodic_3way.pt
+    label_col: correct_period_length
+
+  - path: results/Llama-3.2-3B-Instruct/notable_3way.pt
+    label_col: correct_date
+    preprocess_func: datetime_to_year
+    label_shift: -2023
+
+  #### Qwen2.5-3B-Instruct ####
+  - path: results/Qwen2.5-3B-Instruct/duration_3way.pt
+    label_col: correct_duration_length
+
+  - path: results/Qwen2.5-3B-Instruct/date_3way.pt
+    label_col: correct_date
+    preprocess_func: datetime_to_dayofyear
+
+  - path: results/Qwen2.5-3B-Instruct/date_3way_season.pt
+    label_col: correct_season_label
+
+  - path: results/Qwen2.5-3B-Instruct/date_3way_temperature.pt
+    label_col: correct_temperature_label
+
+  - path: results/Qwen2.5-3B-Instruct/time_of_day_3way.pt
+    label_col: correct_time
+    preprocess_func: datetime_to_hour
+
+  - path: results/Qwen2.5-3B-Instruct/time_of_day_3way_phase.pt
+    label_col: correct_phase_label
+
+  - path: results/Qwen2.5-3B-Instruct/periodic_3way.pt
+    label_col: correct_period_length
+
+  - path: results/Qwen2.5-3B-Instruct/notable_3way.pt
+    label_col: correct_date
+    preprocess_func: datetime_to_year
+    label_shift: -2023
