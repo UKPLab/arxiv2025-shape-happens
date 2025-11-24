@@ -66,7 +66,11 @@ class InterventionRunner(Runner):
         model.eval().to('cuda')
 
         with torch.no_grad():
-            ad_base = ActivationDataset.load(f"results/{model_name.split('/')[-1]}/{dataset_name}.pt")
+            try:
+                ad_base = ActivationDataset.load(f"results/{model_name.split('/')[-1]}/{dataset_name}.pt")
+            except FileNotFoundError:
+                ad_base = ActivationDataset.load(f"results/{model_name.split('/')[-1]}/{dataset_name}")
+            
             df = ad_base.get_metadata_df().copy()
             
             if preprocess_func == 'datetime_to_dayofyear':
