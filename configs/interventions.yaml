@@ -1,13 +1,13 @@
 global:
   delta_token: 0
   debug: false
+  k: 10
   frac: 1
-  model_name: meta-llama/Llama-3.2-3B-Instruct
   intervention_layer: 1
 
 grid:
   noise_scale:
-    - 0
+    # - 0
     - 0.5
     - 1
     - 5
@@ -15,31 +15,60 @@ grid:
     - 50
   n_components:
     - 2
-    - 5
-    - 10
-    - 50
-    - 100
+    # - 5
+    # - 10
+    # - 50
+    # - 100
     - 500
   intervention_type:
     - full
     - rand
     - replace
 
-local:
-  - dataset: datasets/templates/time_of_day_3way_phase.csv
-    label_column: correct_phase_label
-    target_column: correct_time_expr
-    manifold: cluster
-
+local: 
+  # 1st best accuracy
   - dataset: datasets/templates/date_3way.csv
+    model_name: meta-llama/Llama-3.2-3B-Instruct
     label_column: correct_date
     target_column: correct_date_str
     preprocess_func: datetime_to_dayofyear
     manifold: circular
 
+  # 2nd best accuracy
   - dataset: datasets/templates/date_3way_season.csv
+    model_name: meta-llama/Llama-3.2-3B-Instruct
     label_column: correct_season_label
     target_column: correct_date_str
     manifold: cluster
 
+  # 3rd best accuracy
+  - dataset: datasets/templates/time_of_day_3way_phase.csv
+    model_name: meta-llama/Llama-3.2-3B-Instruct
+    label_column: correct_phase_label
+    target_column: correct_time_expr
+    manifold: cluster
 
+  # # 4th best accuracy
+  # - dataset: datasets/templates/notable_3way.csv
+  #   model_name: google/gemma-2-2b-it
+  #   label_column: correct_date
+  #   target_column: correct_date_expr
+  #   preprocess_func: datetime_to_year
+  #   label_shift: -2023
+  #   manifold: semicircular
+
+  # # 5th best accuracy
+  # - dataset: datasets/templates/date_3way_temperature.csv
+  #   model_name: meta-llama/Llama-3.2-3B-Instruct
+  #   label_column: correct_temperature_label
+  #   target_column: correct_date_str
+  #   manifold: cluster
+
+  # # 6th best accuracy
+  # - dataset: datasets/templates/notable_3way.csv
+  #   model_name: meta-llama/Llama-3.2-3B-Instruct
+  #   label_column: correct_date
+  #   target_column: correct_date_expr
+  #   preprocess_func: datetime_to_year
+  #   label_shift: -2023
+  #   manifold: semicircular

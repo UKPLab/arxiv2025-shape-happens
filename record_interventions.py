@@ -5,6 +5,7 @@ from multiprocessing import set_start_method
 
 import numpy as np
 import pandas as pd
+from sklearn.model_selection import KFold
 import torch
 from transformer_lens import HookedTransformer
 from transformers import AutoTokenizer
@@ -38,11 +39,13 @@ class InterventionRunner(Runner):
         label_column = args['label_column']
         target_column = args['target_column']
         preprocess_func = args.get('preprocess_func', None)
+        label_shift = args.get('label_shift', 0)
         debug = args.get('debug', False)
         dataset_name = os.path.splitext(os.path.basename(dataset))[0]
         manifold = args['manifold']
         n_components = args['n_components']
         delta_token = args['delta_token']
+        k = args.get('k', 5)
         frac = args.get('frac', 1)
 
         if intervention_type in ['replace', 'rand']:
@@ -72,6 +75,8 @@ class InterventionRunner(Runner):
                 preprocess_func = lambda x: pd.to_datetime(x).month
             elif preprocess_func == 'datetime_to_hour':
                 preprocess_func = lambda x: pd.to_datetime(x).hour
+            elif preprocess_func == 'datetime_to_year':
+                preprocess_func = lambda x: np.abs(pd.to_datetime(x).year + label_shift)
             elif preprocess_func == 'log':
                 preprocess_func = lambda x: np.log(x + 1)
             elif preprocess_func == None:
@@ -79,25 +84,58 @@ class InterventionRunner(Runner):
             else:
                 raise ValueError(f"Unknown preprocess_func: {preprocess_func}")
 
-            activations, labels = ad_base.get_slice(target_name=target_column, columns=label_column, preprocess_funcs=preprocess_func, filter_incorrect=False)
+            # TODO: Add kfold logic here
+            kf = KFold(n_splits=k, shuffle=True, random_state=0)
+
+            # extract activations & labels once
+            activations, labels = ad_base.get_slice(
+                target_name=target_column,
+                columns=label_column,
+                preprocess_funcs=preprocess_func,
+                filter_incorrect=False
+            )
             activations = activations[:, intervention_layer, :]
-            mid = int(len(activations) * 0.5)
-            activations_train, activations_test = activations[:mid], activations[mid:]
-            labels_train, labels_test = labels[:mid], labels[mid:]
-            df_train, df_test = df[:mid], df[mid:]
 
-            smds = train_smds(activations_train, labels_train, n_components, manifold) if intervention_type in ['replace', 'denoise'] else None
+            all_smds = []
+            all_splits = []
 
-            adf = activate_eval_intervene(df_test, dataset_name, model, tokenizer,
-                                          smds=smds,
-                                          intervention_layer=intervention_layer,
-                                          intervention_type=intervention_type,
-                                          noise_scale=noise_scale,
-                                          n_components=n_components,
-                                          target_column=target_column,
-                                          label_columns=label_column,
-                                          extra_columns=[target_column],
-                                          delta_token=delta_token)
+            for train_idx, test_idx in kf.split(activations):
+                act_train, act_test = activations[train_idx], activations[test_idx]
+                labels_train, labels_test = labels[train_idx], labels[test_idx]
+                df_train, df_test = df.iloc[train_idx], df.iloc[test_idx]
+
+                smds = (
+                    train_smds(act_train, labels_train, n_components, manifold)
+                    if intervention_type in ['replace', 'denoise']
+                    else None
+                )
+                all_smds.append(smds)
+
+                all_splits.append(dict(
+                    df_test=df_test,
+                    A_test=act_test,
+                    L_test=labels_test,
+                ))
+
+            # downstream evaluation — now giving *all* SMDS and *all* test splits
+            adf = activate_eval_intervene(
+                all_splits,
+                dataset_name,
+                model,
+                tokenizer,
+                smds_splits=all_smds,
+                intervention_layer=intervention_layer,
+                intervention_type=intervention_type,
+                noise_scale=noise_scale,
+                n_components=n_components,
+                target_column=target_column,
+                label_columns=label_column,
+                extra_columns=[target_column],
+                delta_token=delta_token,
+            )
+
+            print(f"Model: {model_name}, Dataset: {dataset_name}, Accuracy: {adf.get_accuracy()}")
+
 
             print(f"Model: {model_name}, Dataset: {dataset_name}, Accuracy: {adf.get_accuracy()}")
 

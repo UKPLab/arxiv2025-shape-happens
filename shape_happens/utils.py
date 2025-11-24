@@ -913,8 +913,13 @@ def generate_with_hooks(model, input_ids, max_new_tokens, hook_layer, edit_hook,
 
     return generated
 
-def activate_eval_intervene(df, dataset_name, model, tokenizer, label_columns, intervention_layer, target_column, smds=None, intervention_type='replace', noise_scale=1, n_components=None, question_column='question', answer_column='answer', context_column='context', 
-                             extra_columns=None, constrained_generation=False, delta_token=0, debug=False, max_new_tokens=8):
+def activate_eval_intervene(all_splits, dataset_name, model, tokenizer, label_columns, 
+                            intervention_layer, target_column, smds_splits=None, 
+                            intervention_type='replace', noise_scale=1, n_components=None, 
+                            question_column='question', answer_column='answer', 
+                            context_column='context', extra_columns=None, 
+                            constrained_generation=False, delta_token=0, debug=False, 
+                            max_new_tokens=8):
     template = "{context}"
     model.eval()
 
@@ -937,7 +942,7 @@ def activate_eval_intervene(df, dataset_name, model, tokenizer, label_columns, i
         'delta_token': delta_token,
         'intervention_layer': intervention_layer,
         'noise_scale': noise_scale,
-        'smds': smds,
+        'smds_splits': smds_splits,
         'n_components': n_components,
         'intervention_type': intervention_type,
     }
@@ -946,154 +951,158 @@ def activate_eval_intervene(df, dataset_name, model, tokenizer, label_columns, i
     outputs = []
     logits_processor = None
     correct_count = 0
-    for _, row in tqdm(df.iterrows(), total=len(df)):
-        extra_cols_dict = {}
-        labels = {}
-        activations_idxs = []
-        hidden_states = []
-        for label_column in label_columns:
-            labels[label_column] = row[label_column] if label_column in row else None
+    for fold_id, (split, smds) in enumerate(zip(all_splits, smds_splits)):
+        df = split['df_test']
 
-        context = row[context_column] if context_column in row else row['sentence']
-        question = row[question_column] if question_column in row else None
-        answer = str(row[answer_column]) if answer_column in row else None
-        sentence = template.format(context=context, question=question, answer=answer)
-        target_string = row[target_column]
-        
-        input_ids = tokenizer(sentence, return_tensors="pt").to("cuda")
+        for _, row in tqdm(df.iterrows(), total=len(df)):
+            extra_cols_dict = {}
+            labels = {}
+            activations_idxs = []
+            hidden_states = []
+            for label_column in label_columns:
+                labels[label_column] = row[label_column] if label_column in row else None
 
-        if constrained_generation:
-            if 'alternatives' not in row:
-                raise ValueError("Alternatives column not found in dataset.")
-            logits_processor = LogitsProcessorList()
-            logits_processor.append(ConstrainedPrefixLogitsProcessor(
-                allowed_seqs=row['alternatives'],
-                tokenizer=tokenizer
-            ))
-        
-        target_index = find_token_idx(tokenizer, sentence, target_string)
-        last_prompt_idx = len(input_ids['input_ids'][0]) - 1 
-
-        if intervention_type == 'replace':
-            def edit_hook(value, hook):
-                activation = value[:, target_index, :].float().detach().cpu().numpy()
-                subspace = smds.transform(activation)
-                # Summing and subtracting subspace is necessary to cancel out mean
-                noise = subspace + noise_scale * np.random.normal(0, 1, subspace.shape)  # Add noise
-                patch = activation - smds.inverse_transform(subspace) + smds.inverse_transform(noise)
-                value[:, target_index, :] = torch.tensor(patch, device=value.device, dtype=value.dtype)
-                return value
-        elif intervention_type == 'rand':
-            def edit_hook(value, hook):
-                activation = value[:, target_index, :]  # (batch, d_model)
-
-                dtype = activation.dtype
-                activation_f32 = activation.to(torch.float32)
-
-                subspace_mapper = torch.randn(activation.shape[-1], n_components, device=value.device, dtype=torch.float32)
-                subspace_inv_mapper = torch.linalg.pinv(subspace_mapper)  # safe with float32
-                subspace = activation_f32 @ subspace_mapper
-                noise = subspace + noise_scale * torch.randn_like(subspace)
-
-                patch = activation_f32 - (subspace @ subspace_inv_mapper) + (noise @ subspace_inv_mapper)
-                patch = patch.to(dtype)  # cast back to original dtype (e.g., bfloat16)
-
-                value[:, target_index, :] = patch
-                return value
-
-
-        elif intervention_type == 'full':
-            def edit_hook(value, hook):
-                activation = value[:, target_index, :]
-                noise = noise_scale * torch.randn(activation.shape, device=value.device, dtype=value.dtype)
-                value[:, target_index, :] = activation + noise
-                return value
-
-        elif intervention_type == 'denoise':
-            def edit_hook(value, hook):
-                activation = value[:, target_index, :].float().detach().cpu().numpy()
-                subspace = smds.transform(activation)
-                
-                # Find the closest point of subspace to smds.Y_
-                closest_point = smds.Y_[np.argmin(np.linalg.norm(smds.Y_ - subspace, axis=1))]
-
-                # Summing and subtracting subspace is necessary to cancel out mean
-                patch = activation - smds.inverse_transform(subspace) + smds.inverse_transform(closest_point)
-
-                value[:, target_index, :] = torch.tensor(patch, device=value.device, dtype=value.dtype)
-                return value
-
-        def extract_hook(value, hook):
-            nonlocal hidden_states # Uses variable defined in eval loop
-            if value.shape[1] == len(input_ids['input_ids'][0]) + max_new_tokens - 1:
-                hidden_states.append(value)
+            context = row[context_column] if context_column in row else row['sentence']
+            question = row[question_column] if question_column in row else None
+            answer = str(row[answer_column]) if answer_column in row else None
+            sentence = template.format(context=context, question=question, answer=answer)
+            target_string = row[target_column]
             
+            input_ids = tokenizer(sentence, return_tensors="pt").to("cuda")
 
-        generations = generate_with_hooks(
-            model,
-            input_ids['input_ids'],
-            max_new_tokens=max_new_tokens,
-            hook_layer=intervention_layer,
-            edit_hook=edit_hook,
-            extract_hook=extract_hook
-        )
-        
-        # Decode the generated answer
-        gen_decoded = tokenizer.decode(generations[0], skip_special_tokens=True)
+            if constrained_generation:
+                if 'alternatives' not in row:
+                    raise ValueError("Alternatives column not found in dataset.")
+                logits_processor = LogitsProcessorList()
+                logits_processor.append(ConstrainedPrefixLogitsProcessor(
+                    allowed_seqs=row['alternatives'],
+                    tokenizer=tokenizer
+                ))
+            
+            target_index = find_token_idx(tokenizer, sentence, target_string)
+            last_prompt_idx = len(input_ids['input_ids'][0]) - 1 
 
-        correct_answer_idx = find_token_idx(tokenizer, gen_decoded, answer, start=len(sentence))
-        # If it's the last token, consider it incorrect as no hidden state is produced
-        if correct_answer_idx == len(generations[0]) - 1:
-            correct_answer_idx = -1
-        
-        correct = correct_answer_idx != -1
-        correct_count += correct
-        if not correct:
-            # Defaults to the first generated token
-            correct_answer_idx = 0
-        correct_answer_idx + delta_token
-        activations_idxs.append(correct_answer_idx)
+            if intervention_type == 'replace':
+                def edit_hook(value, hook):
+                    activation = value[:, target_index, :].float().detach().cpu().numpy()
+                    subspace = smds.transform(activation)
+                    # Summing and subtracting subspace is necessary to cancel out mean
+                    noise = subspace + noise_scale * np.random.normal(0, 1, subspace.shape)  # Add noise
+                    patch = activation - smds.inverse_transform(subspace) + smds.inverse_transform(noise)
+                    value[:, target_index, :] = torch.tensor(patch, device=value.device, dtype=value.dtype)
+                    return value
+            elif intervention_type == 'rand':
+                def edit_hook(value, hook):
+                    activation = value[:, target_index, :]  # (batch, d_model)
 
-        last_prompt_idx = len(input_ids['input_ids'][0]) - 1 
-        activations_idxs.append(last_prompt_idx)
+                    dtype = activation.dtype
+                    activation_f32 = activation.to(torch.float32)
 
-        if extra_columns is not None:
-            for extra_column in extra_columns:
-                if extra_column in row:
-                    extra_cols_dict[extra_column] = row[extra_column]
-                    extra_col_idx = find_token_idx(tokenizer, gen_decoded, extra_cols_dict[extra_column])
-                    if extra_col_idx == -1:
-                        raise ValueError(f"Token '{extra_cols_dict[extra_column]}' from extra column '{extra_column}' not found in generation.")
-                    # extra_col_idx = extra_col_idx + len(input_ids['input_ids'][0])
-                    activations_idxs.append(extra_col_idx)
-                else:
-                    raise ValueError(f"Extra column '{extra_column}' not found in dataset.")
+                    subspace_mapper = torch.randn(activation.shape[-1], n_components, device=value.device, dtype=torch.float32)
+                    subspace_inv_mapper = torch.linalg.pinv(subspace_mapper)  # safe with float32
+                    subspace = activation_f32 @ subspace_mapper
+                    noise = subspace + noise_scale * torch.randn_like(subspace)
 
-        # The full length of tokens is = prompt size + n_generated_tokens + n_system_tokens
-        hidden_states = torch.cat(hidden_states, dim=0)
-        hidden_states = hidden_states[:,activations_idxs]
-        hidden_states = hidden_states.type(torch.float64)
-        hidden_states_np = hidden_states.cpu().detach().numpy()
+                    patch = activation_f32 - (subspace @ subspace_inv_mapper) + (noise @ subspace_inv_mapper)
+                    patch = patch.to(dtype)  # cast back to original dtype (e.g., bfloat16)
 
-        # hidden_states = generations.hidden_states[gen_idx]
-        # hidden_states = [h.type(torch.float16)[0,idx_end,:] for h in hidden_states]
+                    value[:, target_index, :] = patch
+                    return value
 
-        outputs.append(hidden_states_np)
-        row_metadata = {
-            'context': context,
-            'question': question,
-            'answer': answer,
-            'sentence': sentence,
-            'correct_answer_idx': correct_answer_idx,
-            'decoded': gen_decoded,
-            'correct': correct,
-        }
-        row_metadata.update(labels)
-        row_metadata.update(extra_cols_dict)
-        sample_metadata.append(row_metadata)
 
-        if debug:
-            break
+            elif intervention_type == 'full':
+                def edit_hook(value, hook):
+                    activation = value[:, target_index, :]
+                    noise = noise_scale * torch.randn(activation.shape, device=value.device, dtype=value.dtype)
+                    value[:, target_index, :] = activation + noise
+                    return value
+
+            elif intervention_type == 'denoise':
+                def edit_hook(value, hook):
+                    activation = value[:, target_index, :].float().detach().cpu().numpy()
+                    subspace = smds.transform(activation)
+                    
+                    # Find the closest point of subspace to smds.Y_
+                    closest_point = smds.Y_[np.argmin(np.linalg.norm(smds.Y_ - subspace, axis=1))]
+
+                    # Summing and subtracting subspace is necessary to cancel out mean
+                    patch = activation - smds.inverse_transform(subspace) + smds.inverse_transform(closest_point)
+
+                    value[:, target_index, :] = torch.tensor(patch, device=value.device, dtype=value.dtype)
+                    return value
+
+            def extract_hook(value, hook):
+                nonlocal hidden_states # Uses variable defined in eval loop
+                if value.shape[1] == len(input_ids['input_ids'][0]) + max_new_tokens - 1:
+                    hidden_states.append(value)
+                
+
+            generations = generate_with_hooks(
+                model,
+                input_ids['input_ids'],
+                max_new_tokens=max_new_tokens,
+                hook_layer=intervention_layer,
+                edit_hook=edit_hook,
+                extract_hook=extract_hook
+            )
+            
+            # Decode the generated answer
+            gen_decoded = tokenizer.decode(generations[0], skip_special_tokens=True)
+
+            correct_answer_idx = find_token_idx(tokenizer, gen_decoded, answer, start=len(sentence))
+            # If it's the last token, consider it incorrect as no hidden state is produced
+            if correct_answer_idx == len(generations[0]) - 1:
+                correct_answer_idx = -1
+            
+            correct = correct_answer_idx != -1
+            correct_count += correct
+            if not correct:
+                # Defaults to the first generated token
+                correct_answer_idx = 0
+            correct_answer_idx + delta_token
+            activations_idxs.append(correct_answer_idx)
+
+            last_prompt_idx = len(input_ids['input_ids'][0]) - 1 
+            activations_idxs.append(last_prompt_idx)
+
+            if extra_columns is not None:
+                for extra_column in extra_columns:
+                    if extra_column in row:
+                        extra_cols_dict[extra_column] = row[extra_column]
+                        extra_col_idx = find_token_idx(tokenizer, gen_decoded, extra_cols_dict[extra_column])
+                        if extra_col_idx == -1:
+                            raise ValueError(f"Token '{extra_cols_dict[extra_column]}' from extra column '{extra_column}' not found in generation.")
+                        # extra_col_idx = extra_col_idx + len(input_ids['input_ids'][0])
+                        activations_idxs.append(extra_col_idx)
+                    else:
+                        raise ValueError(f"Extra column '{extra_column}' not found in dataset.")
+
+            # The full length of tokens is = prompt size + n_generated_tokens + n_system_tokens
+            hidden_states = torch.cat(hidden_states, dim=0)
+            hidden_states = hidden_states[:,activations_idxs]
+            hidden_states = hidden_states.type(torch.float64)
+            hidden_states_np = hidden_states.cpu().detach().numpy()
+
+            # hidden_states = generations.hidden_states[gen_idx]
+            # hidden_states = [h.type(torch.float16)[0,idx_end,:] for h in hidden_states]
+
+            outputs.append(hidden_states_np)
+            row_metadata = {
+                'context': context,
+                'question': question,
+                'answer': answer,
+                'sentence': sentence,
+                'correct_answer_idx': correct_answer_idx,
+                'decoded': gen_decoded,
+                'correct': correct,
+                'fold_id': fold_id,
+            }
+            row_metadata.update(labels)
+            row_metadata.update(extra_cols_dict)
+            sample_metadata.append(row_metadata)
+
+            if debug:
+                break
     
     outputs = np.stack(outputs, axis=0)
 
@@ -1106,7 +1115,12 @@ def activate_eval_intervene(df, dataset_name, model, tokenizer, label_columns, i
     activation_cols = ['correct_answer', 'last_prompt_token'] + extra_columns
     activations = {col: outputs[:, :, i, :] for i, col in enumerate(activation_cols)}
     
-    accuracy = correct_count / len(df)
+    fold_accuracies = pd.DataFrame(sample_metadata).groupby('fold_id')['correct'].mean().to_dict()
+    fold_accuracies = [v for k,v in sorted(fold_accuracies.items())]
+    global_metadata['fold_accuracies'] = fold_accuracies
+
+    # Average of folds
+    accuracy = sum(fold_accuracies) / len(fold_accuracies)
     global_metadata['accuracy'] = accuracy
 
     # Create ActivationDataset object
