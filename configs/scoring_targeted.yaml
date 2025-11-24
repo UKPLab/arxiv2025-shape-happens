@@ -18,6 +18,93 @@ grid:
     - log_semicircular
 
 local:
+  #### gemma-2-2b ####
+  - path: results/gemma-2-2b/duration_3way.pt
+    label_col: correct_duration_length
+
+  - path: results/gemma-2-2b/date_3way.pt
+    label_col: correct_date
+    preprocess_func: datetime_to_dayofyear
+
+  - path: results/gemma-2-2b/date_3way_season.pt
+    label_col: correct_season_label
+
+  - path: results/gemma-2-2b/date_3way_temperature.pt
+    label_col: correct_temperature_label
+
+  - path: results/gemma-2-2b/time_of_day_3way.pt
+    label_col: correct_time
+    preprocess_func: datetime_to_hour
+
+  - path: results/gemma-2-2b/time_of_day_3way_phase.pt
+    label_col: correct_phase_label
+
+  - path: results/gemma-2-2b/periodic_3way.pt
+    label_col: correct_period_length
+
+  - path: results/gemma-2-2b/notable_3way.pt
+    label_col: correct_date
+    preprocess_func: datetime_to_year
+    label_shift: -2023
+
+  #### llama-3.2-3B ####
+  - path: results/Llama-3.2-3B/duration_3way.pt
+    label_col: correct_duration_length
+
+  - path: results/Llama-3.2-3B/date_3way.pt
+    label_col: correct_date
+    preprocess_func: datetime_to_dayofyear
+
+  - path: results/Llama-3.2-3B/date_3way_season.pt
+    label_col: correct_season_label
+
+  - path: results/Llama-3.2-3B/date_3way_temperature.pt
+    label_col: correct_temperature_label
+
+  - path: results/Llama-3.2-3B/time_of_day_3way.pt
+    label_col: correct_time
+    preprocess_func: datetime_to_hour
+
+  - path: results/Llama-3.2-3B/time_of_day_3way_phase.pt
+    label_col: correct_phase_label
+
+  - path: results/Llama-3.2-3B/periodic_3way.pt
+    label_col: correct_period_length
+
+  - path: results/Llama-3.2-3B/notable_3way.pt
+    label_col: correct_date
+    preprocess_func: datetime_to_year
+    label_shift: -2023
+
+  #### Qwen2.5-3B ####
+  - path: results/Qwen2.5-3B/duration_3way.pt
+    label_col: correct_duration_length
+
+  - path: results/Qwen2.5-3B/date_3way.pt
+    label_col: correct_date
+    preprocess_func: datetime_to_dayofyear
+
+  - path: results/Qwen2.5-3B/date_3way_season.pt
+    label_col: correct_season_label
+
+  - path: results/Qwen2.5-3B/date_3way_temperature.pt
+    label_col: correct_temperature_label
+
+  - path: results/Qwen2.5-3B/time_of_day_3way.pt
+    label_col: correct_time
+    preprocess_func: datetime_to_hour
+
+  - path: results/Qwen2.5-3B/time_of_day_3way_phase.pt
+    label_col: correct_phase_label
+
+  - path: results/Qwen2.5-3B/periodic_3way.pt
+    label_col: correct_period_length
+
+  - path: results/Qwen2.5-3B/notable_3way.pt
+    label_col: correct_date
+    preprocess_func: datetime_to_year
+    label_shift: -2023
+
   #### gemma-2-2b-it ####
   - path: results/gemma-2-2b-it/duration_3way.pt
     label_col: correct_duration_length
