@@ -140,7 +140,7 @@ class ScoreRunner(Runner):
         try:
             ad = ActivationDataset.load(pt_path, model_name=model_name)
         except FileNotFoundError:
-            ad = ActivationDataset.load_from_directory(folder_path, model_name=model_name)
+            ad = ActivationDataset.load(folder_path, model_name=model_name)
             
 
         if layers is None:
