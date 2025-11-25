@@ -129,8 +129,19 @@ class ScoreRunner(Runner):
         control = kwargs.get("control", False)
         
         print(f"Scoring activations for {kwargs}")
+        
+        if '.pt' in path:
+            pt_path = path
+            folder_path = path.replace('.pt', '')
+        else:
+            folder_path = path
+            pt_path = path + '.pt'
 
-        ad = ActivationDataset.load(path, model_name=model_name)
+        try:
+            ad = ActivationDataset.load(pt_path, model_name=model_name)
+        except FileNotFoundError:
+            ad = ActivationDataset.load_from_directory(folder_path, model_name=model_name)
+            
 
         if layers is None:
             layers = range(1, ad.activations['correct_answer'].shape[1])
