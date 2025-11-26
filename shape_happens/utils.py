@@ -316,14 +316,12 @@ class SupervisedMDS(BaseEstimator, TransformerMixin):
     def _compute_ideal_distances(self, y, threshold=2):
         n = len(y)
         D = np.zeros((n, n))
-        if y.ndim == 1:
-            y = y[:, None]            # convert to (n,1)    
 
         if self.manifold in ['trivial', 'cluster']:  # Retrocompatibility
             D = (y[:, None] != y[None, :]).astype(float)
         elif self.manifold in ['euclidean', 'linear']:
-            diff = y[:, None, :] - y[None, :, :]   # (n, n, d)
-            D = np.linalg.norm(diff, axis=-1)
+            diff = y[None,:, None] - y[None, None, :]
+            D = np.linalg.norm(diff, axis=0)
         elif self.manifold == 'log_linear':
             log_y = np.log(y + 1)
             D = np.abs(log_y[:, None] - log_y[None, :])
