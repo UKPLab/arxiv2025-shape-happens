@@ -1,5 +1,6 @@
 import argparse
 import os
+import random
 
 import numpy as np
 import pandas as pd
@@ -236,6 +237,24 @@ class ScoreRunner(Runner):
             return False
         return super().validate_args(args)
 
+    def run_all(self, multiprocessing=True, shuffle=False):
+        full_argsets = self.merge_args(self.global_args, self.grid_args, self.local_args)
+
+        if shuffle:
+            random.shuffle(full_argsets)
+
+        for args in full_argsets:
+            if self.results_exist(args):
+                print(f"Skipping existing experiment: {args}")
+                continue
+            if multiprocessing:
+                p = mp.Process(target=self.run_experiment, args=(args,))
+                p.start()
+                p.join()
+            else:
+                self.run_experiment(args)
+
+        self.combine_results(full_argsets)
 
 if __name__ == "__main__":
     parser = argparse.ArgumentParser()
@@ -245,7 +264,9 @@ if __name__ == "__main__":
                         help="Path to save the results.")
     parser.add_argument("--overwrite", action='store_true',
                         help="Overwrite existing results.")
+    parser.add_argument("--shuffle", action='store_true',
+                    help="Shuffle the order in which experiments are computed. Useful for parallel tasks.")
     args = parser.parse_args()
 
     runner = ScoreRunner(config_path=args.config, save_path=args.save_path, overwrite=args.overwrite)
-    runner.run_all(multiprocessing=False)
+    runner.run_all(multiprocessing=False, shuffle=args.shuffle)
